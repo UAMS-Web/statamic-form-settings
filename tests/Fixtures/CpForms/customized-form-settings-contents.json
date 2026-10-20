@@ -1,0 +1,1298 @@
+{
+    "tabs": {
+        "main": {
+            "sections": [
+                {
+                    "display": "Name",
+                    "fields": [
+                        {
+                            "handle": "title",
+                            "field": {
+                                "type": "text",
+                                "validate": "required",
+                                "instructions": "Use a call to action, such as 'Contact Us'."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Heading and Description",
+                    "fields": [
+                        {
+                            "handle": "heading",
+                            "field": {
+                                "type": "text",
+                                "display": "Form Heading",
+                                "instructions": "Provide a brief heading for this form. This heading may be displayed with the form on the page."
+                            }
+                        },
+                        {
+                            "handle": "description",
+                            "field": {
+                                "type": "textarea",
+                                "instructions": "Provide a brief description of this form's purpose and what users can expect when submitting it. This description may be displayed with the form on the page. There is a 290-character limit.",
+                                "character_limit": 290
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Fields",
+                    "fields": [
+                        {
+                            "handle": "blueprint",
+                            "field": {
+                                "display": "Blueprint",
+                                "instructions": "Choose from existing blueprints or create a new one.",
+                                "type": "blueprints",
+                                "options": [
+                                    {
+                                        "handle": "default",
+                                        "title": "Edit Blueprint",
+                                        "edit_url": "http:\/\/uams-statamic-b.test\/cp\/fields\/blueprints\/forms\/probe\/edit"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "honeypot",
+                            "field": {
+                                "type": "text",
+                                "instructions": "Field name to use as a honeypot. Honeypots are special fields used to reduce bot spam."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Submissions",
+                    "fields": [
+                        {
+                            "handle": "store",
+                            "field": {
+                                "display": "Store Submissions",
+                                "type": "toggle",
+                                "instructions": "Disable to stop storing submissions. Events and email notifications will still be sent."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Email",
+                    "fields": [
+                        {
+                            "handle": "email",
+                            "field": {
+                                "type": "grid",
+                                "mode": "stacked",
+                                "full_width_setting": true,
+                                "add_row": "Add Email",
+                                "instructions": "Configure emails to be sent when new form submissions are received.\n\n**Notification recipients:**\n- Enter the address (or addresses) the notification goes to in To \/ CC \/ BCC. Form settings are kept in a private repository, so an address here is not public.\n- A form may still name a role key such as `{{ config:forms.recipients.institutional_relations }}`; it sends to that key's address until it is replaced with an address.\n- How recipients are set is described in `docs\/forms\/notification-recipients.md`.\n\n**Available Merge Tags:**\n- `{{ admin_email }}` - Site default email address\n- `{{ form:title }}` - Form title\n- `{{ form:handle }}` - Form handle\/ID\n- `{{ submission:id }}` - Form submission\/entry ID\n- `{{ submission:<handle> }}` - Access form field values (replace `<handle>` with field handle)\n  - Example: `{{ submission:email }}` for email field, `{{ submission:name }}` for name field\n- `{{ all_fields }}` - All form fields in a formatted table\n  - `{{ all_fields show_value=\"true\" }}` - Show actual values instead of labels\n  - `{{ all_fields show_empty=\"true\" }}` - Show fields with no submitted values\n  - `{{ all_fields hide_hidden=\"true\" }}` - Hide hidden field types\n- `{{ referrer }}` - Referring page URL\n- `{{ ip }}` - Submitter's IP address\n- `{{ today }}` - Current date (Jan. 1, 2025)\n- `{{ today:time }}` - Current time (1:23 a.m.)\n- `{{ today:timestamp }}` - Unix timestamp\n- `{{ today format=\"Y-m-d\" }}` - Custom date format\n- `{{ quiz }}` - Quiz question with answer and correct answer\n  - `{{ quiz handle=\"*\" }}` - Specific quiz question\n- `{{ quiz:grade }}` - Quiz letter grade (A, B, C, D, F)\n- `{{ quiz:passfail }}` - Quiz pass\/fail result\n- `{{ quiz:percent }}` - Quiz percentage score\n- `{{ quiz:score }}` - Quiz total score\n  - `{{ quiz:score handle=\"*\" }}` - Specific quiz question score\n- `{{ survey }}` - Survey question with answer\n  - `{{ survey handle=\"*\" }}` - Specific survey question\n- `{{ survey:score }}` - Survey total score\n  - `{{ survey:score handle=\"*\" }}` - Specific survey question score",
+                                "fields": [
+                                    {
+                                        "handle": "name",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Name",
+                                            "instructions": "A descriptive name for this email configuration.",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "enabled",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Active",
+                                            "instructions": "Enable or disable this email notification.",
+                                            "default": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "to_type",
+                                        "field": {
+                                            "type": "radio",
+                                            "display": "TO Recipient Type",
+                                            "options": [
+                                                {
+                                                    "key": "email",
+                                                    "value": "Enter One or More Email Addresses"
+                                                },
+                                                {
+                                                    "key": "field",
+                                                    "value": "Select a Form Field"
+                                                },
+                                                {
+                                                    "key": "routing",
+                                                    "value": "Configure Conditional Routing"
+                                                }
+                                            ],
+                                            "default": "email",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "to",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "TO Recipient Email Address(es)",
+                                            "validate": [
+                                                "exclude_unless:{this}.to_type,email",
+                                                "required_if:{this}.to_type,email"
+                                            ],
+                                            "instructions": "Email address of the recipient(s) - comma separated.",
+                                            "if": {
+                                                "to_type": "equals email"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "handle": "to_field",
+                                        "field": {
+                                            "type": "form_email_field_select",
+                                            "display": "TO Recipient(s) Field",
+                                            "instructions": "Select a required form field that contains email addresses.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "to_type": "equals field"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.to_type,field",
+                                                "required_if:{this}.to_type,field"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "to_routing",
+                                        "field": {
+                                            "type": "form_email_routing",
+                                            "display": "TO Recipients Conditional Routing",
+                                            "instructions": "Configure conditional routing rules for email recipients.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "to_type": "equals routing"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.to_type,routing",
+                                                "required_if:{this}.to_type,routing"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "cc_type",
+                                        "field": {
+                                            "type": "radio",
+                                            "display": "CC Recipient Type",
+                                            "options": [
+                                                {
+                                                    "key": "email",
+                                                    "value": "Enter One or More Email Addresses"
+                                                },
+                                                {
+                                                    "key": "field",
+                                                    "value": "Select a Form Field"
+                                                },
+                                                {
+                                                    "key": "routing",
+                                                    "value": "Configure Conditional Routing"
+                                                }
+                                            ],
+                                            "default": "email",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "cc",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "CC Recipient Email Address(es)",
+                                            "instructions": "Email address of the CC recipient(s) - comma separated.",
+                                            "if": {
+                                                "cc_type": "equals email"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.cc_type,email",
+                                                "nullable"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "cc_field",
+                                        "field": {
+                                            "type": "form_email_field_select",
+                                            "display": "CC Recipient(s) Field",
+                                            "instructions": "Select a required form field that contains email addresses.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "cc_type": "equals field"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.cc_type,field",
+                                                "required_if:{this}.cc_type,field"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "cc_routing",
+                                        "field": {
+                                            "type": "form_email_routing",
+                                            "display": "CC Recipients Conditional Routing",
+                                            "instructions": "Configure conditional routing rules for email recipients.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "cc_type": "equals routing"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.cc_type,routing",
+                                                "required_if:{this}.cc_type,routing"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "bcc_type",
+                                        "field": {
+                                            "type": "radio",
+                                            "display": "BCC Recipient Type",
+                                            "options": [
+                                                {
+                                                    "key": "email",
+                                                    "value": "Enter One or More Email Addresses"
+                                                },
+                                                {
+                                                    "key": "field",
+                                                    "value": "Select a Form Field"
+                                                },
+                                                {
+                                                    "key": "routing",
+                                                    "value": "Configure Conditional Routing"
+                                                }
+                                            ],
+                                            "default": "email",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "bcc",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "BCC Recipient Email Address(es)",
+                                            "instructions": "Email address of the BCC recipient(s) - comma separated.",
+                                            "if": {
+                                                "bcc_type": "equals email"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.bcc_type,email",
+                                                "nullable"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "bcc_field",
+                                        "field": {
+                                            "type": "form_email_field_select",
+                                            "display": "BCC Recipient(s) Field",
+                                            "instructions": "Select a required form field that contains email addresses.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "bcc_type": "equals field"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.bcc_type,field",
+                                                "required_if:{this}.bcc_type,field"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "bcc_routing",
+                                        "field": {
+                                            "type": "form_email_routing",
+                                            "display": "BCC Recipients Conditional Routing",
+                                            "instructions": "Configure conditional routing rules for email recipients.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "bcc_type": "equals routing"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.bcc_type,routing",
+                                                "required_if:{this}.bcc_type,routing"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "from",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Sender",
+                                            "instructions": "Leave blank to fall back to the site default. (hello@example.com)."
+                                        }
+                                    },
+                                    {
+                                        "handle": "from_name",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "From Name",
+                                            "instructions": "Enter a concise, recognizable name (e.g., \"Acme Support\") to appear as the sender in the recipient's inbox. Avoid email addresses or long phrases.",
+                                            "if": {
+                                                "from": "not empty"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "handle": "reply_to_type",
+                                        "field": {
+                                            "type": "radio",
+                                            "display": "Reply To Recipient Type",
+                                            "options": [
+                                                {
+                                                    "key": "email",
+                                                    "value": "Enter One or More Email Addresses"
+                                                },
+                                                {
+                                                    "key": "field",
+                                                    "value": "Select a Form Field"
+                                                },
+                                                {
+                                                    "key": "routing",
+                                                    "value": "Configure Conditional Routing"
+                                                }
+                                            ],
+                                            "default": "email",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "reply_to",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Reply To Recipient Email Address(es)",
+                                            "instructions": "Leave blank to fall back to sender.",
+                                            "if": {
+                                                "reply_to_type": "equals email"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.reply_to_type,email",
+                                                "nullable"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "reply_to_field",
+                                        "field": {
+                                            "type": "form_email_field_select",
+                                            "display": "Reply To Recipient(s) Field",
+                                            "instructions": "Select a required form field that contains email addresses.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "reply_to_type": "equals field"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.reply_to_type,field",
+                                                "required_if:{this}.reply_to_type,field"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "reply_to_routing",
+                                        "field": {
+                                            "type": "form_email_routing",
+                                            "display": "Reply To Recipients Conditional Routing",
+                                            "instructions": "Configure conditional routing rules for email recipients.",
+                                            "form_handle": "probe",
+                                            "if": {
+                                                "reply_to_type": "equals routing"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.reply_to_type,routing",
+                                                "required_if:{this}.reply_to_type,routing"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "subject",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Subject",
+                                            "instructions": "Email subject line.",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "html",
+                                        "field": {
+                                            "type": "template",
+                                            "display": "HTML view",
+                                            "instructions": "The view for the HTML version of this email.",
+                                            "folder": null,
+                                            "clearable": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "text",
+                                        "field": {
+                                            "type": "template",
+                                            "display": "Text view",
+                                            "instructions": "The view for the text version of this email.",
+                                            "folder": null,
+                                            "clearable": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "message",
+                                        "field": {
+                                            "type": "bard",
+                                            "display": "Message",
+                                            "replicator_preview": false,
+                                            "buttons": [
+                                                "h1",
+                                                "h2",
+                                                "h3",
+                                                "h4",
+                                                "h5",
+                                                "h6",
+                                                "bold",
+                                                "italic",
+                                                "strikethrough",
+                                                "superscript",
+                                                "subscript",
+                                                "unorderedlist",
+                                                "orderedlist",
+                                                "quote",
+                                                "anchor",
+                                                "alignleft",
+                                                "aligncenter",
+                                                "alignright",
+                                                "removeformat"
+                                            ],
+                                            "allow_source": false,
+                                            "reading_time": true,
+                                            "word_count": true,
+                                            "remove_empty_nodes": true,
+                                            "always_save": false,
+                                            "localizable": false,
+                                            "antlers": true,
+                                            "target_blank": true,
+                                            "instructions": "This is the content of the email message.",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "handle": "markdown",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Markdown",
+                                            "instructions": "Render the HTML version of this email using Markdown."
+                                        }
+                                    },
+                                    {
+                                        "handle": "attachments",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Attachments",
+                                            "instructions": "Attach uploaded assets to this email."
+                                        }
+                                    },
+                                    {
+                                        "handle": "mailer",
+                                        "field": {
+                                            "type": "select",
+                                            "instructions": "Choose the mailer for sending this email. Leave blank to fall back to the default mailer.",
+                                            "options": [
+                                                "smtp",
+                                                "ses",
+                                                "postmark",
+                                                "resend",
+                                                "sendmail",
+                                                "log",
+                                                "array",
+                                                "failover",
+                                                "roundrobin"
+                                            ],
+                                            "clearable": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "conditional_logic",
+                                        "field": {
+                                            "type": "form_conditional_logic",
+                                            "display": "Conditional Logic",
+                                            "instructions": "Configure when this email should be sent based on form field values.",
+                                            "form_handle": "probe",
+                                            "config": {
+                                                "form_handle": "probe",
+                                                "instructions": "Set conditions for when this email should be triggered. Leave empty to always send."
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Submit",
+                    "fields": [
+                        {
+                            "handle": "submit",
+                            "field": {
+                                "type": "text",
+                                "display": "Submit Button Label",
+                                "instructions": "Customize the text displayed on the form submit button.",
+                                "validate": [
+                                    "required"
+                                ],
+                                "default": "Submit"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Confirmations",
+                    "fields": [
+                        {
+                            "handle": "section_confirmation_default",
+                            "field": {
+                                "type": "form_settings_subsection",
+                                "display": "Default Confirmation"
+                            }
+                        },
+                        {
+                            "handle": "confirmation_settings_default",
+                            "field": {
+                                "type": "group",
+                                "display": "Default Confirmation Settings",
+                                "replicator_preview": false,
+                                "fields": {
+                                    "confirmation_type": {
+                                        "handle": "confirmation_type",
+                                        "field": {
+                                            "type": "radio",
+                                            "display": "Confirmation Type",
+                                            "options": [
+                                                {
+                                                    "key": "message",
+                                                    "value": "Show Message"
+                                                },
+                                                {
+                                                    "key": "redirect",
+                                                    "value": "Send to External URL"
+                                                },
+                                                {
+                                                    "key": "entry",
+                                                    "value": "Send to Page Entry"
+                                                },
+                                                {
+                                                    "key": "replace",
+                                                    "value": "Replace Form With Page Entry Content"
+                                                }
+                                            ],
+                                            "default": "message",
+                                            "validate": [
+                                                "required"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_message": {
+                                        "handle": "confirmation_message",
+                                        "field": {
+                                            "type": "bard",
+                                            "display": "Confirmation Message",
+                                            "replicator_preview": false,
+                                            "buttons": [
+                                                "h2",
+                                                "h3",
+                                                "h4",
+                                                "h5",
+                                                "h6",
+                                                "bts_attributes",
+                                                "bold",
+                                                "italic",
+                                                "unorderedlist",
+                                                "orderedlist",
+                                                "anchor",
+                                                "strikethrough",
+                                                "superscript",
+                                                "subscript",
+                                                "horizontalrule",
+                                                "code",
+                                                "codeblock",
+                                                "removeformat"
+                                            ],
+                                            "allow_source": false,
+                                            "reading_time": true,
+                                            "word_count": true,
+                                            "remove_empty_nodes": true,
+                                            "always_save": false,
+                                            "localizable": false,
+                                            "if": {
+                                                "confirmation_type": "equals message"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_type,message",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_type,message"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_redirect_url": {
+                                        "handle": "confirmation_redirect_url",
+                                        "field": {
+                                            "type": "text",
+                                            "input_type": "url",
+                                            "display": "External Confirmation URL",
+                                            "placeholder": "e.g., https:\/\/uams.edu\/",
+                                            "localizable": false,
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_type,redirect",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_type,redirect",
+                                                "url"
+                                            ],
+                                            "if": {
+                                                "confirmation_type": "equals redirect"
+                                            }
+                                        }
+                                    },
+                                    "confirmation_page": {
+                                        "handle": "confirmation_page",
+                                        "field": {
+                                            "type": "entries",
+                                            "display": "Confirmation Page Entry",
+                                            "max_items": 1,
+                                            "collections": [
+                                                "pages"
+                                            ],
+                                            "if": {
+                                                "confirmation_type": "equals entry"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_type,entry",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_type,entry"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_query_string": {
+                                        "handle": "confirmation_query_string",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Query String",
+                                            "instructions": "Add a query string to the destination URL.",
+                                            "placeholder": "e.g., foo={{ submission:bar }}&baz={{ submission:qux }}",
+                                            "prepend": "?",
+                                            "if": {
+                                                "confirmation_type": "contains_any redirect,entry"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_type,redirect,entry"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_redirect_target": {
+                                        "handle": "confirmation_redirect_target",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Open in New Tab",
+                                            "if": {
+                                                "confirmation_type": "contains_any redirect,entry"
+                                            }
+                                        }
+                                    },
+                                    "confirmation_redirect_delay_query": {
+                                        "handle": "confirmation_redirect_delay_query",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Delay Redirect and Show Message",
+                                            "if": {
+                                                "confirmation_type": "contains_any redirect,entry"
+                                            }
+                                        }
+                                    },
+                                    "confirmation_redirect_delay_time": {
+                                        "handle": "confirmation_redirect_delay_time",
+                                        "field": {
+                                            "type": "integer",
+                                            "display": "Confirmation Redirect Delay Time",
+                                            "append": "seconds",
+                                            "default": 8,
+                                            "if": {
+                                                "confirmation_type": "contains_any redirect,entry",
+                                                "confirmation_redirect_delay_query": "equals true"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_redirect_delay_query,true",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_redirect_delay_query,true"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_redirect_message": {
+                                        "handle": "confirmation_redirect_message",
+                                        "field": {
+                                            "type": "bard",
+                                            "display": "Confirmation Redirect Message",
+                                            "replicator_preview": false,
+                                            "buttons": [
+                                                "bold",
+                                                "italic",
+                                                "removeformat"
+                                            ],
+                                            "allow_source": false,
+                                            "reading_time": true,
+                                            "word_count": true,
+                                            "remove_empty_nodes": true,
+                                            "always_save": false,
+                                            "localizable": false,
+                                            "placeholder": "Please wait while you are redirected.",
+                                            "default": "Please wait while you are redirected.",
+                                            "if": {
+                                                "confirmation_type": "contains_any redirect,entry",
+                                                "confirmation_redirect_delay_query": "equals true"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_redirect_delay_query,true",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_redirect_delay_query,true"
+                                            ]
+                                        }
+                                    },
+                                    "confirmation_replace_entry": {
+                                        "handle": "confirmation_replace_entry",
+                                        "field": {
+                                            "type": "entries",
+                                            "display": "Confirmation Page Content",
+                                            "instructions": "The selected page content will be displayed, but the full page will not be loaded.\n\nTraditional URL tracking in Google Analytics and similar tools will not register a page load event. If precise tracking is essential, consider using the \"Redirect to URL\" option.",
+                                            "max_items": 1,
+                                            "collections": [
+                                                "pages"
+                                            ],
+                                            "if": {
+                                                "confirmation_type": "equals replace"
+                                            },
+                                            "validate": [
+                                                "exclude_unless:{this}.confirmation_settings_default.confirmation_type,replace",
+                                                "required_if:{this}.confirmation_settings_default.confirmation_type,replace"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "handle": "section_confirmation_additional",
+                            "field": {
+                                "type": "form_settings_subsection",
+                                "display": "Additional Confirmations"
+                            }
+                        },
+                        {
+                            "handle": "confirmation_additional",
+                            "field": {
+                                "type": "replicator",
+                                "display": "Additional Confirmations",
+                                "collapse": true,
+                                "button_label": "Add Confirmation",
+                                "sets": {
+                                    "confirmation": {
+                                        "display": "Confirmation",
+                                        "fields": {
+                                            "confirmation_name": {
+                                                "handle": "confirmation_name",
+                                                "field": {
+                                                    "type": "text",
+                                                    "display": "Confirmation Name"
+                                                }
+                                            },
+                                            "confirmation_settings": {
+                                                "handle": "confirmation_settings",
+                                                "field": {
+                                                    "type": "group",
+                                                    "display": "Confirmation Settings",
+                                                    "replicator_preview": false,
+                                                    "fields": {
+                                                        "confirmation_type": {
+                                                            "handle": "confirmation_type",
+                                                            "field": {
+                                                                "type": "radio",
+                                                                "display": "Confirmation Type",
+                                                                "options": [
+                                                                    {
+                                                                        "key": "message",
+                                                                        "value": "Show Message"
+                                                                    },
+                                                                    {
+                                                                        "key": "redirect",
+                                                                        "value": "Send to External URL"
+                                                                    },
+                                                                    {
+                                                                        "key": "entry",
+                                                                        "value": "Send to Page Entry"
+                                                                    },
+                                                                    {
+                                                                        "key": "replace",
+                                                                        "value": "Replace Form With Page Entry Content"
+                                                                    }
+                                                                ],
+                                                                "default": "message",
+                                                                "validate": [
+                                                                    "required"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_message": {
+                                                            "handle": "confirmation_message",
+                                                            "field": {
+                                                                "type": "bard",
+                                                                "display": "Confirmation Message",
+                                                                "replicator_preview": false,
+                                                                "buttons": [
+                                                                    "h2",
+                                                                    "h3",
+                                                                    "h4",
+                                                                    "h5",
+                                                                    "h6",
+                                                                    "bts_attributes",
+                                                                    "bold",
+                                                                    "italic",
+                                                                    "unorderedlist",
+                                                                    "orderedlist",
+                                                                    "anchor",
+                                                                    "strikethrough",
+                                                                    "superscript",
+                                                                    "subscript",
+                                                                    "horizontalrule",
+                                                                    "code",
+                                                                    "codeblock",
+                                                                    "removeformat"
+                                                                ],
+                                                                "allow_source": false,
+                                                                "reading_time": true,
+                                                                "word_count": true,
+                                                                "remove_empty_nodes": true,
+                                                                "always_save": false,
+                                                                "localizable": false,
+                                                                "if": {
+                                                                    "confirmation_type": "equals message"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_type,message",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_type,message"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_redirect_url": {
+                                                            "handle": "confirmation_redirect_url",
+                                                            "field": {
+                                                                "type": "text",
+                                                                "input_type": "url",
+                                                                "display": "External Confirmation URL",
+                                                                "placeholder": "e.g., https:\/\/uams.edu\/",
+                                                                "localizable": false,
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_type,redirect",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_type,redirect",
+                                                                    "url"
+                                                                ],
+                                                                "if": {
+                                                                    "confirmation_type": "equals redirect"
+                                                                }
+                                                            }
+                                                        },
+                                                        "confirmation_page": {
+                                                            "handle": "confirmation_page",
+                                                            "field": {
+                                                                "type": "entries",
+                                                                "display": "Confirmation Page Entry",
+                                                                "max_items": 1,
+                                                                "collections": [
+                                                                    "pages"
+                                                                ],
+                                                                "if": {
+                                                                    "confirmation_type": "equals entry"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_type,entry",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_type,entry"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_query_string": {
+                                                            "handle": "confirmation_query_string",
+                                                            "field": {
+                                                                "type": "text",
+                                                                "display": "Query String",
+                                                                "instructions": "Add a query string to the destination URL.",
+                                                                "placeholder": "e.g., foo={{ submission:bar }}&baz={{ submission:qux }}",
+                                                                "prepend": "?",
+                                                                "if": {
+                                                                    "confirmation_type": "contains_any redirect,entry"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_type,redirect,entry"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_redirect_target": {
+                                                            "handle": "confirmation_redirect_target",
+                                                            "field": {
+                                                                "type": "toggle",
+                                                                "display": "Open in New Tab",
+                                                                "if": {
+                                                                    "confirmation_type": "contains_any redirect,entry"
+                                                                }
+                                                            }
+                                                        },
+                                                        "confirmation_redirect_delay_query": {
+                                                            "handle": "confirmation_redirect_delay_query",
+                                                            "field": {
+                                                                "type": "toggle",
+                                                                "display": "Delay Redirect and Show Message",
+                                                                "if": {
+                                                                    "confirmation_type": "contains_any redirect,entry"
+                                                                }
+                                                            }
+                                                        },
+                                                        "confirmation_redirect_delay_time": {
+                                                            "handle": "confirmation_redirect_delay_time",
+                                                            "field": {
+                                                                "type": "integer",
+                                                                "display": "Confirmation Redirect Delay Time",
+                                                                "append": "seconds",
+                                                                "default": 8,
+                                                                "if": {
+                                                                    "confirmation_type": "contains_any redirect,entry",
+                                                                    "confirmation_redirect_delay_query": "equals true"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_redirect_delay_query,true",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_redirect_delay_query,true"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_redirect_message": {
+                                                            "handle": "confirmation_redirect_message",
+                                                            "field": {
+                                                                "type": "bard",
+                                                                "display": "Confirmation Redirect Message",
+                                                                "replicator_preview": false,
+                                                                "buttons": [
+                                                                    "bold",
+                                                                    "italic",
+                                                                    "removeformat"
+                                                                ],
+                                                                "allow_source": false,
+                                                                "reading_time": true,
+                                                                "word_count": true,
+                                                                "remove_empty_nodes": true,
+                                                                "always_save": false,
+                                                                "localizable": false,
+                                                                "placeholder": "Please wait while you are redirected.",
+                                                                "default": "Please wait while you are redirected.",
+                                                                "if": {
+                                                                    "confirmation_type": "contains_any redirect,entry",
+                                                                    "confirmation_redirect_delay_query": "equals true"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_redirect_delay_query,true",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_redirect_delay_query,true"
+                                                                ]
+                                                            }
+                                                        },
+                                                        "confirmation_replace_entry": {
+                                                            "handle": "confirmation_replace_entry",
+                                                            "field": {
+                                                                "type": "entries",
+                                                                "display": "Confirmation Page Content",
+                                                                "instructions": "The selected page content will be displayed, but the full page will not be loaded.\n\nTraditional URL tracking in Google Analytics and similar tools will not register a page load event. If precise tracking is essential, consider using the \"Redirect to URL\" option.",
+                                                                "max_items": 1,
+                                                                "collections": [
+                                                                    "pages"
+                                                                ],
+                                                                "if": {
+                                                                    "confirmation_type": "equals replace"
+                                                                },
+                                                                "validate": [
+                                                                    "exclude_unless:{this}.confirmation_settings.confirmation_type,replace",
+                                                                    "required_if:{this}.confirmation_settings.confirmation_type,replace"
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "conditional_logic": {
+                                                "handle": "conditional_logic",
+                                                "field": {
+                                                    "type": "form_conditional_logic",
+                                                    "display": "Conditional Logic",
+                                                    "instructions": "Configure when this confirmation should be triggered based on form field values.",
+                                                    "form_handle": "probe",
+                                                    "config": {
+                                                        "form_handle": "probe",
+                                                        "instructions": "Set conditions for when this confirmation should be triggered. Leave empty to always trigger."
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Restrictions",
+                    "fields": [
+                        {
+                            "handle": "limit_entries",
+                            "field": {
+                                "type": "toggle",
+                                "display": "Limit the Number of Entries",
+                                "instructions": "The form will become inactive when that limit is reached."
+                            }
+                        },
+                        {
+                            "handle": "limit_entries_count",
+                            "field": {
+                                "type": "integer",
+                                "display": "Number of Entries Allowed",
+                                "if": {
+                                    "limit_entries": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:limit_entries,true",
+                                    "required_if:limit_entries,true"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "limit_entries_period",
+                            "field": {
+                                "type": "select",
+                                "display": "Type of Limit",
+                                "options": [
+                                    {
+                                        "key": "total",
+                                        "value": "Total Entries"
+                                    },
+                                    {
+                                        "key": "day",
+                                        "value": "Per Day"
+                                    },
+                                    {
+                                        "key": "week",
+                                        "value": "Per Week"
+                                    },
+                                    {
+                                        "key": "month",
+                                        "value": "Per Month"
+                                    },
+                                    {
+                                        "key": "year",
+                                        "value": "Per Year"
+                                    }
+                                ],
+                                "default": "total",
+                                "if": {
+                                    "limit_entries": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:limit_entries,true",
+                                    "required_if:limit_entries,true"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "limit_entries_message",
+                            "field": {
+                                "type": "textarea",
+                                "display": "Message to Display When the Entry Limit is Reached",
+                                "if": {
+                                    "limit_entries": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:limit_entries,true",
+                                    "required_if:limit_entries,true"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "schedule_form_query",
+                            "field": {
+                                "type": "toggle",
+                                "display": "Schedule the Form",
+                                "instructions": "Schedule a time period the form is active."
+                            }
+                        },
+                        {
+                            "handle": "schedule_form",
+                            "field": {
+                                "type": "group",
+                                "display": "Form Schedule",
+                                "if": {
+                                    "schedule_form_query": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:schedule_form_query,true",
+                                    "object:UAMSWeb\\FormSettings\\Rules\\SubfieldsAny"
+                                ],
+                                "fields": {
+                                    "start_datetime": {
+                                        "handle": "start_datetime",
+                                        "field": {
+                                            "type": "date",
+                                            "display": "Start Date and Time",
+                                            "time_enabled": true
+                                        }
+                                    },
+                                    "end_datetime": {
+                                        "handle": "end_datetime",
+                                        "field": {
+                                            "type": "date",
+                                            "display": "End Date and Time",
+                                            "time_enabled": true
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "handle": "schedule_pending_message",
+                            "field": {
+                                "type": "textarea",
+                                "display": "Message to Display When the Form is Pending",
+                                "if": {
+                                    "schedule_form_query": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:schedule_form_query,true",
+                                    "required_if:schedule_form_query,true"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "schedule_expired_message",
+                            "field": {
+                                "type": "textarea",
+                                "display": "Message to Display When the Form Has Expired",
+                                "if": {
+                                    "schedule_form_query": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:schedule_form_query,true",
+                                    "required_if:schedule_form_query,true"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "require_login_query",
+                            "field": {
+                                "type": "toggle",
+                                "display": "Require the User to Be Logged In",
+                                "instructions": "Require the user to be logged in to view this form."
+                            }
+                        },
+                        {
+                            "handle": "require_login_message",
+                            "field": {
+                                "type": "textarea",
+                                "display": "Message to Display When the User is Not Logged In",
+                                "if": {
+                                    "require_login_query": "equals true"
+                                },
+                                "validate": [
+                                    "exclude_unless:require_login_query,true",
+                                    "required_if:require_login_query,true"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Quiz Settings",
+                    "fields": [
+                        {
+                            "handle": "quiz_grading",
+                            "field": {
+                                "type": "radio",
+                                "display": "Grading",
+                                "instructions": "How to grade a quiz submission. Applies only to forms that use the quiz fieldtype; leave on \"No grading\" for non-quiz forms.",
+                                "options": [
+                                    {
+                                        "key": "none",
+                                        "value": "No grading"
+                                    },
+                                    {
+                                        "key": "passfail",
+                                        "value": "Pass \/ Fail"
+                                    },
+                                    {
+                                        "key": "letter",
+                                        "value": "Letter grades"
+                                    }
+                                ],
+                                "default": "none"
+                            }
+                        },
+                        {
+                            "handle": "quiz_pass_percent",
+                            "field": {
+                                "type": "integer",
+                                "display": "Passing Percentage",
+                                "instructions": "The minimum score percentage (0\u2013100) required to pass.",
+                                "if": {
+                                    "quiz_grading": "equals passfail"
+                                },
+                                "validate": [
+                                    "exclude_unless:quiz_grading,passfail",
+                                    "required_if:quiz_grading,passfail",
+                                    "integer",
+                                    "between:0,100"
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "quiz_grades",
+                            "field": {
+                                "type": "grid",
+                                "display": "Letter Grades",
+                                "instructions": "Define each grade and the minimum score percentage that earns it. The highest grade whose minimum the score meets or exceeds is awarded.",
+                                "add_row": "Add Grade",
+                                "if": {
+                                    "quiz_grading": "equals letter"
+                                },
+                                "validate": [
+                                    "exclude_unless:quiz_grading,letter"
+                                ],
+                                "fields": [
+                                    {
+                                        "handle": "text",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Grade",
+                                            "instructions": "e.g. A, B, C, F."
+                                        }
+                                    },
+                                    {
+                                        "handle": "value",
+                                        "field": {
+                                            "type": "integer",
+                                            "display": "Minimum %",
+                                            "instructions": "The lowest score percentage that earns this grade."
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace UAMSWeb\AddonTemplate\Tests;
+namespace UAMSWeb\FormSettings\Tests;
 
 use Illuminate\Foundation\Application;
 use Statamic\Testing\AddonTestCase;
-use UAMSWeb\AddonTemplate\ServiceProvider;
+use UAMSWeb\FormSettings\ServiceProvider;
 
 /**
  * Base class for the Integration suite: boots a minimal Statamic through
@@ -20,6 +20,36 @@ abstract class TestCase extends AddonTestCase
      * @var string Class name of this add-on's service provider.
      */
     protected string $addonServiceProvider = ServiceProvider::class;
+
+    /**
+     * Config values set before the add-on boots, for a test that rebooted with
+     * {@see self::rebootWithConfig()}.
+     *
+     * @var array<string, mixed> Values keyed by their dot-notation config key.
+     */
+    private array $configBeforeBoot = [];
+
+    /**
+     * Boot a fresh application with the given config values set before the
+     * add-on boots.
+     *
+     * The add-on reads its feature switches, and whether the host has set its
+     * own notification job, while booting, so a test of either has to set them
+     * first. This tears the booted application down and boots another, and
+     * calls this class's own setUp() rather than the generated test class's, so
+     * a file's beforeEach hooks do not run a second time.
+     *
+     * @param  array<string, mixed>  $config  Values keyed by their dot-notation config key.
+     */
+    public function rebootWithConfig(array $config): void
+    {
+        // Remember the values for defineEnvironment(), which the new boot runs
+        $this->configBeforeBoot = $config;
+
+        // Tear the current application down and boot a new one
+        parent::tearDown();
+        self::setUp();
+    }
 
     /**
      * Give each parallel worker its own service manifest before the application
@@ -105,5 +135,13 @@ abstract class TestCase extends AddonTestCase
         // edition they require, are read per request and left to each test.
         $app['config']->set('statamic.api.enabled', true);
         $app['config']->set('statamic.graphql.enabled', true);
+
+        // Capture sent mail in memory, so a notification test can read what was sent
+        $app['config']->set('mail.default', 'array');
+
+        // Apply the values a test rebooted with, before the add-on boots
+        foreach ($this->configBeforeBoot as $key => $value) {
+            $app['config']->set($key, $value);
+        }
     }
 }

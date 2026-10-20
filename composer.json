@@ -1,12 +1,12 @@
 {
-    "name": "uams-web/statamic-addon-template",
-    "description": "Starting point for UAMS Statamic add-ons. Replace this description when you start an add-on from it.",
+    "name": "uams-web/statamic-form-settings",
+    "description": "Control Panel form settings for Statamic: notification routing and conditions, confirmations, and submission restrictions, each behind its own switch.",
     "keywords": [
         "statamic",
         "statamic-addon"
     ],
     "type": "statamic-addon",
-    "homepage": "https://github.com/UAMS-Web/statamic-addon-template",
+    "homepage": "https://github.com/UAMS-Web/statamic-form-settings",
     "authors": [
         {
             "name": "UAMS Web Services"
@@ -17,27 +17,31 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/UAMS-Web/statamic-addon-template/issues",
-        "source": "https://github.com/UAMS-Web/statamic-addon-template"
+        "issues": "https://github.com/UAMS-Web/statamic-form-settings/issues",
+        "source": "https://github.com/UAMS-Web/statamic-form-settings"
     },
     "autoload": {
         "psr-4": {
-            "UAMSWeb\\AddonTemplate\\": "src/"
+            "UAMSWeb\\FormSettings\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "UAMSWeb\\AddonTemplate\\Tests\\": "tests/"
-        }
+            "UAMSWeb\\FormSettings\\Tests\\": "tests/"
+        },
+        "files": [
+            "tests/Support/TypeNarrowing.php",
+            "tests/Support/Throwables.php"
+        ]
     },
     "extra": {
         "statamic": {
-            "name": "Addon Template",
-            "description": "Replace this description when you start an add-on from the template."
+            "name": "Form Settings",
+            "description": "Notification routing and conditions, confirmations, and submission restrictions for Statamic forms."
         },
         "laravel": {
             "providers": [
-                "UAMSWeb\\AddonTemplate\\ServiceProvider"
+                "UAMSWeb\\FormSettings\\ServiceProvider"
             ]
         },
         "composer-exit-on-patch-failure": true

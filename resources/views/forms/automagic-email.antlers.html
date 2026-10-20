@@ -1,0 +1,46 @@
+{{#
+	Override of Statamic's forms/automagic-email view, adding the replicator branch (UAMS-Web/uams-statamic#2055).
+
+	Every other branch is a byte-faithful copy of the vendor template
+	(vendor/statamic/cms/resources/views/forms/automagic-email.antlers.html) so no other
+	fieldtype's rendering changes. The one addition is the `replicator` branch below, which
+	must sit BEFORE the `value|is_iterable` fallback: a replicator is iterable, so the
+	fallback would otherwise claim it and emit `{{ value | json }}`, which is the escaped-JSON
+	blob this override exists to replace (UAMS-Web/uams-statamic#2051).
+
+	`email_rows` is attached per replicator field by
+	App\Mail\Forms\FormNotificationEmail::getRenderableFieldData(), which resolves each set's
+	display label and each subfield's label and display value from the blueprint config.
+#}}
+{{ fields }}
+    <b>{{ display }}:</b>
+    {{ if value }}
+        {{ if fieldtype == "assets" }}
+            {{ value }}
+                {{ permalink }}
+                {{ if !last }},{{ /if }}
+            {{ /value }}
+        {{ elseif fieldtype == "select" && !config:multiple }}
+            {{ (value:label ?? value) | sanitize }}
+        {{ elseif fieldtype == "radio" }}
+            {{ (value:label ?? value) | sanitize }}
+        {{ elseif fieldtype == "select" || fieldtype == "checkboxes" || fieldtype == "dictionary" }}
+            {{ value }}
+                {{ (label ?? value) | sanitize }}
+                {{ if !last }},{{ /if }}
+            {{ /value }}
+        {{ elseif fieldtype == "replicator" }}
+            {{ email_rows }}
+                <br><b>{{ set_label | sanitize }}</b><br>
+                {{ pairs }}
+                    {{ label | sanitize }}: {{ text | sanitize | nl2br }}<br>
+                {{ /pairs }}
+            {{ /email_rows }}
+        {{ elseif value|is_iterable }}
+            {{ value | json | sanitize }}
+        {{ else }}
+            {{ value | sanitize | nl2br }}
+        {{ /if }}
+    {{ /if }}
+    <br>
+{{ /fields }}
