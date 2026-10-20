@@ -16,17 +16,17 @@ use UAMSWeb\FormSettings\CpForms\FormConfigurationBlueprintCustomizer;
 use UAMSWeb\FormSettings\CpForms\FormConfigurationValuesFilter;
 
 /**
- * Control panel extension of Statamic's form controller, registered against the vendor class in
- * FormEmailFieldsServiceProvider.
+ * Control panel extension of Statamic's form controller, bound in place of the vendor class by
+ * the add-on's ServiceProvider when the `control_panel` feature is on.
  *
  * Statamic keeps routing and inherited actions (listing, submissions, exports, etc.). This type
- * only adjusts blueprint editing and update persistence so UAMS-specific CP fields and save
+ * only adjusts blueprint editing and update persistence so the add-on's CP fields and save
  * filtering stay out of vendor packages.
  */
 class FormsController extends BaseFormsController
 {
     /**
-     * Create the controller with Statamic's request dependency and UAMS form-configuration services.
+     * Create the controller with Statamic's request dependency and the add-on's form-configuration services.
      *
      * @param  Request  $request  Incoming HTTP request passed to Statamic's base controller.
      * @param  FormConfigurationBlueprintCustomizer  $blueprintCustomizer  Injects CP blueprint tabs and fields.
@@ -45,7 +45,7 @@ class FormsController extends BaseFormsController
      * Resolve Statamic's stock form configuration blueprint (tests may override this hook).
      *
      * @param  Form  $form  Form whose configuration blueprint should load.
-     * @return Blueprint Statamic default blueprint before UAMS customization.
+     * @return Blueprint Statamic default blueprint before the add-on's customization.
      */
     protected function resolveStatamicFormConfigurationBlueprint(
         Form $form
@@ -58,7 +58,7 @@ class FormsController extends BaseFormsController
     }
 
     /**
-     * Build the editable form configuration blueprint shown in the CP, including UAMS extensions.
+     * Build the editable form configuration blueprint shown in the CP, including the add-on's extensions.
      *
      * @param  Form  $form  Form being configured in the control panel.
      * @return Blueprint Blueprint instance whose contents include injected tabs and fields.
@@ -74,7 +74,7 @@ class FormsController extends BaseFormsController
         /** @var array<string, mixed> $contents */
         $contents = $blueprint->contents();
 
-        // Apply UAMS-specific tabs, fields, and instructional copy
+        // Apply the add-on's tabs, fields, and instructional copy
         $contents = $this->blueprintCustomizer->customizeBlueprintContents(
             $contents,
             $form

@@ -112,7 +112,7 @@ final class FormNotificationEmail extends Email
      *
      * Statamic's automagic template has no replicator branch, so a replicator falls through to
      * `{{ value | json | sanitize }}` and reaches the recipient as escaped JSON (UAMS-Web/uams-statamic#2051). The
-     * template override in `resources/views/vendor/statamic/forms/automagic-email.antlers.html`
+     * add-on's template override in `resources/views/forms/automagic-email.antlers.html`
      * consumes the `email_rows` added here; every other fieldtype is passed through untouched.
      *
      * @param  mixed  $values  The augmented submission values, keyed by handle.

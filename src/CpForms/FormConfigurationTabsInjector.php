@@ -9,7 +9,7 @@ use UAMSWeb\FormSettings\Contracts\FormSettingsSection;
 use UAMSWeb\FormSettings\Rules\SubfieldsAny;
 
 /**
- * Injects UAMS-specific blueprint sections into the Statamic CP form-configuration
+ * Injects the add-on's blueprint sections into the Statamic CP form-configuration
  * blueprint.
  *
  * Adds the Heading/Description, Submit, Confirmations, Restrictions, and Quiz

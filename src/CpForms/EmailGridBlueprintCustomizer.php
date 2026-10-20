@@ -7,7 +7,7 @@ namespace UAMSWeb\FormSettings\CpForms;
 use Statamic\Forms\Form;
 
 /**
- * Augments the Statamic CP email-grid blueprint for UAMS form configuration.
+ * Augments the Statamic CP email-grid blueprint for the add-on's form configuration.
  *
  * Adds the name column, active toggle, per-recipient type selectors
  * (TO / CC / BCC / Reply To), required subject, from-name, Bard message,

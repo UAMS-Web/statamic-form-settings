@@ -189,3 +189,31 @@ it('reads a switch set to 0 or 1, as an env value or a published config may be, 
     expect(Features::enabled(Features::RESTRICTIONS))->toBeFalse()
         ->and(Features::enabled(Features::CONFIRMATIONS))->toBeTrue();
 });
+
+it("puts the add-on's email view after a host's own copy and before Statamic's", function (): void {
+    // A host view path holding an override directory for Statamic's views
+    $hostViews = sys_get_temp_dir().'/form-settings-host-views-'.getmypid().'-'.bin2hex(random_bytes(4));
+    mkdir($hostViews.'/vendor/statamic', 0777, true);
+
+    try {
+        mustBe(TestCase::class, $this, 'test case')->rebootWithConfig(['view.paths' => [$hostViews]]);
+
+        $hints = mustBeArray(mustBe(FileViewFinder::class, View::getFinder(), 'view finder')->getHints()['statamic'] ?? [], 'view hints');
+        $paths = array_map(static fn (mixed $path): string|false => realpath(mustBeString($path, 'view hint')), $hints);
+
+        // Statamic registers the namespace twice, so the host's copy can be listed twice
+        $own = array_search(realpath(dirname(__DIR__, 2).'/resources/views'), $paths, true);
+        $host = array_keys($paths, realpath($hostViews.'/vendor/statamic'), true);
+        $statamic = array_keys($paths, realpath(dirname(__DIR__, 2).'/vendor/statamic/cms/resources/views'), true);
+
+        expect($own)->toBeInt()
+            ->and($host)->not->toBeEmpty()
+            ->and($statamic)->not->toBeEmpty()
+            ->and(max($host))->toBeLessThan($own)
+            ->and(min($statamic))->toBeGreaterThan($own);
+    } finally {
+        rmdir($hostViews.'/vendor/statamic');
+        rmdir($hostViews.'/vendor');
+        rmdir($hostViews);
+    }
+});

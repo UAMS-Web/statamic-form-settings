@@ -6,6 +6,7 @@ namespace UAMSWeb\FormSettings;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\FileViewFinder;
 use Statamic\Forms\SendEmail;
 use Statamic\Http\Controllers\CP\Forms\FormsController as BaseFormsController;
 use Statamic\Providers\AddonServiceProvider;
@@ -73,12 +74,48 @@ class ServiceProvider extends AddonServiceProvider
                 config(['statamic.forms.send_email_job' => SendFormNotification::class]);
             }
 
-            View::prependNamespace('statamic', __DIR__.'/../resources/views');
+            $this->addStatamicViewsAfterHostOverrides(__DIR__.'/../resources/views');
         }
 
         // Answer a submission with its confirmation message or redirect
         if (Features::enabled(Features::CONFIRMATIONS)) {
             $this->app->make(Router::class)->pushMiddlewareToGroup('web', ApplyFormConfirmation::class);
         }
+    }
+
+    /**
+     * Add a path to the `statamic` view namespace, after a host's overrides of it.
+     *
+     * Laravel lists a host's own `resources/views/vendor/statamic` ahead of Statamic's
+     * views, which is how a host overrides a package view. The add-on's views go
+     * between the two, so they replace Statamic's and a host's copy still wins.
+     *
+     * @param  string  $path  The add-on's view directory.
+     */
+    private function addStatamicViewsAfterHostOverrides(string $path): void
+    {
+        // Read the namespace's current paths
+        $finder = View::getFinder();
+        $hints = $finder instanceof FileViewFinder ? $finder->getHints()['statamic'] ?? [] : [];
+
+        // The override directories Laravel looks for under each of the host's view paths
+        $viewPaths = config('view.paths');
+        $overrides = array_map(
+            static fn (mixed $viewPath): string => (\is_string($viewPath) ? $viewPath : '').'/vendor/statamic',
+            \is_array($viewPaths) ? $viewPaths : [],
+        );
+
+        // Keep the host's overrides first, then the add-on's views, then the rest
+        $first = [];
+        $rest = [];
+        foreach ($hints as $hint) {
+            if (\in_array($hint, $overrides, true)) {
+                $first[] = $hint;
+            } else {
+                $rest[] = $hint;
+            }
+        }
+
+        View::replaceNamespace('statamic', [...$first, $path, ...$rest]);
     }
 }

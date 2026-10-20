@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Log;
 use Statamic\Forms\Form;
 
 /**
- * Orchestrates UAMS-specific customization of Statamic CP form-configuration
+ * Orchestrates the add-on's customization of Statamic CP form-configuration
  * blueprints.
  *
  * Delegates email-grid augmentation to EmailGridBlueprintCustomizer and
  * tab/section injection to FormConfigurationTabsInjector. Statamic's route
- * binding and FormEmailFieldsServiceProvider override resolve FormsController,
+ * binding and the add-on's ServiceProvider override resolve FormsController,
  * which auto-wires this class.
  */
 final readonly class FormConfigurationBlueprintCustomizer
@@ -28,7 +28,7 @@ final readonly class FormConfigurationBlueprintCustomizer
     ) {}
 
     /**
-     * Apply UAMS-specific tabs, fields, and instructions to Statamic blueprint
+     * Apply the add-on's tabs, fields, and instructions to Statamic blueprint
      * contents.
      *
      * A customizer that cannot find the section it extends leaves the contents
