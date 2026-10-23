@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use Statamic\Forms\Form;
+use UAMSWeb\FormSettings\CpForms\FieldDefinitions;
 use UAMSWeb\FormSettings\CpForms\FormConfigurationBlueprintCustomizer;
 
 uses(MockeryPHPUnitIntegration::class);
@@ -190,4 +191,27 @@ it('exposes the letter-grade grid with text+value rows QuizScorer reads (UAMS-We
         ->and(data_get($grades, 'fields'))->toHaveCount(2)
         ->and(data_get($grades, 'fields.0.handle'))->toBe('text')
         ->and(data_get($grades, 'fields.1.handle'))->toBe('value');
+});
+
+it('leaves out the Quiz Settings section when quiz scoring is off', function (): void {
+    config(['statamic-form-settings.quiz_scoring' => false]);
+
+    $out = app(FormConfigurationBlueprintCustomizer::class)->customizeBlueprintContents(
+        formConfigurationBlueprintCustomizerMinimalEmailTabContents(),
+        formConfigurationBlueprintCustomizerMockForm('quiz-form')
+    );
+
+    expect(json_encode($out))->not->toContain('quiz_grading')->not->toContain('quiz_pass_percent');
+});
+
+it('adds no host-specific Bard button or site URL to the article and URL fields by default', function (): void {
+    $buttons = fn (): array => array_values(array_filter((array) FieldDefinitions::article()['buttons'], is_string(...)));
+
+    expect($buttons())->not->toContain('bts_attributes')
+        ->and(json_encode(FieldDefinitions::url()))->not->toContain('uams.edu');
+
+    config(['statamic-form-settings.article_bard_extra_buttons' => ['bts_attributes']]);
+
+    expect($buttons())->toContain('bts_attributes')
+        ->and(array_search('bts_attributes', $buttons(), true))->toBe(array_search('h6', $buttons(), true) + 1);
 });

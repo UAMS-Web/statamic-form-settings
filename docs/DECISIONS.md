@@ -55,3 +55,13 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 **Rejected.** Waiting for UAMS legal before declaring a license: the package cannot be listed without one, and the site cannot require it by name until it is listed. Requiring the add-on from a path repository: it ties the site to one machine's checkout.
 
 **Companion.** `UAMS-Web/uams-statamic#3072`, `UAMS-Web/uams-statamic#3039`.
+
+## 2026-10-23: Host-specific Control Panel assumptions become configuration (#15)
+
+**Decision.** The confirmation page pickers read their collections from `confirmation_page_collections` (default `['pages']`). The Article Bard toolbar no longer includes `bts_attributes`; `article_bard_extra_buttons` adds it back. The URL placeholder is neutral (`https://example.com/`). The Quiz Settings section and the quiz and survey merge-tag help appear only when `quiz_scoring` is on, which defaults to off.
+
+**Why.** The add-on is published for any Statamic site, and nothing in it scores a quiz, names a UAMS domain or ships the `bts_attributes` button.
+
+**Rejected.** Detecting a scorer by class or container binding: the scorer lives in the host site today, so there is nothing stable to detect. Keeping the UAMS defaults on: the add-on would show every other site controls that do nothing.
+
+**Companion.** `UAMS-Web/uams-statamic#3072` sets `FORM_SETTINGS_QUIZ_SCORING=true` and `article_bard_extra_buttons` to keep its current screen.

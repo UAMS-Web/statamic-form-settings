@@ -31,6 +31,8 @@ Each feature has its own switch in `config/statamic-form-settings.php`, and all 
 
 With `notifications` on, the add-on points `statamic.forms.send_email_job` at its own job. A host that has set that option to a job of its own keeps it.
 
+Three more keys adapt the form settings screen to a host: `confirmation_page_collections` (default `['pages']`), `article_bard_extra_buttons` (default none) and `quiz_scoring` (`FORM_SETTINGS_QUIZ_SCORING`, default off, which hides the Quiz Settings section and the quiz merge-tag help). See the wiki's Configuration page.
+
 ## Templates
 
 The `form_restriction` tag reports a form's restriction state, so a page can show a closed message instead of the form:

@@ -100,7 +100,7 @@ final class ConfirmationSettingsFieldBuilder
                     'type' => 'entries',
                     'display' => __('Confirmation Page Entry'),
                     'max_items' => 1,
-                    'collections' => ['pages'],
+                    'collections' => self::pageCollections(),
                     'if' => [
                         'confirmation_type' => 'equals entry',
                     ],
@@ -187,7 +187,7 @@ final class ConfirmationSettingsFieldBuilder
                     'display' => __('Confirmation Page Content'),
                     'instructions' => __('The selected page content will be displayed, but the full page will not be loaded.')."\n\n".__('Traditional URL tracking in Google Analytics and similar tools will not register a page load event. If precise tracking is essential, consider using the "Redirect to URL" option.'),
                     'max_items' => 1,
-                    'collections' => ['pages'],
+                    'collections' => self::pageCollections(),
                     'if' => [
                         'confirmation_type' => 'equals replace',
                     ],
@@ -198,5 +198,18 @@ final class ConfirmationSettingsFieldBuilder
                 ],
             ],
         ];
+    }
+
+    /**
+     * The collections the confirmation page pickers offer.
+     *
+     * @return list<string> Collection handles, `pages` unless configured.
+     */
+    private static function pageCollections(): array
+    {
+        $collections = config('statamic-form-settings.confirmation_page_collections', ['pages']);
+        $handles = is_array($collections) ? array_values(array_filter($collections, is_string(...))) : [];
+
+        return $handles === [] ? ['pages'] : $handles;
     }
 }

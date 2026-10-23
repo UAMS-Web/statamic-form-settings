@@ -75,3 +75,14 @@ it('no longer forbids an individual address in To, CC or BCC', function (): void
         ->not->toContain("Do not put an individual's email address")
         ->not->toContain('editors do not edit `.env` from here');
 });
+
+it('lists the quiz and survey merge tags only when quiz scoring is on', function (bool $on): void {
+    config(['statamic-form-settings.quiz_scoring' => $on]);
+
+    $instructions = emailTabRecipientInstructions();
+
+    expect($instructions)->toContain('{{ today format=');
+    $on
+        ? expect($instructions)->toContain('quiz:grade')->toContain('survey:score')
+        : expect($instructions)->not->toContain('quiz')->not->toContain('survey');
+})->with([true, false]);
