@@ -79,6 +79,36 @@ it('shows the Antlers-rendered message confirmation in place of the default succ
         ->assertSessionHas('form.'.$confirmationHandle.'.success', 'Thank you, Pat!');
 });
 
+it('shows a Bard message confirmation as HTML with the submission merge tags resolved', function () use (&$confirmationHandle): void {
+    makeConfirmationForm($confirmationHandle, [
+        'confirmation_settings_default' => [
+            'confirmation_type' => 'message',
+            'confirmation_message' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Thank you, {{ name }}!']]],
+            ],
+        ],
+    ]);
+
+    $this->post('/!/forms/'.$confirmationHandle, ['name' => 'Pat'])
+        ->assertRedirect()
+        ->assertSessionHas('form.'.$confirmationHandle.'.success', '<p>Thank you, Pat!</p>');
+});
+
+it('does not run Antlers tags a submitter typed into a field of a Bard message confirmation', function () use (&$confirmationHandle): void {
+    makeConfirmationForm($confirmationHandle, [
+        'confirmation_settings_default' => [
+            'confirmation_type' => 'message',
+            'confirmation_message' => [
+                ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => 'Thank you, {{ name }}!']]],
+            ],
+        ],
+    ]);
+
+    $this->post('/!/forms/'.$confirmationHandle, ['name' => '{{ 1 + 1 }}'])
+        ->assertRedirect()
+        ->assertSessionHas('form.'.$confirmationHandle.'.success', fn (mixed $message): bool => is_string($message) && ! str_contains($message, '2'));
+});
+
 it('redirects to the configured URL for a redirect confirmation, with a rendered query string', function () use (&$confirmationHandle): void {
     makeConfirmationForm($confirmationHandle, [
         'confirmation_settings_default' => [
