@@ -1,0 +1,184 @@
+{
+    "tabs": {
+        "main": {
+            "sections": [
+                {
+                    "display": "Name",
+                    "fields": [
+                        {
+                            "handle": "title",
+                            "field": {
+                                "type": "text",
+                                "validate": "required",
+                                "instructions": "Use a call to action, such as 'Contact Us'."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Fields",
+                    "fields": [
+                        {
+                            "handle": "blueprint",
+                            "field": {
+                                "display": "Blueprint",
+                                "instructions": "Choose from existing blueprints or create a new one.",
+                                "type": "blueprints",
+                                "options": [
+                                    {
+                                        "handle": "default",
+                                        "title": "Edit Blueprint",
+                                        "edit_url": "http://uams-statamic-b.test/cp/fields/blueprints/forms/probe/edit"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "handle": "honeypot",
+                            "field": {
+                                "type": "text",
+                                "instructions": "Field name to use as a honeypot. Honeypots are special fields used to reduce bot spam."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Submissions",
+                    "fields": [
+                        {
+                            "handle": "store",
+                            "field": {
+                                "display": "Store Submissions",
+                                "type": "toggle",
+                                "instructions": "Disable to stop storing submissions. Events and email notifications will still be sent."
+                            }
+                        }
+                    ]
+                },
+                {
+                    "display": "Email",
+                    "fields": [
+                        {
+                            "handle": "email",
+                            "field": {
+                                "type": "grid",
+                                "mode": "stacked",
+                                "full_width_setting": true,
+                                "add_row": "Add Email",
+                                "instructions": "Configure emails to be sent when new form submissions are received.",
+                                "fields": [
+                                    {
+                                        "handle": "to",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Recipient(s)",
+                                            "validate": [
+                                                "required"
+                                            ],
+                                            "instructions": "Email address of the recipient(s) - comma separated."
+                                        }
+                                    },
+                                    {
+                                        "handle": "cc",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "CC Recipient(s)",
+                                            "instructions": "Email address of the CC recipient(s) - comma separated."
+                                        }
+                                    },
+                                    {
+                                        "handle": "bcc",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "BCC Recipient(s)",
+                                            "instructions": "Email address of the BCC recipient(s) - comma separated."
+                                        }
+                                    },
+                                    {
+                                        "handle": "from",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Sender",
+                                            "instructions": "Leave blank to fall back to the site default. (hello@example.com)."
+                                        }
+                                    },
+                                    {
+                                        "handle": "reply_to",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Reply To",
+                                            "instructions": "Leave blank to fall back to sender."
+                                        }
+                                    },
+                                    {
+                                        "handle": "subject",
+                                        "field": {
+                                            "type": "text",
+                                            "display": "Subject",
+                                            "instructions": "Email subject line."
+                                        }
+                                    },
+                                    {
+                                        "handle": "html",
+                                        "field": {
+                                            "type": "template",
+                                            "display": "HTML view",
+                                            "instructions": "The view for the HTML version of this email.",
+                                            "folder": null,
+                                            "clearable": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "text",
+                                        "field": {
+                                            "type": "template",
+                                            "display": "Text view",
+                                            "instructions": "The view for the text version of this email.",
+                                            "folder": null,
+                                            "clearable": true
+                                        }
+                                    },
+                                    {
+                                        "handle": "markdown",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Markdown",
+                                            "instructions": "Render the HTML version of this email using Markdown."
+                                        }
+                                    },
+                                    {
+                                        "handle": "attachments",
+                                        "field": {
+                                            "type": "toggle",
+                                            "display": "Attachments",
+                                            "instructions": "Attach uploaded assets to this email."
+                                        }
+                                    },
+                                    {
+                                        "handle": "mailer",
+                                        "field": {
+                                            "type": "select",
+                                            "instructions": "Choose the mailer for sending this email. Leave blank to fall back to the default mailer.",
+                                            "options": [
+                                                "smtp",
+                                                "ses",
+                                                "postmark",
+                                                "resend",
+                                                "sendmail",
+                                                "log",
+                                                "array",
+                                                "failover",
+                                                "roundrobin"
+                                            ],
+                                            "clearable": true
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

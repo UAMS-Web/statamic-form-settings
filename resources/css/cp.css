@@ -1,1 +1,62 @@
-/* Control Panel styles for the add-on. Empty until the first component needs one. */
+/*
+ * Control Panel styles for the add-on.
+ *
+ * The form settings subsection heading (UAMS-Web/uams-statamic#3072). The Control Panel
+ * wraps a field in `<component>-fieldtype`, so the class follows the fieldtype's handle.
+ * The rules are the site's subsection styles as Tailwind compiled them, written as plain
+ * CSS because the add-on builds no Tailwind. `.grid` is the fieldtype in a grid layout,
+ * such as a blueprint's field settings; otherwise it is in a publish form.
+ */
+
+/* The heading block: padded, with top and bottom borders and a tinted background */
+.form_settings_subsection-fieldtype:not(.grid) [data-ui-field-text],
+.form_settings_subsection-fieldtype.grid {
+    margin-bottom: 0;
+    padding-top: calc(var(--spacing) * 4);
+    padding-bottom: calc(var(--spacing) * 4);
+    border-top: 1px solid var(--theme-color-gray-200);
+    border-bottom: 1px solid var(--theme-color-gray-200);
+    background-color: var(--theme-color-gray-50);
+}
+
+:is(.form_settings_subsection-fieldtype:not(.grid) [data-ui-field-text], .form_settings_subsection-fieldtype.grid):where(.dark, .dark *) {
+    border-color: var(--theme-color-gray-700);
+    background-color: var(--theme-color-gray-800);
+}
+
+/* In a publish form, extend the block through the card's side padding */
+.form_settings_subsection-fieldtype:not(.grid) [data-ui-field-text] {
+    margin-inline: calc(var(--spacing) * -4.5);
+    padding-inline: calc(var(--spacing) * 4.5);
+}
+
+.form_settings_subsection-fieldtype.grid {
+    row-gap: 0;
+}
+
+@media (width >= 48rem) {
+    .form_settings_subsection-fieldtype.grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+/* The first heading in a card meets the card's top edge */
+.form_settings_subsection-fieldtype:not(.grid):first-child [data-ui-field-text] {
+    margin-top: calc(var(--spacing) * -5);
+    border-top-width: 0;
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
+}
+
+/* The title, with a small gap before a description */
+.form_settings_subsection-fieldtype [data-ui-field-text] [data-ui-label] {
+    margin-bottom: 0;
+}
+
+.form_settings_subsection-fieldtype [data-ui-field-text] [data-ui-label]:has(+ [data-ui-description]) {
+    margin-bottom: calc(var(--spacing) * 0.5);
+}
+
+.form_settings_subsection-fieldtype [data-ui-field-text] [data-ui-description] {
+    margin-bottom: 0;
+}

@@ -85,7 +85,12 @@ declare(strict_types=1);
  *
  * @var array<string, array{rules: list<string>, reason: string}>
  */
-const ALLOWLIST = [];
+const ALLOWLIST = [
+    'tests/Integration/Forms/FormEmailAttachToEmailTest.php' => [
+        'rules' => ['A'],
+        'reason' => 'Only this file fakes attach_to_email_disk, and paratest runs a file in one worker, so no other process writes the directory of that disk. The asset container it saves is deleted in afterEach, and no other test reads asset containers.',
+    ],
+];
 
 /**
  * The rules an {@see ALLOWLIST} row may name: the parallelism rules. Rule E is not
