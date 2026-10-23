@@ -112,14 +112,57 @@ it('checks require-login before schedule before limit (first violation wins)', f
     expect($result['state'])->toBe('login_required');
 });
 
-it('ignores an unparseable or empty schedule datetime (open)', function (): void {
+it('treats a blank schedule datetime as no limit (open)', function (): void {
     $form = makeRestrictedForm([
         'schedule_form_query' => true,
-        'schedule_form' => ['start_datetime' => 'not a date', 'end_datetime' => ''],
+        'schedule_form' => ['start_datetime' => '', 'end_datetime' => null],
         'schedule_pending_message' => 'Pending.',
     ]);
 
     expect((new FormRestrictions)->restriction($form, true, CarbonImmutable::parse('2025-01-01')))->toBeNull();
+});
+
+it('closes the form when the start datetime cannot be read', function (): void {
+    $form = makeRestrictedForm([
+        'schedule_form_query' => true,
+        'schedule_form' => ['start_datetime' => 'not a date', 'end_datetime' => '2099-01-01 00:00'],
+    ]);
+
+    expect((new FormRestrictions)->restriction($form, true, CarbonImmutable::parse('2025-01-01')))
+        ->toBe(['state' => 'schedule_unreadable', 'message' => 'This form is not currently accepting submissions.']);
+});
+
+it('closes the form when the end datetime cannot be read', function (): void {
+    $form = makeRestrictedForm([
+        'schedule_form_query' => true,
+        'schedule_form' => ['start_datetime' => '2000-01-01 00:00', 'end_datetime' => 'next tuesday-ish?'],
+    ]);
+
+    expect((new FormRestrictions)->restriction($form, true, CarbonImmutable::parse('2025-01-01')))
+        ->toBe(['state' => 'schedule_unreadable', 'message' => 'This form is not currently accepting submissions.']);
+});
+
+it('ignores an unreadable datetime while the schedule is switched off', function (): void {
+    $form = makeRestrictedForm([
+        'schedule_form_query' => false,
+        'schedule_form' => ['start_datetime' => 'not a date'],
+    ]);
+
+    expect((new FormRestrictions)->restriction($form, true, CarbonImmutable::parse('2025-01-01')))->toBeNull();
+});
+
+it('reports a readable schedule exactly as before', function (): void {
+    $form = makeRestrictedForm([
+        'schedule_form_query' => true,
+        'schedule_form' => ['start_datetime' => '2030-06-01 09:00', 'end_datetime' => '2030-06-30 17:00'],
+        'schedule_pending_message' => 'Pending.',
+        'schedule_expired_message' => 'Expired.',
+    ]);
+    $rules = new FormRestrictions;
+
+    expect($rules->restriction($form, true, CarbonImmutable::parse('2030-01-01')))->toBe(['state' => 'pending', 'message' => 'Pending.'])
+        ->and($rules->restriction($form, true, CarbonImmutable::parse('2030-06-15')))->toBeNull()
+        ->and($rules->restriction($form, true, CarbonImmutable::parse('2031-01-01')))->toBe(['state' => 'expired', 'message' => 'Expired.']);
 });
 
 it('is open when the entry limit is configured but not yet reached (no stored submissions)', function (): void {

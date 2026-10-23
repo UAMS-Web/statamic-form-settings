@@ -6,6 +6,7 @@ namespace UAMSWeb\FormSettings\Support;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
+use Carbon\Exceptions\InvalidFormatException;
 use Statamic\Contracts\Forms\Submission;
 use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\Listeners\EnforceFormRestrictions;
@@ -54,12 +55,18 @@ final class FormRestrictions
             $schedule = $form->get('schedule_form');
             $schedule = \is_array($schedule) ? $schedule : [];
 
-            $start = $this->parse($schedule['start_datetime'] ?? null);
+            try {
+                $start = $this->parse($schedule['start_datetime'] ?? null);
+                $end = $this->parse($schedule['end_datetime'] ?? null);
+            } catch (InvalidFormatException) {
+                // A date that cannot be read closes the form, so a broken end date never leaves it open
+                return $this->blocked('schedule_unreadable', null);
+            }
+
             if ($start instanceof CarbonInterface && $now->lessThan($start)) {
                 return $this->blocked('pending', $form->get('schedule_pending_message'));
             }
 
-            $end = $this->parse($schedule['end_datetime'] ?? null);
             if ($end instanceof CarbonInterface && $now->greaterThan($end)) {
                 return $this->blocked('expired', $form->get('schedule_expired_message'));
             }
@@ -165,7 +172,9 @@ final class FormRestrictions
     }
 
     /**
-     * Parse a stored datetime value into a Carbon instance, or null when absent/unparseable.
+     * Parse a stored datetime value into a Carbon instance, or null when absent or blank.
+     *
+     * @throws InvalidFormatException When a non-blank value cannot be read as a date.
      */
     private function parse(mixed $value): ?CarbonInterface
     {
@@ -173,10 +182,6 @@ final class FormRestrictions
             return null;
         }
 
-        try {
-            return CarbonImmutable::parse($value);
-        } catch (\Throwable) {
-            return null;
-        }
+        return CarbonImmutable::parse($value);
     }
 }

@@ -31,7 +31,7 @@ use UAMSWeb\FormSettings\Support\FormRestrictions;
  *         {{ /if }}
  *     {{ /form_restriction }}
  *
- * Exposed variables: `open` (bool), `state` (open|login_required|pending|expired|limit_reached),
+ * Exposed variables: `open` (bool), `state` (open|login_required|pending|expired|schedule_unreadable|limit_reached),
  * and `message` (the configured closed-state message, '' when open).
  *
  * With the `restrictions` feature switched off ({@see Features}) nothing refuses a

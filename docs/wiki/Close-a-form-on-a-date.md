@@ -19,7 +19,7 @@ A form should accept submissions only between two dates, and the page should sho
 {{ /form_restriction }}
 ```
 
-Before the start the tag reports `pending`, after the end `expired`, and inside the window `open`. A submission outside the window is refused whether or not the template uses the tag.
+Before the start the tag reports `pending`, after the end `expired`, and inside the window `open`. A submission outside the window is refused whether or not the template uses the tag. A start or end date that cannot be read as a date closes the form with the state `schedule_unreadable`.
 
 ## Reference
 

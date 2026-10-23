@@ -47,7 +47,7 @@ The `form_restriction` tag reports a form's restriction state, so a page can sho
 {{ /form_restriction }}
 ```
 
-It exposes `open`, `state` (`open`, `login_required`, `pending`, `expired` or `limit_reached`) and `message`.
+It exposes `open`, `state` (`open`, `login_required`, `pending`, `expired`, `schedule_unreadable` or `limit_reached`) and `message`.
 
 ## Extending
 

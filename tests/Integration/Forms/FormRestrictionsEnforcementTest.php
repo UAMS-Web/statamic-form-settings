@@ -162,3 +162,16 @@ it('rejects a submission to a form whose schedule has expired', function () use 
 
     expect(restrictionStoredCount($restrictionsHandle))->toBe(0);
 });
+
+it('rejects a submission to a form whose schedule date cannot be read', function () use (&$restrictionsHandle): void {
+    $form = makeForm($restrictionsHandle);
+    $form->store(true);
+    $form->set('schedule_form_query', true);
+    $form->set('schedule_form', ['end_datetime' => 'not a date']);
+    $form->save();
+
+    $this->post('/!/forms/'.$restrictionsHandle, ['name' => 'Unreadable'])
+        ->assertSessionHasErrors([$restrictionsHandle => 'This form is not currently accepting submissions.'], null, 'form.'.$restrictionsHandle);
+
+    expect(restrictionStoredCount($restrictionsHandle))->toBe(0);
+});

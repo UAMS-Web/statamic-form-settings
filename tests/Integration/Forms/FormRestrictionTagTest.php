@@ -127,3 +127,14 @@ it('looks a numeric handle up as a string', function (): void {
 
     $forms->shouldHaveReceived('find')->once()->with(Mockery::on(fn (mixed $handle): bool => $handle === '42'));
 });
+
+it('reports a form with an unreadable schedule date as closed', function (): void {
+    $handle = 'restriction_tag_unreadable_'.str_replace('.', '', uniqid('', true));
+    $form = makeForm($handle);
+    $form->set('schedule_form_query', true);
+    $form->set('schedule_form', ['start_datetime' => 'not a date']);
+    $form->save();
+
+    expect(formRestrictionTagResult(['handle' => $handle]))
+        ->toBe(['open' => false, 'state' => 'schedule_unreadable', 'message' => 'This form is not currently accepting submissions.']);
+});

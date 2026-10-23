@@ -5,9 +5,10 @@ The `form_restriction` tag reports whether a form is open, so a page can show a 
 | Order | State | When | Message shown |
 | --- | --- | --- | --- |
 | 1 | `login_required` | **Require the User to Be Logged In** is on and the visitor is not logged in. | **Message to Display When the User is Not Logged In** |
-| 2 | `pending` | **Schedule the Form** is on and the start date has not arrived. | **Message to Display When the Form is Pending** |
-| 3 | `expired` | **Schedule the Form** is on and the end date has passed. | **Message to Display When the Form Has Expired** |
-| 4 | `limit_reached` | **Limit the Number of Entries** is on and the form has as many entries as allowed for the chosen type of limit. | **Message to Display When the Entry Limit is Reached** |
+| 2 | `schedule_unreadable` | **Schedule the Form** is on and the start or end date cannot be read as a date, which can happen with an imported form. The form is closed rather than left open. | The default text, "This form is not currently accepting submissions." |
+| 3 | `pending` | **Schedule the Form** is on and the start date has not arrived. | **Message to Display When the Form is Pending** |
+| 4 | `expired` | **Schedule the Form** is on and the end date has passed. | **Message to Display When the Form Has Expired** |
+| 5 | `limit_reached` | **Limit the Number of Entries** is on and the form has as many entries as allowed for the chosen type of limit. | **Message to Display When the Entry Limit is Reached** |
 | | `open` | None of the above. | An empty string |
 
 ## Variables
