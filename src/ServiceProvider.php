@@ -96,11 +96,16 @@ class ServiceProvider extends AddonServiceProvider
     {
         // Read the namespace's current paths
         $finder = View::getFinder();
+        // Laravel's view factory always holds a FileViewFinder, so the guard is for PHPStan and the
+        // other branch cannot be reached from a test.
+        // @pest-mutate-ignore: InstanceOfToTrue
         $hints = $finder instanceof FileViewFinder ? $finder->getHints()['statamic'] ?? [] : [];
 
         // The override directories Laravel looks for under each of the host's view paths
         $viewPaths = config('view.paths');
         $overrides = array_map(
+            // A view path that is not a string names no directory, so any text in its place matches no hint.
+            // @pest-mutate-ignore: EmptyStringToNotEmpty
             static fn (mixed $viewPath): string => (\is_string($viewPath) ? $viewPath : '').'/vendor/statamic',
             \is_array($viewPaths) ? $viewPaths : [],
         );
@@ -109,6 +114,8 @@ class ServiceProvider extends AddonServiceProvider
         $first = [];
         $rest = [];
         foreach ($hints as $hint) {
+            // Hints and overrides are both directory paths, which compare the same loosely or strictly.
+            // @pest-mutate-ignore: TrueToFalse
             if (\in_array($hint, $overrides, true)) {
                 $first[] = $hint;
             } else {
