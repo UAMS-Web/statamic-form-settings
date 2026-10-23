@@ -105,6 +105,37 @@ abstract class TestCase extends AddonTestCase
         if ($path !== null) {
             $app['config']->set('cache.stores.outpost.path', $path);
         }
+
+        // Keep this worker's asset containers apart from every other worker's
+        $containersPath = self::assetContainersPath(
+            $app['config']->get('statamic.stache.stores.asset-containers.directory'),
+            $_SERVER['TEST_TOKEN'] ?? null
+        );
+        if ($containersPath !== null) {
+            $app['config']->set('statamic.stache.stores.asset-containers.directory', $containersPath);
+        }
+    }
+
+    /**
+     * The asset container directory for a parallel worker token, or null
+     * outside a parallel run.
+     *
+     * Statamic's `AddonTestCase` points the asset container store at one fixtures directory,
+     * so a container one worker saves is a container every other worker loads. A container
+     * whose disk only the saving worker has faked then fails the other worker's entry save
+     * with "Disk [...] does not have a configured driver" (#19).
+     *
+     * @param  mixed  $shared  The directory Statamic's test case configured for every worker.
+     * @param  mixed  $token  The parallel worker token, or null outside a parallel run.
+     * @return ?string The worker's container directory, or null without a usable token.
+     */
+    public static function assetContainersPath(mixed $shared, mixed $token): ?string
+    {
+        if (! is_string($shared) || (! is_string($token) && ! is_int($token))) {
+            return null;
+        }
+
+        return rtrim($shared, '/\\')."-{$token}";
     }
 
     /**

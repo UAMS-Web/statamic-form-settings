@@ -81,3 +81,11 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 **Why.** The field is a Bard field, so every stored message was an array that rendered as nothing. Only super users and roles with `configure forms` can edit a confirmation, so the content has the trust a plain-string message already had.
 
 **Rejected.** Dropping Antlers (merge tags such as `{{ name }}` would stop working), an allow-list sanitizer (needs a new dependency), escaping (loses Bard formatting) and a restricted Antlers context (new code for little gain given who can edit).
+
+## 2026-10-23: Each parallel test worker gets its own asset container directory (#19)
+
+**Decision.** `tests/TestCase.php` points the asset container store at a directory named for the parallel worker token, beside the one Statamic's `AddonTestCase` shares.
+
+**Why.** The shared directory is read by every worker. A container one worker saves on a disk only that worker has faked fails another worker's entry save with "Disk [attach_to_email_disk] does not have a configured driver", which showed up as an intermittent failure in `FormConfirmationTest`. The cause the ticket suspected, a container outliving its cleanup, was not the cause: the cleanup already runs after every test, and a neighbor reads the file while the saving test is still running.
+
+**Rejected.** Hardening the cleanup in `FormEmailAttachToEmailTest`: it cannot close a window that exists while the test is running.
