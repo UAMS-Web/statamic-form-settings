@@ -139,6 +139,9 @@ abstract class TestCase extends AddonTestCase
         // Capture sent mail in memory, so a notification test can read what was sent
         $app['config']->set('mail.default', 'array');
 
+        // Quiz scoring is the host's to turn on; most tests exercise the sections it adds.
+        $app['config']->set('statamic-form-settings.quiz_scoring', true);
+
         // Apply the values a test rebooted with, before the add-on boots
         foreach ($this->configBeforeBoot as $key => $value) {
             $app['config']->set($key, $value);

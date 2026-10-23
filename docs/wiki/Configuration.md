@@ -24,3 +24,13 @@ return [
 ```
 
 With `notifications` on, the add-on points `statamic.forms.send_email_job` at its own job. A host that has set that option to a job of its own keeps it.
+
+## Control Panel options
+
+Three more keys, at the top level of the same file, adapt the form settings screen to a host.
+
+| Key | Environment variable | Default | Effect |
+| --- | --- | --- | --- |
+| `confirmation_page_collections` | none | `['pages']` | The collections the confirmation page pickers offer. An empty list falls back to `pages`. |
+| `article_bard_extra_buttons` | none | `[]` | Buttons added to the Article Bard field's toolbar after the heading buttons, for a button from another package such as `bts_attributes`. |
+| `quiz_scoring` | `FORM_SETTINGS_QUIZ_SCORING` | `false` | Turn on when the host scores quizzes and supplies the `quiz` and `survey` merge tags. On, the Quiz Settings section appears and the notification email help lists those tags. |

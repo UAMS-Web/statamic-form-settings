@@ -134,3 +134,21 @@ it('limits each page setting to a single entry', function (string $handle): void
 
     expect($field)->toMatchArray(['type' => 'entries', 'max_items' => 1, 'collections' => ['pages']]);
 })->with(['confirmation_page', 'confirmation_replace_entry']);
+
+it('offers the configured collections in each page picker', function (string $handle): void {
+    config(['statamic-form-settings.confirmation_page_collections' => ['pages', 'landing_pages']]);
+
+    $entry = mustBeStringKeyed((new ConfirmationSettingsFieldBuilder)->build(Confirmation::DEFAULT)[$handle] ?? null, $handle);
+    $field = mustBeStringKeyed($entry['field'] ?? null, $handle.' field');
+
+    expect($field['collections'])->toBe(['pages', 'landing_pages']);
+})->with(['confirmation_page', 'confirmation_replace_entry']);
+
+it('falls back to the pages collection when none is configured', function (): void {
+    config(['statamic-form-settings.confirmation_page_collections' => []]);
+
+    $entry = mustBeStringKeyed((new ConfirmationSettingsFieldBuilder)->build(Confirmation::DEFAULT)['confirmation_page'] ?? null, 'confirmation_page');
+    $field = mustBeStringKeyed($entry['field'] ?? null, 'confirmation_page field');
+
+    expect($field['collections'])->toBe(['pages']);
+});

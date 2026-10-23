@@ -471,13 +471,16 @@ final readonly class FormConfigurationTabsInjector
             ],
         ];
 
-        // Inject the quiz settings section at the end (after restrictions).
-        $this->injectSection(
-            $contents,
-            $nameLocation,
-            $quizSettingsSection,
-            'end'
-        );
+        // Inject the quiz settings section at the end (after restrictions), only
+        // when the host scores quizzes.
+        if (config('statamic-form-settings.quiz_scoring', false)) {
+            $this->injectSection(
+                $contents,
+                $nameLocation,
+                $quizSettingsSection,
+                'end'
+            );
+        }
 
         // Inject each section another package registered, after the add-on's own
         /** @var iterable<FormSettingsSection> $registered */

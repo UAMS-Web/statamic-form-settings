@@ -56,4 +56,43 @@ return [
         'restrictions' => (bool) env('FORM_SETTINGS_RESTRICTIONS', true),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Confirmation page collections
+    |--------------------------------------------------------------------------
+    |
+    | The collections the confirmation page pickers offer. Defaults to
+    | `pages`; list the handles of the collections that hold your pages.
+    |
+    */
+
+    'confirmation_page_collections' => ['pages'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Extra Bard buttons
+    |--------------------------------------------------------------------------
+    |
+    | Buttons added to the Article Bard field's toolbar after the heading
+    | buttons, for a button that comes from another package, such as
+    | `bts_attributes`. Empty by default.
+    |
+    */
+
+    'article_bard_extra_buttons' => [],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Quiz scoring
+    |--------------------------------------------------------------------------
+    |
+    | Turn this on when the host application scores quizzes and supplies the
+    | `quiz` and `survey` merge tags. On, the form settings screen shows the
+    | Quiz Settings section and the notification email help lists those tags.
+    | Off by default, because nothing in this add-on scores a quiz.
+    |
+    */
+
+    'quiz_scoring' => (bool) env('FORM_SETTINGS_QUIZ_SCORING', false),
+
 ];

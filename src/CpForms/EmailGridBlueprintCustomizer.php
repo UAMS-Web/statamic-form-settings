@@ -639,18 +639,8 @@ final class EmailGridBlueprintCustomizer
                 "- `{{ today }}` - Current date (Jan. 1, 2025)\n".
                 "- `{{ today:time }}` - Current time (1:23 a.m.)\n".
                 "- `{{ today:timestamp }}` - Unix timestamp\n".
-                "- `{{ today format=\"Y-m-d\" }}` - Custom date format\n".
-                "- `{{ quiz }}` - Quiz question with answer and correct answer\n".
-                "  - `{{ quiz handle=\"*\" }}` - Specific quiz question\n".
-                "- `{{ quiz:grade }}` - Quiz letter grade (A, B, C, D, F)\n".
-                "- `{{ quiz:passfail }}` - Quiz pass/fail result\n".
-                "- `{{ quiz:percent }}` - Quiz percentage score\n".
-                "- `{{ quiz:score }}` - Quiz total score\n".
-                "  - `{{ quiz:score handle=\"*\" }}` - Specific quiz question score\n".
-                "- `{{ survey }}` - Survey question with answer\n".
-                "  - `{{ survey handle=\"*\" }}` - Specific survey question\n".
-                "- `{{ survey:score }}` - Survey total score\n".
-                '  - `{{ survey:score handle="*" }}` - Specific survey question score';
+                '- `{{ today format="Y-m-d" }}` - Custom date format'.
+                $this->quizMergeTagHelp();
 
             // Append recipient then merge-tag instructions to existing instructions
             $fieldDef['instructions'] = $existingInstructions
@@ -658,5 +648,31 @@ final class EmailGridBlueprintCustomizer
                 .$mergeTagsInstruction;
             $emailField['field'] = $fieldDef;
         }
+    }
+
+    /**
+     * The merge-tag help for quiz and survey scoring.
+     *
+     * @return string Markdown lines starting with a newline, or an empty
+     *                string when the host does not score quizzes.
+     */
+    private function quizMergeTagHelp(): string
+    {
+        if (! config('statamic-form-settings.quiz_scoring', false)) {
+            return '';
+        }
+
+        return
+            "\n- `{{ quiz }}` - Quiz question with answer and correct answer\n".
+            "  - `{{ quiz handle=\"*\" }}` - Specific quiz question\n".
+            "- `{{ quiz:grade }}` - Quiz letter grade (A, B, C, D, F)\n".
+            "- `{{ quiz:passfail }}` - Quiz pass/fail result\n".
+            "- `{{ quiz:percent }}` - Quiz percentage score\n".
+            "- `{{ quiz:score }}` - Quiz total score\n".
+            "  - `{{ quiz:score handle=\"*\" }}` - Specific quiz question score\n".
+            "- `{{ survey }}` - Survey question with answer\n".
+            "  - `{{ survey handle=\"*\" }}` - Specific survey question\n".
+            "- `{{ survey:score }}` - Survey total score\n".
+            '  - `{{ survey:score handle="*" }}` - Specific survey question score';
     }
 }

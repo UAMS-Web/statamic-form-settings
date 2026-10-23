@@ -33,7 +33,7 @@ final class FieldDefinitions
                 'h4',
                 'h5',
                 'h6',
-                'bts_attributes',
+                ...self::extraArticleButtons(),
                 'bold',
                 'italic',
                 'unorderedlist',
@@ -139,8 +139,20 @@ final class FieldDefinitions
             'type' => 'text',
             'input_type' => 'url',
             'display' => __('Website URL'),
-            'placeholder' => __('e.g., https://uams.edu/'),
+            'placeholder' => __('e.g., https://example.com/'),
             'localizable' => false,
         ];
+    }
+
+    /**
+     * The extra Bard buttons the host configured for the Article field.
+     *
+     * @return list<string> Button handles, empty by default.
+     */
+    private static function extraArticleButtons(): array
+    {
+        $buttons = config('statamic-form-settings.article_bard_extra_buttons', []);
+
+        return is_array($buttons) ? array_values(array_filter($buttons, is_string(...))) : [];
     }
 }
