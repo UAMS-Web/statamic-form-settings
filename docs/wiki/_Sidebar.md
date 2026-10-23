@@ -3,11 +3,12 @@
 **Getting started**
 
 - [Installation (README)](https://github.com/UAMS-Web/statamic-form-settings#installation)
-- [Walkthrough](Walkthrough.md)
+- [Your first form settings](Your-first-form-settings.md)
 
 **Guides**
 
-- [Task guide](Task-guide.md)
+- [Close a form on a date](Close-a-form-on-a-date.md)
+- [Turn a feature off](Turn-a-feature-off.md)
 
 **Troubleshooting**
 
@@ -15,11 +16,12 @@
 
 **Reference**
 
-- [Reference](Reference.md)
+- [Configuration](Configuration.md)
+- [Restriction states](Restriction-states.md)
 - [README](https://github.com/UAMS-Web/statamic-form-settings#readme)
 
 **Project**
 
-- [Project](Project.md)
+- [Development](Development.md)
 - [Report a problem](https://github.com/UAMS-Web/statamic-form-settings/issues)
 - [Releases](https://github.com/UAMS-Web/statamic-form-settings/releases)

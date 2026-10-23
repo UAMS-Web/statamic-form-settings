@@ -1,17 +1,14 @@
-Replace this paragraph with what the add-on does and who it is for.
-
-This wiki holds the documentation: a walkthrough, task guides by role, the reference, and troubleshooting. The [README](https://github.com/UAMS-Web/statamic-form-settings#readme) keeps an overview, the requirements and installation.
-
-The pages in this folder are skeletons, one per page shape the `github-wiki` skill describes. Copy each, fill it in, rename it for its subject, and keep Home, the sidebar and the footer listing the same pages under the same labels.
+Form Settings is a Statamic add-on that extends the Control Panel's form settings screen and what a form does after a submission: notification emails with recipient routing and conditions, a confirmation message or redirect, and restrictions on who can submit and when. This wiki holds the walkthrough, the task guides, the reference and troubleshooting. The [README](https://github.com/UAMS-Web/statamic-form-settings#readme) keeps the overview, the requirements and installation.
 
 ## Getting started
 
 - [Installation (README)](https://github.com/UAMS-Web/statamic-form-settings#installation): add the package to a Statamic install.
-- [Walkthrough](Walkthrough.md): a first use of the add-on, from nothing to a visible result.
+- [Your first form settings](Your-first-form-settings.md): give one form a confirmation message and an entry limit.
 
 ## Guides
 
-- [Task guide](Task-guide.md): one task, the steps, and the reference it used.
+- [Close a form on a date](Close-a-form-on-a-date.md): schedule a form and show a closed message in a template.
+- [Turn a feature off](Turn-a-feature-off.md): switch one feature off without losing its stored settings.
 
 ## Troubleshooting
 
@@ -19,8 +16,12 @@ The pages in this folder are skeletons, one per page shape the `github-wiki` ski
 
 ## Reference
 
-- [Reference](Reference.md): every setting, tag, command or permission of one area.
+- [Configuration](Configuration.md): the four feature switches and their environment variables.
+- [Restriction states](Restriction-states.md): what the `form_restriction` tag reports.
+- [README](https://github.com/UAMS-Web/statamic-form-settings#readme): the overview, the requirements, the feature switches and the extension points.
 
 ## Project
 
-- [Project](Project.md): where the add-on is developed and how to report a problem.
+- [Development](Development.md): where the add-on is developed and how to run it against a host.
+- [Report a problem](https://github.com/UAMS-Web/statamic-form-settings/issues): open an issue.
+- [Releases](https://github.com/UAMS-Web/statamic-form-settings/releases): what changed in each version.
