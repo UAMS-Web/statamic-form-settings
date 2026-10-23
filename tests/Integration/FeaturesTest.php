@@ -192,7 +192,7 @@ it('reads a switch set to 0 or 1, as an env value or a published config may be, 
 
 it("puts the add-on's email view after a host's own copy and before Statamic's", function (): void {
     // A host view path holding an override directory for Statamic's views
-    $hostViews = sys_get_temp_dir().'/form-settings-host-views-'.getmypid().'-'.bin2hex(random_bytes(4));
+    $hostViews = sys_get_temp_dir().'/form-settings-host-views-'.str_replace('.', '', uniqid('', true));
     mkdir($hostViews.'/vendor/statamic', 0777, true);
 
     try {
