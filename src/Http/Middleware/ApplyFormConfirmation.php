@@ -13,6 +13,7 @@ use Statamic\Facades\Entry;
 use Statamic\Facades\URL;
 use Statamic\Forms\Submission;
 use Symfony\Component\HttpFoundation\Response;
+use UAMSWeb\FormSettings\Support\EmailMessageBody;
 use UAMSWeb\FormSettings\Support\FormConfirmationResolver;
 
 /**
@@ -110,7 +111,7 @@ class ApplyFormConfirmation
 
         // message (and a redirect/entry/replace that resolved no usable internal URL): show the
         // configured message in place of Statamic's generic success text.
-        $message = $this->render($settings['confirmation_message'] ?? '', $context);
+        $message = $this->renderMessage($settings['confirmation_message'] ?? '', $context);
         if ($message !== '') {
             $handle = $form->handle();
             // The submission was resolved through its form's handle, which is always a string, and concatenation casts a scalar as `(string)` does.
@@ -119,6 +120,25 @@ class ApplyFormConfirmation
         }
 
         return $response;
+    }
+
+    /**
+     * Render the confirmation message: a Bard document or a string, to HTML with its merge tags resolved.
+     *
+     * The Bard value is augmented to HTML and Antlers runs over it against the submission context, as
+     * for a plain string, so a message holds the same trust either way. The HTML is not sanitized:
+     * only users who may configure forms can write it. An empty value returns '' so the caller keeps
+     * Statamic's own success text.
+     *
+     * @param  array<array-key, mixed>  $context
+     */
+    private function renderMessage(mixed $value, array $context): string
+    {
+        if (EmailMessageBody::isEmpty($value)) {
+            return '';
+        }
+
+        return trim(EmailMessageBody::html($value, $context));
     }
 
     /**

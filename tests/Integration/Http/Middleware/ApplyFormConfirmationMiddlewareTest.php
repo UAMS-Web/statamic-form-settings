@@ -144,6 +144,70 @@ it('trims the rendered message and ignores one that is not text', function (mixe
     'a list' => [['Thanks.'], null],
 ]);
 
+/**
+ * A Bard document of one paragraph per given text.
+ *
+ * @param  list<string>  $paragraphs
+ * @return list<array<string, mixed>>
+ */
+function confirmationBardMessage(array $paragraphs): array
+{
+    return array_map(
+        static fn (string $text): array => ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => $text]]],
+        $paragraphs
+    );
+}
+
+it('flashes a Bard confirmation message as HTML', function (): void {
+    $submission = confirmationMiddlewareSubmission([
+        'confirmation_type' => 'message',
+        'confirmation_message' => confirmationBardMessage(['Thanks.', 'We will be in touch.']),
+    ]);
+    session()->flash('submission', $submission);
+
+    runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    expect(confirmationFlashedMessage($submission))->toBe('<p>Thanks.</p><p>We will be in touch.</p>');
+});
+
+it('keeps a plain string confirmation message, markup included', function (): void {
+    $submission = confirmationMiddlewareSubmission([
+        'confirmation_type' => 'message',
+        'confirmation_message' => '<strong>Thanks</strong>.',
+    ]);
+    session()->flash('submission', $submission);
+
+    runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    expect(confirmationFlashedMessage($submission))->toBe('<strong>Thanks</strong>.');
+});
+
+it('flashes nothing for an empty confirmation message so Statamic keeps its own success text', function (mixed $message): void {
+    $submission = confirmationMiddlewareSubmission(['confirmation_type' => 'message', 'confirmation_message' => $message]);
+    session()->flash('submission', $submission);
+
+    runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    expect(confirmationFlashedMessage($submission))->toBeNull();
+})->with([
+    'an empty string' => [''],
+    'an empty Bard value' => [[]],
+    'an empty paragraph' => [[['type' => 'paragraph']]],
+]);
+
+it('prints the HTML of a Bard message as written, with no sanitizing', function (): void {
+    $submission = confirmationMiddlewareSubmission([
+        'confirmation_type' => 'message',
+        'confirmation_message' => confirmationBardMessage(['Use <em>care</em> & thanks']),
+    ]);
+    session()->flash('submission', $submission);
+
+    runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    // Bard encodes typed markup as text, so the editor's angle brackets reach the page as entities
+    expect(confirmationFlashedMessage($submission))->toBe('<p>Use &lt;em&gt;care&lt;/em&gt; &amp; thanks</p>');
+});
+
 it('strips leading separators from the query string and joins it to an existing one', function (string $url, string $query, string $expected): void {
     $submission = confirmationMiddlewareSubmission(['confirmation_type' => 'redirect', 'confirmation_redirect_url' => $url, 'confirmation_query_string' => $query]);
     session()->flash('submission', $submission);

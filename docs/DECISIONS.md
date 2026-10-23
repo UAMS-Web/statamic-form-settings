@@ -73,3 +73,11 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 **Why.** Treating an unreadable date as no limit left a form open past an end date nobody could see was broken.
 
 **Rejected.** Staying open with a logged warning: the warning reaches only the log, and an unreadable end date still never closes the form.
+
+## 2026-10-23: A Bard confirmation message is rendered as HTML with Antlers over it (#13)
+
+**Decision.** A `confirmation_message` stored as a Bard document is augmented to HTML, Antlers runs over it with the submission context a plain-string message already gets, and the result is printed as Bard HTML without sanitizing. An empty message keeps Statamic's own success text.
+
+**Why.** The field is a Bard field, so every stored message was an array that rendered as nothing. Only super users and roles with `configure forms` can edit a confirmation, so the content has the trust a plain-string message already had.
+
+**Rejected.** Dropping Antlers (merge tags such as `{{ name }}` would stop working), an allow-list sanitizer (needs a new dependency), escaping (loses Bard formatting) and a restricted Antlers context (new code for little gain given who can edit).
