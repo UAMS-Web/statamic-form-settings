@@ -199,7 +199,7 @@ it("puts the add-on's email view after a host's own copy and before Statamic's",
         mustBe(TestCase::class, $this, 'test case')->rebootWithConfig(['view.paths' => [$hostViews]]);
 
         $hints = mustBeArray(mustBe(FileViewFinder::class, View::getFinder(), 'view finder')->getHints()['statamic'] ?? [], 'view hints');
-        $paths = array_map(static fn (mixed $path): string|false => realpath(mustBeString($path, 'view hint')), $hints);
+        $paths = array_values(array_map(static fn (mixed $path): string|false => realpath(mustBeString($path, 'view hint')), $hints));
 
         // Statamic registers the namespace twice, so the host's copy can be listed twice
         $own = array_search(realpath(dirname(__DIR__, 2).'/resources/views'), $paths, true);
@@ -208,8 +208,13 @@ it("puts the add-on's email view after a host's own copy and before Statamic's",
 
         expect($own)->toBeInt()
             ->and($host)->not->toBeEmpty()
-            ->and($statamic)->not->toBeEmpty()
-            ->and(max($host))->toBeLessThan($own)
+            ->and($statamic)->not->toBeEmpty();
+
+        if (! is_int($own) || $host === [] || $statamic === []) {
+            $this->fail('A view path is missing from the statamic namespace');
+        }
+
+        expect(max($host))->toBeLessThan($own)
             ->and(min($statamic))->toBeGreaterThan($own);
     } finally {
         rmdir($hostViews.'/vendor/statamic');
