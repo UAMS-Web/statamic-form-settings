@@ -52,6 +52,10 @@ It exposes `open`, `state` (`open`, `login_required`, `pending`, `expired` or `l
 - **Submission context.** A notification sent from a queue worker cannot see the submitter's request. A host that keeps that context binds its own implementation of `UAMSWeb\FormSettings\Contracts\SubmissionContext`: the job calls it to capture the context when the form is submitted, and again to make that context active while the email is sent. The add-on's default captures nothing.
 - **More settings sections.** Another package adds a section to the form settings screen by tagging an implementation of `UAMSWeb\FormSettings\Contracts\FormSettingsSection` with `FormSettingsSection::TAG` in its service provider's `register()`.
 
+## License
+
+MIT. See [`LICENSE`](LICENSE).
+
 ## Development
 
 Developing against a host application is covered in [the development guide](docs/DEVELOPMENT.md), and the Packagist and Marketplace steps in [the submission checklist](docs/SUBMISSION.md). The gate is `composer ci`.

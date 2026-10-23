@@ -1,6 +1,7 @@
 {
     "name": "uams-web/statamic-form-settings",
     "description": "Control Panel form settings for Statamic: notification routing and conditions, confirmations, and submission restrictions, each behind its own switch.",
+    "license": "MIT",
     "keywords": [
         "statamic",
         "statamic-addon"

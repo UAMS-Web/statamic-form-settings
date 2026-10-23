@@ -45,3 +45,13 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 **Rejected.** Keeping the drift check beside the aggregate: it would compare a list of three names with job names it no longer has to match. Gating `CI` on a remote-CI variable: this repository is public and runs every job on every pull request.
 
 **Companion.** `UAMS-Web/uams-claude-skills#292`, `UAMS-Web/statamic-multisite-forms#198`.
+
+## 2026-10-23: The add-on goes to Packagist on MIT, ahead of UAMS legal's decision (#7)
+
+**Decision.** The operator decided on 2026-10-15 to publish `uams-web/statamic-form-settings` on Packagist, the same way as `UAMS-Web/statamic-alpine-csp-forms`, so that `UAMS-Web/uams-statamic` can require it by name. The add-on is MIT licensed (`LICENSE`, `"license": "MIT"`), matching `UAMS-Web/statamic-multisite-forms`, ahead of `UAMS-Web/uams-statamic#3039`. The Marketplace is not part of this decision.
+
+**Why.** A public Packagist package needs a declared license, and `uams-statamic` requires the add-on by Composer name rather than by path. Matching the sibling add-on keeps one license across the add-ons that site requires, and the file can change if UAMS legal decides otherwise.
+
+**Rejected.** Waiting for UAMS legal before declaring a license: the package cannot be listed without one, and the site cannot require it by name until it is listed. Requiring the add-on from a path repository: it ties the site to one machine's checkout.
+
+**Companion.** `UAMS-Web/uams-statamic#3072`, `UAMS-Web/uams-statamic#3039`.
