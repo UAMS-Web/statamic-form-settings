@@ -65,3 +65,11 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 **Rejected.** Detecting a scorer by class or container binding: the scorer lives in the host site today, so there is nothing stable to detect. Keeping the UAMS defaults on: the add-on would show every other site controls that do nothing.
 
 **Companion.** `UAMS-Web/uams-statamic#3072` sets `FORM_SETTINGS_QUIZ_SCORING=true` and `article_bard_extra_buttons` to keep its current screen.
+
+## 2026-10-23: An unreadable schedule date closes the form (#14)
+
+**Decision.** A form with scheduling on and a start or end date that cannot be read is closed, with the state `schedule_unreadable` and the default closed message. The catch narrows to Carbon's `InvalidFormatException`. A blank date still means no limit.
+
+**Why.** Treating an unreadable date as no limit left a form open past an end date nobody could see was broken.
+
+**Rejected.** Staying open with a logged warning: the warning reaches only the log, and an unreadable end date still never closes the form.
