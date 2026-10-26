@@ -53,11 +53,15 @@ class ServiceProvider extends AddonServiceProvider
      * and listen for form submissions ahead of the host.
      *
      * Laravel calls the listeners for an event in the order they were registered,
-     * and registers a package's providers before a host's own, so a listener
-     * registered here runs before any `FormSubmitted` listener the host
-     * registers. Statamic's discovery of `src/Listeners` registers its listeners
-     * once every provider has booted, after the host's, so a restricted form
-     * would otherwise report a host listener's refusal instead of its own (#25).
+     * and registers a discovered package's providers before a host's own, so a
+     * listener registered here runs before any `FormSubmitted` listener the host
+     * registers. A host that lists this provider itself, after its own, can still
+     * register a listener ahead of it from its own `register()`. Statamic's
+     * discovery of `src/Listeners` registers its listeners once every provider
+     * has booted, after the host's, so a restricted form would otherwise report a
+     * host listener's refusal instead of its own (#25). Unlike that discovery,
+     * this registers the listener even when Statamic cannot resolve the add-on;
+     * the listener still reads the `restrictions` switch when it runs.
      */
     #[\Override]
     public function register(): void
