@@ -30,6 +30,14 @@ abstract class TestCase extends AddonTestCase
     private array $configBeforeBoot = [];
 
     /**
+     * Host application providers to register after the add-on's, for a test
+     * that rebooted with {@see self::rebootWithHostProviders()}.
+     *
+     * @var list<class-string> Class names of the providers, in registration order.
+     */
+    private array $hostProviders = [];
+
+    /**
      * Boot a fresh application with the given config values set before the
      * add-on boots.
      *
@@ -49,6 +57,40 @@ abstract class TestCase extends AddonTestCase
         // Tear the current application down and boot a new one
         parent::tearDown();
         self::setUp();
+    }
+
+    /**
+     * Boot a fresh application with the given host providers registered after
+     * the add-on's.
+     *
+     * Laravel registers a host's own providers after its packages' providers,
+     * so the order the add-on's registrations take against a host's can only be
+     * tested by booting the host's providers in that place. Like
+     * {@see self::rebootWithConfig()}, this does not run a file's beforeEach
+     * hooks a second time.
+     *
+     * @param  list<class-string>  $providers  Class names of the host's providers, in registration order.
+     */
+    public function rebootWithHostProviders(array $providers): void
+    {
+        // Remember the providers for getPackageProviders(), which the new boot runs
+        $this->hostProviders = $providers;
+
+        // Tear the current application down and boot a new one
+        parent::tearDown();
+        self::setUp();
+    }
+
+    /**
+     * Register Statamic's and the add-on's providers, then any host providers.
+     *
+     * @param  Application  $app  The application being configured.
+     * @return array<int, class-string> Class names of the providers, in registration order.
+     */
+    #[\Override]
+    protected function getPackageProviders($app): array
+    {
+        return [...parent::getPackageProviders($app), ...$this->hostProviders];
     }
 
     /**

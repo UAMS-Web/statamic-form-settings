@@ -22,9 +22,10 @@ use UAMSWeb\FormSettings\Support\FormRestrictions;
  * require-login even against a direct POST that bypassed the rendered form.
  *
  * The decision is delegated to {@see FormRestrictions}, the same source of truth the render-time
- * `{{ form_restriction }}` tag uses, so the gate and the UI never disagree. Auto-discovered from
- * `src/Listeners` by its typed `handle()` argument. With the `restrictions` feature switched off
- * ({@see Features}) it refuses nothing.
+ * `{{ form_restriction }}` tag uses, so the gate and the UI never disagree. Registered in the
+ * service provider's `register()`, so it runs before the host application's own `FormSubmitted`
+ * listeners and a restricted form reports its restriction first. With the `restrictions` feature
+ * switched off ({@see Features}) it refuses nothing.
  */
 final class EnforceFormRestrictions
 {

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace UAMSWeb\FormSettings;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\FileViewFinder;
+use Statamic\Events\FormSubmitted;
 use Statamic\Forms\SendEmail;
 use Statamic\Http\Controllers\CP\Forms\FormsController as BaseFormsController;
 use Statamic\Providers\AddonServiceProvider;
@@ -14,20 +16,20 @@ use UAMSWeb\FormSettings\Contracts\SubmissionContext;
 use UAMSWeb\FormSettings\Http\Controllers\FormsController;
 use UAMSWeb\FormSettings\Http\Middleware\ApplyFormConfirmation;
 use UAMSWeb\FormSettings\Jobs\SendFormNotification;
+use UAMSWeb\FormSettings\Listeners\EnforceFormRestrictions;
 use UAMSWeb\FormSettings\Support\NullSubmissionContext;
 
 /**
  * Service provider for the form settings add-on.
  *
  * The host application discovers it through `extra.laravel.providers` in
- * `composer.json`. The fieldtypes, the `form_restriction` tag and the
- * restrictions listener register through Statamic's discovery of
- * `src/Fieldtypes`, `src/Tags` and `src/Listeners`, always, so a stored
- * blueprint or template that names them keeps working with any feature
- * switched off; the tag and the listener check the `restrictions` switch
- * themselves. Everything else registers in {@see bootAddon()}, once the
- * add-on's config is merged, and only when its feature is on
- * ({@see Features}).
+ * `composer.json`. The fieldtypes and the `form_restriction` tag register
+ * through Statamic's discovery of `src/Fieldtypes` and `src/Tags`, and the
+ * restrictions listener in {@see register()}, always, so a stored blueprint
+ * or template that names them keeps working with any feature switched off;
+ * the tag and the listener check the `restrictions` switch themselves.
+ * Everything else registers in {@see bootAddon()}, once the add-on's config
+ * is merged, and only when its feature is on ({@see Features}).
  */
 class ServiceProvider extends AddonServiceProvider
 {
@@ -47,13 +49,37 @@ class ServiceProvider extends AddonServiceProvider
     ];
 
     /**
-     * Bind the default submission context, which a host's own binding replaces.
+     * Bind the default submission context, which a host's own binding replaces,
+     * and listen for form submissions ahead of the host.
+     *
+     * Laravel calls the listeners for an event in the order they were registered,
+     * and registers a package's providers before a host's own, so a listener
+     * registered here runs before any `FormSubmitted` listener the host
+     * registers. Statamic's discovery of `src/Listeners` registers its listeners
+     * once every provider has booted, after the host's, so a restricted form
+     * would otherwise report a host listener's refusal instead of its own (#25).
      */
     #[\Override]
     public function register(): void
     {
         // Capture nothing unless the host binds a context of its own
         $this->app->bindIf(SubmissionContext::class, NullSubmissionContext::class);
+
+        // Refuse a restricted submission before the host's own listeners see it
+        $this->app->make(Dispatcher::class)->listen(FormSubmitted::class, EnforceFormRestrictions::class);
+    }
+
+    /**
+     * Register no listeners from Statamic's discovery of `src/Listeners`.
+     *
+     * The add-on's one listener is registered in {@see register()}, so that it
+     * runs ahead of the host's; discovering it as well would register it twice.
+     * A listener added to `src/Listeners` is registered in {@see register()} too.
+     */
+    #[\Override]
+    public function bootEvents(): static
+    {
+        return $this;
     }
 
     /**
