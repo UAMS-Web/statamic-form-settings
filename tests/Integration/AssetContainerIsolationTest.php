@@ -28,8 +28,10 @@ it('does not load a container another worker left in the shared directory', func
         throw new RuntimeException('The asset container directory is not configured.');
     }
 
-    // A serial run has one worker and so no neighbor to isolate from
+    // A serial run has one worker and so no neighbor to isolate from; the directory stays unsplit
     if (! is_string($token) && ! is_int($token)) {
+        expect($directory)->not->toMatch('/-\d+$/');
+
         return;
     }
 
