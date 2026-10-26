@@ -35,7 +35,7 @@ use UAMSWeb\FormSettings\Fieldtypes\FormConditionalLogic;
  * whose every entry is an empty list (`{field: []}`) are evaluated as the public page
  * evaluates them, where they yield no conditions and ALL of none passes while ANY of none
  * fails, before the key's inversion (UAMS-Web/uams-statamic#2889, UAMS-Web/uams-statamic#2895). This is the runtime that consumes the
- * imported config; the importer side is tracked separately (wordpress-importer#38).
+ * imported config; the importer side is tracked separately (wordpress-importer-archive#38).
  *
  * Evaluation mirrors Statamic's client-side semantics for the documented operators and
  * special values (empty / true / false / null); it does not bit-replicate the JS `eval`
