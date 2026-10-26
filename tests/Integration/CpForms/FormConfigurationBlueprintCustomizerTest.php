@@ -8,10 +8,11 @@ use Mockery\MockInterface;
 use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\CpForms\FieldDefinitions;
 use UAMSWeb\FormSettings\CpForms\FormConfigurationBlueprintCustomizer;
+use UAMSWeb\FormSettings\CpForms\FormConfigurationTabsInjector;
 
 uses(MockeryPHPUnitIntegration::class);
 
-covers(FormConfigurationBlueprintCustomizer::class);
+covers(FormConfigurationBlueprintCustomizer::class, FieldDefinitions::class, FormConfigurationTabsInjector::class);
 
 /**
  * Feature tests for FormConfigurationBlueprintCustomizer (UAMS email-grid and
@@ -215,3 +216,51 @@ it('adds no host-specific Bard button or site URL to the article and URL fields 
     expect($buttons())->toContain('bts_attributes')
         ->and(array_search('bts_attributes', $buttons(), true))->toBe(array_search('h6', $buttons(), true) + 1);
 });
+
+/**
+ * The article field's Bard buttons, in the order the field lists them.
+ *
+ * @return array<array-key, mixed>
+ */
+function articleBardButtons(): array
+{
+    $buttons = FieldDefinitions::article()['buttons'] ?? null;
+
+    return is_array($buttons) ? $buttons : [];
+}
+
+it('leaves out the Quiz Settings section when the quiz scoring setting is missing', function (): void {
+    $all = config('statamic-form-settings');
+    $remaining = is_array($all) ? array_diff_key($all, ['quiz_scoring' => true]) : [];
+    config(['statamic-form-settings' => $remaining]);
+
+    $out = app(FormConfigurationBlueprintCustomizer::class)->customizeBlueprintContents(
+        formConfigurationBlueprintCustomizerMinimalEmailTabContents(),
+        formConfigurationBlueprintCustomizerMockForm('quiz-form')
+    );
+
+    expect(config('statamic-form-settings.quiz_scoring'))->toBeNull()
+        ->and(json_encode($out))->not->toContain('quiz_grading')->not->toContain('quiz_pass_percent');
+});
+
+it('keeps only the string buttons of a configured list, as a list', function (): void {
+    config(['statamic-form-settings.article_bard_extra_buttons' => ['first' => 'custom_one', 'skip' => 42, 'second' => 'custom_two']]);
+
+    $buttons = articleBardButtons();
+
+    expect(array_is_list($buttons))->toBeTrue()
+        ->and(array_slice($buttons, 5, 2))->toBe(['custom_one', 'custom_two'])
+        ->and($buttons[7])->toBe('bold');
+});
+
+it('adds no Bard button when the extra buttons setting is missing or not a list', function (mixed $value): void {
+    $baseline = articleBardButtons();
+    config(['statamic-form-settings.article_bard_extra_buttons' => $value]);
+
+    expect(articleBardButtons())->toBe($baseline)
+        ->and(array_slice($baseline, 5, 1))->toBe(['bold']);
+})->with([
+    'a string' => ['bts_attributes'],
+    'null' => [null],
+    'only non-strings' => [[1, 2]],
+]);

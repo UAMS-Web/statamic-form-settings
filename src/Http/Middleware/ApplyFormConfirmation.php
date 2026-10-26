@@ -149,6 +149,9 @@ class ApplyFormConfirmation
     private function render(mixed $value, array $context): string
     {
         if (! \is_string($value)) {
+            // A non-empty fallback reaches the redirect guard, which refuses any text that is not an
+            // internal URL exactly as it refuses '', so the empty string cannot be told from another.
+            // @pest-mutate-ignore: EmptyStringToNotEmpty
             return '';
         }
 

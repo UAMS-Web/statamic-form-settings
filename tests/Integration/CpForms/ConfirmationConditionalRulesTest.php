@@ -152,3 +152,33 @@ it('falls back to the pages collection when none is configured', function (): vo
 
     expect($field['collections'])->toBe(['pages']);
 });
+
+it('falls back to the pages collection when the setting is missing', function (): void {
+    $all = config('statamic-form-settings');
+    $remaining = is_array($all) ? array_diff_key($all, ['confirmation_page_collections' => true]) : [];
+    config(['statamic-form-settings' => $remaining]);
+
+    $entry = mustBeStringKeyed((new ConfirmationSettingsFieldBuilder)->build(Confirmation::DEFAULT)['confirmation_page'] ?? null, 'confirmation_page');
+    $field = mustBeStringKeyed($entry['field'] ?? null, 'confirmation_page field');
+
+    expect(config('statamic-form-settings.confirmation_page_collections'))->toBeNull()
+        ->and($field['collections'])->toBe(['pages']);
+});
+
+it('offers only the string collection handles, as a list', function (): void {
+    config(['statamic-form-settings.confirmation_page_collections' => ['a' => 'news', 'b' => 7, 'c' => 'events']]);
+
+    $entry = mustBeStringKeyed((new ConfirmationSettingsFieldBuilder)->build(Confirmation::DEFAULT)['confirmation_page'] ?? null, 'confirmation_page');
+    $field = mustBeStringKeyed($entry['field'] ?? null, 'confirmation_page field');
+
+    expect($field['collections'])->toBe(['news', 'events']);
+});
+
+it('falls back to the pages collection when no configured handle is a string', function (): void {
+    config(['statamic-form-settings.confirmation_page_collections' => [1, 2]]);
+
+    $entry = mustBeStringKeyed((new ConfirmationSettingsFieldBuilder)->build(Confirmation::DEFAULT)['confirmation_page'] ?? null, 'confirmation_page');
+    $field = mustBeStringKeyed($entry['field'] ?? null, 'confirmation_page field');
+
+    expect($field['collections'])->toBe(['pages']);
+});
