@@ -230,3 +230,27 @@ it('reports the redirect inside a JSON response instead of replacing it', functi
     expect($response)->toBeInstanceOf(JsonResponse::class)
         ->and($response instanceof JsonResponse ? $response->getData(true) : null)->toBe(['success' => true, 'redirect' => '/thank-you']);
 });
+
+it('trims the whitespace around a configured redirect URL', function (): void {
+    $submission = confirmationMiddlewareSubmission(['confirmation_type' => 'redirect', 'confirmation_redirect_url' => "  /thank-you \n"]);
+    session()->flash('submission', $submission);
+
+    $response = runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    expect($response)->toBeInstanceOf(RedirectResponse::class)
+        ->and($response instanceof RedirectResponse ? $response->getTargetUrl() : null)->toBe(url('/thank-you'));
+});
+
+it('shows the message when the configured redirect URL is not text', function (): void {
+    $submission = confirmationMiddlewareSubmission([
+        'confirmation_type' => 'redirect',
+        'confirmation_redirect_url' => ['not', 'text'],
+        'confirmation_message' => 'Thanks',
+    ]);
+    session()->flash('submission', $submission);
+
+    $response = runConfirmationMiddleware(confirmationSubmitRequest($submission));
+
+    expect($response)->not->toBeInstanceOf(RedirectResponse::class)
+        ->and(confirmationFlashedMessage($submission))->toBe('Thanks');
+});

@@ -86,3 +86,27 @@ it('lists the quiz and survey merge tags only when quiz scoring is on', function
         ? expect($instructions)->toContain('quiz:grade')->toContain('survey:score')
         : expect($instructions)->not->toContain('quiz')->not->toContain('survey');
 })->with([true, false]);
+
+it('treats a missing quiz scoring setting as off', function (): void {
+    $all = config('statamic-form-settings');
+    $remaining = is_array($all) ? array_diff_key($all, ['quiz_scoring' => true]) : [];
+    config(['statamic-form-settings' => $remaining]);
+
+    expect(config('statamic-form-settings.quiz_scoring'))->toBeNull()
+        ->and(emailTabRecipientInstructions())->toContain('{{ today format=')->not->toContain('quiz')->not->toContain('survey');
+});
+
+it('adds nothing but the quiz and survey lines when quiz scoring is on', function (): void {
+    $withoutQuizLines = static fn (string $text): string => implode("\n", array_filter(
+        explode("\n", $text),
+        static fn (string $line): bool => ! str_contains($line, 'quiz') && ! str_contains($line, 'survey'),
+    ));
+
+    config(['statamic-form-settings.quiz_scoring' => true]);
+    $on = emailTabRecipientInstructions();
+    config(['statamic-form-settings.quiz_scoring' => false]);
+    $off = emailTabRecipientInstructions();
+
+    expect($off)->not->toBe($on)
+        ->and($off)->toBe($withoutQuizLines($on));
+});
