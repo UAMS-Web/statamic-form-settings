@@ -10,7 +10,7 @@ covers(FieldConditionEvaluator::class);
 /**
  * Behavior of {@see FieldConditionEvaluator}: the presence checks the CP form settings
  * filters use to decide which stored values to keep, and the field-visibility check
- * against the posted values (UAMS-Web/uams-statamic#3089).
+ * against the posted values (UAMS-Web/uams-statamic-archive#3089).
  *
  * @command  vendor/bin/pest tests/Integration/CpForms/FieldConditionEvaluatorTest.php
  */

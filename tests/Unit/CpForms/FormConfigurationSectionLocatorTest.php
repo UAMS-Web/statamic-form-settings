@@ -6,7 +6,7 @@ use UAMSWeb\FormSettings\CpForms\FormConfigurationSectionLocator;
 
 /**
  * Behavior of {@see FormConfigurationSectionLocator}: finding a section of the Statamic 6 CP
- * form-configuration blueprint by the handle of a field it carries (UAMS-Web/uams-statamic#3089).
+ * form-configuration blueprint by the handle of a field it carries (UAMS-Web/uams-statamic-archive#3089).
  *
  * @command  vendor/bin/pest tests/Unit/CpForms/FormConfigurationSectionLocatorTest.php
  */

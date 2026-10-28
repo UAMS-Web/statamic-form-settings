@@ -10,9 +10,9 @@ use UAMSWeb\FormSettings\Support\ConditionalLogicEvaluator;
  * (and, later, a confirmation) on its stored `conditional_logic` config, both the CP
  * map form `{field: "operator value"}` and the imported list form
  * `[{field, operator, value}]`, across the if / if_any / unless / unless_any keys and the
- * Statamic operator + special-value set (UAMS-Web/uams-statamic#202).
+ * Statamic operator + special-value set (UAMS-Web/uams-statamic-archive#202).
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41, run with
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41, run with
  * FormConfirmationResolverMutationTest): 265 mutants, 199 reported tested and all killed,
  * 0 surviving. The other 66 are on the three class constants and the `match (true)` line,
  * which PCOV cannot line-cover, so Pest reports them uncovered; each was applied by hand
@@ -169,7 +169,7 @@ it('supports contains_any against a comma-separated set', function (mixed $lhs, 
 
 it('reads includes_any as membership and contains_any as a substring (statamic/cms 6.35.0)', function (string $operator, mixed $lhs, bool $expected): void {
     // The same value against the same options: `includes_any` needs the whole value to be one of
-    // them, `contains_any` only needs one of them to appear inside it (UAMS-Web/uams-statamic#2805).
+    // them, `contains_any` only needs one of them to appear inside it (UAMS-Web/uams-statamic-archive#2805).
     $config = ['if' => ['tag' => "{$operator} 5,vip, staff"]];
 
     expect(evaluatorPasses($config, ['tag' => $lhs]))->toBe($expected);
@@ -241,7 +241,7 @@ it('reads a list of conditions on one field as separate conditions', function (s
 it('reads an empty list on one field as the public evaluator does', function (string $key, array $conditions, bool $expected): void {
     // `{field: []}` yields no conditions. The public evaluator still applies its logic to
     // them (ALL of none passes, ANY of none fails) and then the key's inversion, rather than
-    // treating the group as absent (UAMS-Web/uams-statamic#2889). The value of the field makes no difference.
+    // treating the group as absent (UAMS-Web/uams-statamic-archive#2889). The value of the field makes no difference.
     $config = [$key => $conditions];
 
     expect(evaluatorPasses($config, ['f' => 'vip', 'g' => 'vip']))->toBe($expected);
@@ -262,7 +262,7 @@ it('reads an empty list on one field as the public evaluator does', function (st
 it('reads an empty group as the public evaluator does', function (string $key, bool $expected): void {
     // `[]` and `{}` both parse to an empty array. The public page reads either as a group with
     // no conditions and applies its logic to it (ALL of none passes, ANY of none fails), then
-    // the key's inversion, the same as a field map of empty lists (UAMS-Web/uams-statamic#2889, UAMS-Web/uams-statamic#2895). The value of
+    // the key's inversion, the same as a field map of empty lists (UAMS-Web/uams-statamic-archive#2889, UAMS-Web/uams-statamic-archive#2895). The value of
     // the field makes no difference.
     $fromYaml = Yaml::parse("{$key}: {}");
 
@@ -403,7 +403,7 @@ it('gates form notifications independently, each config evaluated against the sa
 });
 
 // ---
-// Branch-level coverage (UAMS-Web/uams-statamic#3089): each case below pins one decision the evaluator makes, so the
+// Branch-level coverage (UAMS-Web/uams-statamic-archive#3089): each case below pins one decision the evaluator makes, so the
 // class can move to the form settings add-on mutation-clean.
 // ---
 

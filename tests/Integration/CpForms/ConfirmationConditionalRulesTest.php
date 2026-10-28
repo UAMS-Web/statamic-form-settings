@@ -7,7 +7,7 @@ use UAMSWeb\FormSettings\Tests\Support\ConfirmationSettingsValidation as Confirm
 
 /*
  * Guards the confirmation settings' conditional rules against the nested Control Panel blueprint
- * (UAMS-Web/uams-statamic#3162). The fields sit in a group, so a rule naming its companion by bare handle resolved to
+ * (UAMS-Web/uams-statamic-archive#3162). The fields sit in a group, so a rule naming its companion by bare handle resolved to
  * nothing: `required_if` passed every save and `exclude_unless` dropped every setting. Each rule
  * now names its companion by the full path the save submits, in the default group and in an
  * additional confirmation alike.

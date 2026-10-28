@@ -3,7 +3,7 @@ import { ALIASES, KEYS, OPERATORS } from './Constants.js';
 
 /**
  * Pins the local copy of Statamic's field-conditions constants (synced from
- * statamic/cms 6.35.0) that the form conditional-logic builder reads (UAMS-Web/uams-statamic#3089).
+ * statamic/cms 6.35.0) that the form conditional-logic builder reads (UAMS-Web/uams-statamic-archive#3089).
  * A change here is a deliberate resync, not drift.
  */
 describe('field-conditions Constants (synced with statamic/cms 6.35.0)', () => {

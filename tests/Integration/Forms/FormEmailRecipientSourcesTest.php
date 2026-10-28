@@ -16,7 +16,7 @@ use Symfony\Component\Mime\Email;
 /**
  * End-to-end proof that a notification's TO/CC/BCC recipients resolve from the configured
  * source (literal email, a submitted field, or conditional routing) when the form is
- * submitted (UAMS-Web/uams-statamic#201).
+ * submitted (UAMS-Web/uams-statamic-archive#201).
  *
  * @covers \UAMSWeb\FormSettings\Support\RecipientResolver
  * @covers \UAMSWeb\FormSettings\Jobs\SendFormNotification

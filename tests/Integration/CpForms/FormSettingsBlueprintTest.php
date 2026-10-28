@@ -17,7 +17,7 @@ uses(MockeryPHPUnitIntegration::class);
 
 /**
  * The CP form settings blueprint the app's controller builds on the shape
- * `statamic/cms` 6 emits (UAMS-Web/uams-statamic#3082).
+ * `statamic/cms` 6 emits (UAMS-Web/uams-statamic-archive#3082).
  *
  * Core returns one tab holding a positional list of sections and discards the
  * keys it built them under, so customization gated on a `tabs.name` or
@@ -73,7 +73,7 @@ function formSettingsBlueprintErrors(array $values): array
 }
 
 /**
- * A default confirmation that satisfies its conditional rules (UAMS-Web/uams-statamic#3162): the type defaults to a
+ * A default confirmation that satisfies its conditional rules (UAMS-Web/uams-statamic-archive#3162): the type defaults to a
  * message, which a save must then supply.
  *
  * @return array<string, mixed>
@@ -172,7 +172,7 @@ it('refuses a recipient source without its value and accepts it once supplied', 
 
     $values = ['title' => 'Probe', ...formSettingsBlueprintValidConfirmation()];
 
-    // Check the empty value is reported on its own row (UAMS-Web/uams-statamic#3162)
+    // Check the empty value is reported on its own row (UAMS-Web/uams-statamic-archive#3162)
     expect(array_keys(formSettingsBlueprintErrors([...$values, 'email' => [$row]])))->toBe(['email.0.'.$column]);
 
     // Check the same row passes once the value is supplied

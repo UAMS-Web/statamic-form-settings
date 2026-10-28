@@ -10,7 +10,7 @@ use UAMSWeb\FormSettings\Fieldtypes\Traits\FormBlueprintContext;
 /**
  * Behavior of the {@see FormBlueprintContext} trait: deciding whether a fieldtype is
  * being configured inside a form blueprint, from the request and then from the field's
- * parent (UAMS-Web/uams-statamic#3089).
+ * parent (UAMS-Web/uams-statamic-archive#3089).
  *
  * @command  vendor/bin/pest tests/Integration/Fieldtypes/Traits/FormBlueprintContextTest.php
  */

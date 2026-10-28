@@ -7,12 +7,12 @@ namespace UAMSWeb\FormSettings\Support;
 use Statamic\Forms\Form;
 
 /**
- * Selects which confirmation a form submission should produce (UAMS-Web/uams-statamic#203).
+ * Selects which confirmation a form submission should produce (UAMS-Web/uams-statamic-archive#203).
  *
  * A form carries a default confirmation (`confirmation_settings_default`) plus an ordered list of
  * additional confirmations (`confirmation_additional`), each a `{confirmation_settings, conditional_logic}`
  * set. The first additional confirmation whose conditional logic passes against the submitted values
- * wins (reusing {@see ConditionalLogicEvaluator}, the UAMS-Web/uams-statamic#202 engine); otherwise the default applies.
+ * wins (reusing {@see ConditionalLogicEvaluator}, the UAMS-Web/uams-statamic-archive#202 engine); otherwise the default applies.
  *
  * {@see self::resolve()} returns the chosen confirmation-settings array (`{confirmation_type,
  * confirmation_message, confirmation_redirect_url, confirmation_page, confirmation_query_string, …}`)

@@ -8,7 +8,7 @@ use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\CpForms\FormConfigurationBlueprintCustomizer;
 
 /**
- * The complete CP form settings tree the app's customization produces (UAMS-Web/uams-statamic#3089).
+ * The complete CP form settings tree the app's customization produces (UAMS-Web/uams-statamic-archive#3089).
  *
  * The injected sections and the email grid's extra fields are literal blueprint
  * structure: labels, instructions, conditions, validation rules and defaults.

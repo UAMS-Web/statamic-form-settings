@@ -8,7 +8,7 @@ use UAMSWeb\FormSettings\CpForms\EmailGridBlueprintCustomizer;
 
 /**
  * Resolves a form email notification's TO / CC / BCC / Reply-To recipients from the
- * configured recipient source (UAMS-Web/uams-statamic#201).
+ * configured recipient source (UAMS-Web/uams-statamic-archive#201).
  *
  * Each recipient kind carries a `{kind}_type` selector: `email`, `field`, or `routing`
  * (added to the CP email grid by {@see EmailGridBlueprintCustomizer}

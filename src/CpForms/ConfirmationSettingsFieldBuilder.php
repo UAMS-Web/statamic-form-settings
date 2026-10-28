@@ -13,7 +13,7 @@ namespace UAMSWeb\FormSettings\CpForms;
  * so both call sites stay in sync.
  *
  * Both places nest the fields in a `group`, and a conditional rule's companion field must be
- * named by its full path in the submitted data (UAMS-Web/uams-statamic#3162). Statamic substitutes `{this}.` with the
+ * named by its full path in the submitted data (UAMS-Web/uams-statamic-archive#3162). Statamic substitutes `{this}.` with the
  * validation prefix the group's children receive, which is the group's own parent prefix: empty
  * for the default group, and `confirmation_additional.<index>.` inside the replicator. The group
  * handle is not part of it, so each rule names the group after the token, and

@@ -24,9 +24,9 @@ use UAMSWeb\FormSettings\Support\NullSubmissionContext;
  * makes between building the job and handing the mailable to a mailer is asserted on its own:
  * capturing and applying the bound submission context, skipping a blank TO, dropping a blank CC/BCC/Reply-To,
  * choosing the mailer, reading the Active toggle, and naming the notification in the skip log.
- * The submit-flow behavior is pinned end to end by the FormEmail* feature tests (UAMS-Web/uams-statamic#3089).
+ * The submit-flow behavior is pinned end to end by the FormEmail* feature tests (UAMS-Web/uams-statamic-archive#3089).
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41, with the five FormEmail* feature tests that
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41, with the five FormEmail* feature tests that
  * cover the class): 55 mutants, all killed, no annotations. An `is_bool` branch in the Active
  * toggle read that changed nothing beside the `(bool)` fallback was deleted.
  *

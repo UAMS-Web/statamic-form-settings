@@ -12,7 +12,7 @@ use UAMSWeb\FormSettings\Features;
 use UAMSWeb\FormSettings\Support\FormRestrictions;
 
 /**
- * Rejects a form submission server-side when the form's restrictions block it (UAMS-Web/uams-statamic#205).
+ * Rejects a form submission server-side when the form's restrictions block it (UAMS-Web/uams-statamic-archive#205).
  *
  * `Statamic\Events\FormSubmitted` fires inside `FormController::submit()` before the submission
  * is stored or emails dispatched, and the controller wraps that dispatch in a `try/catch` for

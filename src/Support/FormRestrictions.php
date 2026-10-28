@@ -13,7 +13,7 @@ use UAMSWeb\FormSettings\Listeners\EnforceFormRestrictions;
 
 /**
  * Evaluates a form's custom restrictions (entry limit, schedule window, and require-login)
- * against the current state (UAMS-Web/uams-statamic#205).
+ * against the current state (UAMS-Web/uams-statamic-archive#205).
  *
  * The restriction config (added to the form blueprint to receive imported Gravity Forms /
  * Formidable settings) lives on the form: `require_login_query`, `schedule_form_query` +

@@ -1,7 +1,7 @@
 /*
  * Control Panel styles for the add-on.
  *
- * The form settings subsection heading (UAMS-Web/uams-statamic#3072). The Control Panel
+ * The form settings subsection heading (UAMS-Web/uams-statamic#263). The Control Panel
  * wraps a field in `<component>-fieldtype`, so the class follows the fieldtype's handle.
  * The rules are the site's subsection styles as Tailwind compiled them, written as plain
  * CSS because the add-on builds no Tailwind. `.grid` is the fieldtype in a grid layout,

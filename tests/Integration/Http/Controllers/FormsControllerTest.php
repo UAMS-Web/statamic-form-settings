@@ -491,7 +491,7 @@ it('saves a value passing an appended config field rule', function (): void {
 it("serves this controller wherever the container builds Statamic's forms controller", function (): void {
     // FormEmailFieldsServiceProvider binds the replacement; without it the CP routes resolve core's controller.
     // The binding runs at boot, before PCOV records coverage, so Pest reports its one mutant uncovered;
-    // removing the bind by hand turns this test red (UAMS-Web/uams-statamic#3089).
+    // removing the bind by hand turns this test red (UAMS-Web/uams-statamic-archive#3089).
     $binding = mustBeArray(app()->getBindings()[Statamic\Http\Controllers\CP\Forms\FormsController::class] ?? [], 'binding')['concrete'] ?? null;
 
     $binding = mustBe(Closure::class, $binding, 'binding');

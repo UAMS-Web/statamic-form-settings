@@ -6,16 +6,16 @@ use UAMSWeb\FormSettings\CpForms\ConfirmationSettingsFieldBuilder;
 use UAMSWeb\FormSettings\Tests\Support\ConfirmationSettingsValidation as Confirmation;
 
 /*
- * Guards the conditional rule on the confirmation query-string field (UAMS-Web/uams-statamic#3101,
- * UAMS-Web/uams-statamic#3161). Laravel's `exclude_unless` takes a comma-separated value list, so
+ * Guards the conditional rule on the confirmation query-string field (UAMS-Web/uams-statamic-archive#3101,
+ * UAMS-Web/uams-statamic-archive#3161). Laravel's `exclude_unless` takes a comma-separated value list, so
  * `redirect|entry` inside an array-form rule was one literal value that no
- * confirmation type equals. The field is optional by decision (UAMS-Web/uams-statamic#3161): it is
+ * confirmation type equals. The field is optional by decision (UAMS-Web/uams-statamic-archive#3161): it is
  * kept for the two destination types, dropped for the others, and an empty
  * value passes, so it carries no `required_if`.
  *
  * These run against the nested Control Panel blueprint, in the default group
  * and in an additional confirmation, where the rule names the confirmation type
- * by its full path (UAMS-Web/uams-statamic#3162).
+ * by its full path (UAMS-Web/uams-statamic-archive#3162).
  *
  * @command  vendor/bin/pest tests/Integration/CpForms/ConfirmationQueryStringRulesTest.php
  */

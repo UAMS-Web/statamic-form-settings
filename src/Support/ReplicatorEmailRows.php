@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace UAMSWeb\FormSettings\Support;
 
 /**
- * Turns a replicator's submitted rows into labelled set blocks for notification emails (UAMS-Web/uams-statamic#2055).
+ * Turns a replicator's submitted rows into labelled set blocks for notification emails (UAMS-Web/uams-statamic-archive#2055).
  *
  * Statamic's automagic email template has no replicator branch, so a replicator falls through
  * to `{{ value | json | sanitize }}` and reaches the recipient as an escaped JSON array carrying
- * internal `id`/`type`/`enabled` keys and no subfield labels at all (UAMS-Web/uams-statamic#2051). This class supplies
+ * internal `id`/`type`/`enabled` keys and no subfield labels at all (UAMS-Web/uams-statamic-archive#2051). This class supplies
  * the missing shape: one block per set, each carrying the set's display label and its subfields
  * as label/value pairs.
  *

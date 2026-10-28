@@ -16,9 +16,9 @@ use UAMSWeb\FormSettings\Http\Middleware\ApplyFormConfirmation;
  * response, so each branch is asserted without a full submit: which requests it acts on, which
  * flashed submission it trusts, how it builds the redirect URL and its query string, and how it
  * reports a redirect to a JSON (XHR) submit. The submit flow itself is pinned end to end by
- * FormConfirmationTest (UAMS-Web/uams-statamic#3089).
+ * FormConfirmationTest (UAMS-Web/uams-statamic-archive#3089).
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41, with FormConfirmationTest and
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41, with FormConfirmationTest and
  * QuizSurveyConfirmationRenderTest): 83 mutants, all killed. The equivalents are annotated
  * `@pest-mutate-ignore` in the class, each with its reason: the flash-list cast and strict flag,
  * the early return with no settings, the type list's strict flag, the form-handle cast, the entry

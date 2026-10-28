@@ -34,7 +34,7 @@ use UAMSWeb\FormSettings\Fieldtypes\FormConditionalLogic;
  * default-visible behavior. An empty group is read differently: `[]`, `{}`, and a field map
  * whose every entry is an empty list (`{field: []}`) are evaluated as the public page
  * evaluates them, where they yield no conditions and ALL of none passes while ANY of none
- * fails, before the key's inversion (UAMS-Web/uams-statamic#2889, UAMS-Web/uams-statamic#2895). This is the runtime that consumes the
+ * fails, before the key's inversion (UAMS-Web/uams-statamic-archive#2889, UAMS-Web/uams-statamic-archive#2895). This is the runtime that consumes the
  * imported config; the importer side is tracked separately (wordpress-importer-archive#38).
  *
  * Evaluation mirrors Statamic's client-side semantics for the documented operators and
@@ -131,7 +131,7 @@ final class ConditionalLogicEvaluator
      * Whether a single `{field, operator, value}` rule matches the submitted values.
      *
      * Reuses the same operator + special-value semantics as {@see self::passes()}; used by
-     * recipient routing (UAMS-Web/uams-statamic#201), where each routing row is exactly one such rule.
+     * recipient routing (UAMS-Web/uams-statamic-archive#201), where each routing row is exactly one such rule.
      *
      * @param  array<string, mixed>  $rule  A `{field, operator, value}` rule (extra keys ignored).
      * @param  array<string, mixed>  $values  The submitted field values, keyed by handle.
@@ -167,7 +167,7 @@ final class ConditionalLogicEvaluator
 
         // An empty group (`[]` or `{}`) and a field map whose lists are all empty yield no
         // conditions, and the public evaluator still applies its ALL/ANY logic and inversion
-        // to none, so both fall through to the same steps below (UAMS-Web/uams-statamic#2889, UAMS-Web/uams-statamic#2895). Anything else
+        // to none, so both fall through to the same steps below (UAMS-Web/uams-statamic-archive#2889, UAMS-Web/uams-statamic-archive#2895). Anything else
         // that yields none (a null or scalar group, a custom JS string condition that cannot run
         // server-side, or rules that all name no field) passes.
         if ($normalized === [] && ! $this->isEmptyGroup($conditions)) {
@@ -184,7 +184,7 @@ final class ConditionalLogicEvaluator
         );
 
         // ALL: no result is false. ANY: at least one result is true. Each annotation sits on a
-        // strict flag alone, so the ANY needle stays in the mutation population (UAMS-Web/uams-statamic#3147).
+        // strict flag alone, so the ANY needle stays in the mutation population (UAMS-Web/uams-statamic-archive#3147).
         $passes = $passOnAny
             ? \in_array(
                 true,

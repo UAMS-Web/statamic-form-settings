@@ -18,11 +18,11 @@ use Statamic\Forms\Form;
  * class together with FormConfigurationTabsInjector.
  *
  * The finished columns are also given to the `email` grid of each `site_overrides` row, the
- * section the multisite forms add-on appends (UAMS-Web/uams-statamic#3152, UAMS-Web/uams-statamic#3164). An override row replaces the form's
+ * section the multisite forms add-on appends (UAMS-Web/uams-statamic-archive#3152, UAMS-Web/uams-statamic-archive#3164). An override row replaces the form's
  * emails on its site, so it offers exactly the base row's columns, in the same order, whatever
  * adds a column to the base grid.
  *
- * A recipient field's rules name its type field as `{this}.<kind>_type` (UAMS-Web/uams-statamic#3162): Statamic
+ * A recipient field's rules name its type field as `{this}.<kind>_type` (UAMS-Web/uams-statamic-archive#3162): Statamic
  * substitutes the token with the row's own path, such as `email.0.`, so the rule reads the type
  * chosen on the same row, in the base grid and in an override row alike.
  */
@@ -593,7 +593,7 @@ final class EmailGridBlueprintCustomizer
     /**
      * Append recipient-config and merge-tag instructions to the email grid.
      *
-     * Documents role-key recipients (UAMS-Web/uams-statamic#2745) and the catalogue of available
+     * Documents role-key recipients (UAMS-Web/uams-statamic-archive#2745) and the catalogue of available
      * merge tags so editors see both where they configure notifications.
      *
      * @param  array<string, mixed>  &$emailField  The email grid entry (passed by reference)
@@ -611,7 +611,7 @@ final class EmailGridBlueprintCustomizer
                 ? (string) $fieldDef['instructions']
                 : '';
 
-            // Document how recipients are set (UAMS-Web/uams-statamic#2818) before the merge-tag
+            // Document how recipients are set (UAMS-Web/uams-statamic-archive#2818) before the merge-tag
             // catalogue: form configurations live in the private forms
             // submodule, so a real address can go directly into To.
             $recipientsInstruction = "\n\n**Notification recipients:**\n".

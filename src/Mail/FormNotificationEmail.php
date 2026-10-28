@@ -32,21 +32,21 @@ use UAMSWeb\FormSettings\Support\SubmittedFieldDisplay;
  *
  * It also guards the parent's config parsing against non-string values: the project's
  * email config carries control keys that are arrays/bools (the `conditional_logic` array
- * for UAMS-Web/uams-statamic#202, the recipient routing arrays for UAMS-Web/uams-statamic#201, the `enabled` toggle for UAMS-Web/uams-statamic#204), and the
+ * for UAMS-Web/uams-statamic-archive#202, the recipient routing arrays for UAMS-Web/uams-statamic-archive#201, the `enabled` toggle for UAMS-Web/uams-statamic-archive#204), and the
  * parent maps `Parse::env()` (a `str_contains`) over every config value, which would crash
  * on a non-string. {@see self::parseConfig()} renders only the string fields and passes the
  * rest through untouched.
  *
  * It also makes the custom Assets fieldtype's per-field `attach_to_email` toggle the single
- * source of truth for which uploads attach (UAMS-Web/uams-statamic#196): {@see self::addAttachments()} hides
+ * source of truth for which uploads attach (UAMS-Web/uams-statamic-archive#196): {@see self::addAttachments()} hides
  * un-flagged Assets fields from the parent's (notification-gated) attachment pass.
  *
- * And it sends the email row's `message` as the body (UAMS-Web/uams-statamic#3149): {@see self::build()} renders
+ * And it sends the email row's `message` as the body (UAMS-Web/uams-statamic-archive#3149): {@see self::build()} renders
  * the row's Bard message with the submission's merge tags into the HTML part and a plain-text
  * part, and keeps Statamic's field list only when the message is empty.
  *
  * Swapped in for the base mailable by UAMSWeb\FormSettings\Jobs\SendFormNotification, which
- * the `statamic.forms.send_email_job` config points at. Settles issues UAMS-Web/uams-statamic#213, UAMS-Web/uams-statamic#196.
+ * the `statamic.forms.send_email_job` config points at. Settles issues UAMS-Web/uams-statamic-archive#213, UAMS-Web/uams-statamic-archive#196.
  */
 final class FormNotificationEmail extends Email
 {
@@ -108,10 +108,10 @@ final class FormNotificationEmail extends Email
     }
 
     /**
-     * Attach readable set blocks to every replicator field so the email can render them (UAMS-Web/uams-statamic#2055).
+     * Attach readable set blocks to every replicator field so the email can render them (UAMS-Web/uams-statamic-archive#2055).
      *
      * Statamic's automagic template has no replicator branch, so a replicator falls through to
-     * `{{ value | json | sanitize }}` and reaches the recipient as escaped JSON (UAMS-Web/uams-statamic#2051). The
+     * `{{ value | json | sanitize }}` and reaches the recipient as escaped JSON (UAMS-Web/uams-statamic-archive#2051). The
      * add-on's template override in `resources/views/forms/automagic-email.antlers.html`
      * consumes the `email_rows` added here; every other fieldtype is passed through untouched.
      *
@@ -180,7 +180,7 @@ final class FormNotificationEmail extends Email
     }
 
     /**
-     * Attach uploads honoring each Assets field's `attach_to_email` opt-in (UAMS-Web/uams-statamic#196).
+     * Attach uploads honoring each Assets field's `attach_to_email` opt-in (UAMS-Web/uams-statamic-archive#196).
      *
      * The parent gates on the notification's `attachments` toggle (which selects *which*
      * notifications carry attachments) and then attaches every `assets`/`files` field's
@@ -309,7 +309,7 @@ final class FormNotificationEmail extends Email
     }
 
     /**
-     * Replace the field-list view with the row's rendered `message`, when it holds text (UAMS-Web/uams-statamic#3149).
+     * Replace the field-list view with the row's rendered `message`, when it holds text (UAMS-Web/uams-statamic-archive#3149).
      *
      * A row with its own `html` or `text` template keeps that template, and a row whose message
      * is empty keeps Statamic's field list, so only a written message changes what is sent. The

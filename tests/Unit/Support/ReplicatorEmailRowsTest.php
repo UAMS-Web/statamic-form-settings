@@ -7,14 +7,14 @@ use UAMSWeb\FormSettings\Support\ReplicatorEmailRows;
 /**
  * Behavior of ReplicatorEmailRows (src/Support/ReplicatorEmailRows.php): the
  * transformation that turns a replicator's raw submitted rows into labelled set blocks
- * for notification emails (UAMS-Web/uams-statamic#2055), replacing the escaped-JSON blob Statamic's automagic
- * template produced (UAMS-Web/uams-statamic#2051).
+ * for notification emails (UAMS-Web/uams-statamic-archive#2055), replacing the escaped-JSON blob Statamic's automagic
+ * template produced (UAMS-Web/uams-statamic-archive#2051).
  *
  * The rows arrive raw rather than augmented, so option keys and booleans are resolved here
  * from the blueprint config. These cases pin the mapping rules, the internal-key suppression,
  * and the deliberate JSON fallback for nested replicators.
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41): 128 mutants, 120 reported tested and all
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41): 128 mutants, 120 reported tested and all
  * killed, 0 surviving. Three further mutants are equivalents, annotated `@pest-mutate-ignore` and
  * so not counted, each with its reason above the marker in the class:
  *

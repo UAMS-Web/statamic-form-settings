@@ -6,7 +6,7 @@ use UAMSWeb\FormSettings\Support\EmailMessageBody;
 
 /**
  * Behavior of EmailMessageBody (src/Support/EmailMessageBody.php): an email row's Bard
- * `message` rendered as a notification body, and the plain-text part derived from it (UAMS-Web/uams-statamic#3149).
+ * `message` rendered as a notification body, and the plain-text part derived from it (UAMS-Web/uams-statamic-archive#3149).
  *
  * @command  vendor/bin/pest tests/Integration/Forms/EmailMessageBodyTest.php
  */

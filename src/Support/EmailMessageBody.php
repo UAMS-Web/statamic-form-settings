@@ -8,9 +8,9 @@ use Statamic\Facades\Antlers;
 use Statamic\Fieldtypes\Bard;
 
 /**
- * Renders an email row's Bard `message` as the body of a form notification (UAMS-Web/uams-statamic#3149).
+ * Renders an email row's Bard `message` as the body of a form notification (UAMS-Web/uams-statamic-archive#3149).
  *
- * The row's `message` is the editor-written notification body (UAMS-Web/uams-statamic#3094): text with merge tags such
+ * The row's `message` is the editor-written notification body (UAMS-Web/uams-statamic-archive#3094): text with merge tags such
  * as `{{ submission:<handle> }}` and `{{ all_fields }}`. This class turns the stored Bard document
  * into HTML, parses its merge tags against a context the caller supplies, and derives the plain
  * text part from the result.

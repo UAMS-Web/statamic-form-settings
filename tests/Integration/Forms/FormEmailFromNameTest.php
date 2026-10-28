@@ -16,7 +16,7 @@ use Symfony\Component\Mime\Email;
 
 /**
  * Proves the email config's `from_name` field reaches the rendered `From:` header
- * under the project's synchronous rendering mode (issue UAMS-Web/uams-statamic#213).
+ * under the project's synchronous rendering mode (issue UAMS-Web/uams-statamic-archive#213).
  *
  * A form is submitted over HTTP with a `from_name` that references a submitted
  * field; the rendered notification's From header is read straight off the captured

@@ -15,7 +15,7 @@ use Symfony\Component\Mime\Email;
 use UAMSWeb\FormSettings\Tests\TestCase;
 
 /**
- * Proves the email row's `message` is sent as the notification body (UAMS-Web/uams-statamic#3149, decided on UAMS-Web/uams-statamic#3094).
+ * Proves the email row's `message` is sent as the notification body (UAMS-Web/uams-statamic-archive#3149, decided on UAMS-Web/uams-statamic-archive#3094).
  *
  * A form is submitted over HTTP and the captured Symfony message is read back. The cases are
  * the ticket's: text with a `{{ submission:<handle> }}` tag, an empty message that keeps

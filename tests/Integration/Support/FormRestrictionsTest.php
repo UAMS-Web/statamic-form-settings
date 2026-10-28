@@ -10,10 +10,10 @@ use UAMSWeb\FormSettings\Support\FormRestrictions;
 
 /**
  * Behavior of {@see FormRestrictions}: require-login, schedule window, and entry-limit
- * evaluation against the current state (UAMS-Web/uams-statamic#205). Limit-reached (which needs stored submissions)
+ * evaluation against the current state (UAMS-Web/uams-statamic-archive#205). Limit-reached (which needs stored submissions)
  * is exercised end-to-end in FormRestrictionsEnforcementTest.
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41, with FormRestrictionsEnforcementTest,
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41, with FormRestrictionsEnforcementTest,
  * FormRestrictionTagTest and EnforceFormRestrictionsMutationTest): 72 mutants, all killed. Two
  * equivalents are annotated `@pest-mutate-ignore` with their reasons in the class: the
  * `CarbonInterface` check on a submission date, and the zeros in the limit coercion. Two branches
@@ -178,7 +178,7 @@ it('is open when the entry limit is configured but not yet reached (no stored su
 
 /**
  * A form whose stored submissions are the given items, so the entry-limit count can be driven
- * directly instead of through the submissions store (UAMS-Web/uams-statamic#3089).
+ * directly instead of through the submissions store (UAMS-Web/uams-statamic-archive#3089).
  *
  * @param  array<string, mixed>  $config
  * @param  list<mixed>  $submissions

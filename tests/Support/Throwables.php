@@ -8,7 +8,7 @@ if (! function_exists('throwableFrom')) {
      *
      * The idiom this exists to replace is `expect(fn () => …)->not->toThrow(…)`,
      * which is unsafe for a "nothing went wrong" assertion in two independent ways
-     * (UAMS-Web/uams-statamic#1759):
+     * (UAMS-Web/uams-statamic-archive#1759):
      *
      * 1. **It passes on the wrong throwable.** `not->toThrow(X)` inverts a `toThrow(X)`
      *    that fails its `assertInstanceOf`, so a throwable that is *not* an `X` reads

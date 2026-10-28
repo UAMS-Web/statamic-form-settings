@@ -11,7 +11,7 @@ use Statamic\Forms\Form;
 use Statamic\Stache\Stores\Store;
 
 /**
- * Proves form restrictions are enforced server-side at submit time (UAMS-Web/uams-statamic#205): a POST that
+ * Proves form restrictions are enforced server-side at submit time (UAMS-Web/uams-statamic-archive#205): a POST that
  * violates the entry limit, schedule window, or require-login is rejected (not stored), with
  * the configured closed-state message, even against a direct POST.
  *

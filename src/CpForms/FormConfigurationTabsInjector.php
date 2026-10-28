@@ -387,7 +387,7 @@ final readonly class FormConfigurationTabsInjector
             'end'
         );
 
-        // Create the quiz settings section (UAMS-Web/uams-statamic#1146). Drives the {{ quiz:grade }} /
+        // Create the quiz settings section (UAMS-Web/uams-statamic-archive#1146). Drives the {{ quiz:grade }} /
         // {{ quiz:passfail }} merge tags via QuizScorer, which reads the
         // quiz_pass_percent integer and the quiz_grades [{text, value}] rows.
         $quizSettingsSection = [

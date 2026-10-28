@@ -11,7 +11,7 @@ use UAMSWeb\FormSettings\Support\SubmittedFieldDisplay;
 
 /**
  * Behavior of SubmittedFieldDisplay (src/Support/SubmittedFieldDisplay.php): one submitted
- * field rendered as the escaped HTML a notification email shows for it (UAMS-Web/uams-statamic#3149).
+ * field rendered as the escaped HTML a notification email shows for it (UAMS-Web/uams-statamic-archive#3149).
  *
  * The form-level tests in tests/Integration/Forms/EmailMessageBodyTest.php reach these branches through a real send;
  * these cases pin each branch and the emptiness rule directly.

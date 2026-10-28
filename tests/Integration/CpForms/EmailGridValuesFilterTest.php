@@ -8,7 +8,7 @@ covers(EmailGridValuesFilter::class);
 
 /**
  * Behavior of {@see EmailGridValuesFilter}: which columns of each email grid row are
- * stored when the CP form settings are saved (UAMS-Web/uams-statamic#3089).
+ * stored when the CP form settings are saved (UAMS-Web/uams-statamic-archive#3089).
  *
  * @command  vendor/bin/pest tests/Integration/CpForms/EmailGridValuesFilterTest.php
  */
