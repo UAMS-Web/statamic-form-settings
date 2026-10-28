@@ -6,10 +6,10 @@ use Statamic\Facades\Form as FormFacade;
 use Statamic\Forms\Form;
 
 /**
- * Control-flow type narrowing for the test suite (UAMS-Web/uams-statamic#1865).
+ * Control-flow type narrowing for the test suite (UAMS-Web/uams-statamic-archive#1865).
  *
  * The suites narrowed types for PHPStan with `\assert(...)`: 157 calls across
- * 49 files. UAMS-Web/uams-statamic#1733 removed the eleven *unqualified* `assert(` narrowings and
+ * 49 files. UAMS-Web/uams-statamic-archive#1733 removed the eleven *unqualified* `assert(` narrowings and
  * added {@see pendingArtisan()} / {@see positionOf()}; its `^\s*assert(` search
  * never matched the fully-qualified form, which is the dominant style here.
  * Every objection it raised applies unchanged:

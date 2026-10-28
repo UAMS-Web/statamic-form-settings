@@ -15,7 +15,7 @@ use UAMSWeb\FormSettings\Support\FormRestrictions;
 
 /**
  * Exposes a form's current restriction state to templates so the rendered page can show the
- * closed/login/pending/expired state instead of the form (UAMS-Web/uams-statamic#205).
+ * closed/login/pending/expired state instead of the form (UAMS-Web/uams-statamic-archive#205).
  *
  * The submit path is gated server-side by {@see EnforceFormRestrictions}; this
  * tag is the render-time counterpart, sharing the same {@see FormRestrictions} source of truth so

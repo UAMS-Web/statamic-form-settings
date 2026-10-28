@@ -21,7 +21,7 @@ use UAMSWeb\FormSettings\Mail\FormNotificationEmail;
 
 /**
  * Proves the custom Assets fieldtype's per-field `attach_to_email` toggle is the single
- * source of truth for which uploads attach to a form notification (UAMS-Web/uams-statamic#196): within a
+ * source of truth for which uploads attach to a form notification (UAMS-Web/uams-statamic-archive#196): within a
  * notification whose `attachments` gate is on, only Assets fields flagged `attach_to_email`
  * attach, and a flagged field never double-attaches.
  *
@@ -154,7 +154,7 @@ it('attaches nothing when the notification attachments gate is off', function ()
 });
 
 it('attaches the same uploads when the row sends its message as the body', function (): void {
-    // A row with a written message replaces the field list (UAMS-Web/uams-statamic#3149) and must not change the attachments
+    // A row with a written message replaces the field list (UAMS-Web/uams-statamic-archive#3149) and must not change the attachments
     $filenames = attachToEmailSendAndGetFilenames([
         'to' => 'recipient@example.test',
         'subject' => 'With a message',

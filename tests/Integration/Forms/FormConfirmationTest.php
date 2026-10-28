@@ -11,7 +11,7 @@ use Statamic\Fields\BlueprintRepository;
 use Statamic\Forms\Form;
 
 /**
- * Proves a form's configured confirmation drives the post-submit response (UAMS-Web/uams-statamic#203): a message
+ * Proves a form's configured confirmation drives the post-submit response (UAMS-Web/uams-statamic-archive#203): a message
  * confirmation overrides the success text (Antlers-rendered), a redirect/entry confirmation
  * redirects (with an optional query string), and conditional confirmations select the first
  * matching one (else the default). A form with no confirmation config keeps Statamic's default.

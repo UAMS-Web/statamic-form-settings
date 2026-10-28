@@ -14,7 +14,7 @@ covers(FormEmailFieldSelect::class);
 
 /**
  * Behavior of `FormEmailFieldSelect`, the email-field picker of the form email
- * settings (UAMS-Web/uams-statamic#3089): which of a form's fields it offers, and how it reads the
+ * settings (UAMS-Web/uams-statamic-archive#3089): which of a form's fields it offers, and how it reads the
  * form handle.
  *
  * @command  vendor/bin/pest tests/Integration/Fieldtypes/FormEmailFieldSelectFieldtypeTest.php

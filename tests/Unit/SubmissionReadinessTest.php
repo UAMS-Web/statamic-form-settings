@@ -8,7 +8,7 @@ declare(strict_types=1);
  * not submit anything.
  *
  * `license` is in the list: the add-on is MIT licensed ahead of UAMS legal's general
- * decision (UAMS-Web/uams-statamic#3039), as `docs/DECISIONS.md` records.
+ * decision (UAMS-Web/uams-statamic#261), as `docs/DECISIONS.md` records.
  *
  * @command  vendor/bin/pest tests/Unit/SubmissionReadinessTest.php
  */

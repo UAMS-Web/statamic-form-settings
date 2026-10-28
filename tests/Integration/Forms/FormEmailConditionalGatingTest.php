@@ -13,7 +13,7 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Email;
 
 /**
- * End-to-end proof that per-notification conditional logic gates the send (issue UAMS-Web/uams-statamic#202).
+ * End-to-end proof that per-notification conditional logic gates the send (issue UAMS-Web/uams-statamic-archive#202).
  *
  * Submits one form carrying three email notifications (one whose `conditional_logic`
  * passes against the submitted values, one whose fails, and one with no conditional logic)

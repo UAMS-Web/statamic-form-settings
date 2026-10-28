@@ -17,7 +17,7 @@ use UAMSWeb\FormSettings\Support\EmailMessageBody;
 use UAMSWeb\FormSettings\Support\FormConfirmationResolver;
 
 /**
- * Applies a form's configured confirmation to the post-submit response (UAMS-Web/uams-statamic#203).
+ * Applies a form's configured confirmation to the post-submit response (UAMS-Web/uams-statamic-archive#203).
  *
  * Statamic's `FormController` flashes the submission and a generic success message on a
  * successful POST, then redirects back. This middleware runs after that, on the `/!/forms/*`
@@ -59,7 +59,7 @@ class ApplyFormConfirmation
         // Act only on a submission flashed by THIS request (a genuine current-request success).
         // session('submission') is one-request flash data that survives into the NEXT request, so
         // reading it alone would apply a confirmation to a following validation failure, a different
-        // form's submit, or a restriction-blocked POST (UAMS-Web/uams-statamic#205). `_flash.new` lists the keys flashed
+        // form's submit, or a restriction-blocked POST (UAMS-Web/uams-statamic-archive#205). `_flash.new` lists the keys flashed
         // by the current request, so a stale carry-over (now in `_flash.old`) is correctly ignored.
         // Laravel writes `_flash.new` as a list of key strings (its own `flash()` fails on anything else), so the cast
         // never sees a non-list and a loose comparison against non-numeric strings matches exactly as the strict one does.

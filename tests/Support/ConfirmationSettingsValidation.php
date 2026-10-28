@@ -13,7 +13,7 @@ use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\CpForms\FormConfigurationBlueprintCustomizer;
 
 /**
- * Validates a form-settings save against the nested Control Panel blueprint (UAMS-Web/uams-statamic#3162).
+ * Validates a form-settings save against the nested Control Panel blueprint (UAMS-Web/uams-statamic-archive#3162).
  *
  * The confirmation fields sit in the `confirmation_settings_default` group and, for each
  * additional confirmation, in the `confirmation_settings` group of a `confirmation_additional`

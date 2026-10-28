@@ -9,7 +9,7 @@ use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\Tags\FormRestriction;
 
 /**
- * Proves the {{ form_restriction }} tag reports a form's render-time restriction state (UAMS-Web/uams-statamic#205),
+ * Proves the {{ form_restriction }} tag reports a form's render-time restriction state (UAMS-Web/uams-statamic-archive#205),
  * sharing the FormRestrictions source of truth with the submit-time gate.
  *
  * @covers \UAMSWeb\FormSettings\Tags\FormRestriction
@@ -71,7 +71,7 @@ it('reports open for an unknown form handle', function (): void {
 
 /**
  * Call the tag class directly so the exact array it hands the template is asserted, not just
- * what one template happens to print from it (UAMS-Web/uams-statamic#3089).
+ * what one template happens to print from it (UAMS-Web/uams-statamic-archive#3089).
  *
  * @param  array<string, mixed>  $params
  * @return array{open: bool, state: string, message: string}

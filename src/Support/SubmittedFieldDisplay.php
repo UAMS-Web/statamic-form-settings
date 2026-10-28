@@ -10,13 +10,13 @@ use Statamic\Fields\ArrayableString;
 use Statamic\Fields\Value;
 
 /**
- * Renders one submitted form field as the escaped HTML a notification email shows for it (UAMS-Web/uams-statamic#3149).
+ * Renders one submitted form field as the escaped HTML a notification email shows for it (UAMS-Web/uams-statamic-archive#3149).
  *
  * It mirrors the branches of the add-on's automagic email override at
  * `resources/views/forms/automagic-email.antlers.html`, so the `{{ all_fields }}`
  * table and the `{{ submission:<handle> }}` merge tags show a field exactly as the field list
  * does: assets as their URLs, option fields as their labels, replicators as their labelled set
- * blocks (UAMS-Web/uams-statamic#2055), other arrays as JSON, and text with its line breaks kept. An asset whose
+ * blocks (UAMS-Web/uams-statamic-archive#2055), other arrays as JSON, and text with its line breaks kept. An asset whose
  * container has no public URL shows its path, where the template showed nothing.
  *
  * Every submitted string is HTML-escaped, and its `{` and `}` are encoded as entities, so a

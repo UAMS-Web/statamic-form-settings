@@ -30,11 +30,11 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 
 **Decision.** This repository started from `UAMS-Web/statamic-addon-template`. It carries no synced files (`.agents/`, `.claude/`, `.cursor/`) and no `LICENSE`, and `composer.json` has no `license` field.
 
-**Why.** The shared rules and skills reach a repository by onboarding it to the sync in `UAMS-Web/uams-claude-skills`, not by copying a snapshot that goes stale. The license waits on the general decision from UAMS legal in `UAMS-Web/uams-statamic#3039`.
+**Why.** The shared rules and skills reach a repository by onboarding it to the sync in `UAMS-Web/uams-claude-skills`, not by copying a snapshot that goes stale. The license waits on the general decision from UAMS legal in `UAMS-Web/uams-statamic#261`.
 
 **Rejected.** Snapshotting the synced files into the template: every new add-on would begin with a stale copy that conflicts with its first sync pull request. Copying a license from an existing add-on: legal has not decided which license applies.
 
-**Companion.** `UAMS-Web/uams-statamic#3039`.
+**Companion.** `UAMS-Web/uams-statamic#261`.
 
 ## 2026-10-22: The ruleset requires one aggregate check, and the drift check is removed (UAMS-Web/uams-claude-skills#298)
 
@@ -48,13 +48,13 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 
 ## 2026-10-23: The add-on goes to Packagist on MIT, ahead of UAMS legal's decision (#7)
 
-**Decision.** The operator decided on 2026-10-15 to publish `uams-web/statamic-form-settings` on Packagist, the same way as `UAMS-Web/statamic-alpine-csp-forms`, so that `UAMS-Web/uams-statamic` can require it by name. The add-on is MIT licensed (`LICENSE`, `"license": "MIT"`), matching `UAMS-Web/statamic-multisite-forms`, ahead of `UAMS-Web/uams-statamic#3039`. The Marketplace is not part of this decision.
+**Decision.** The operator decided on 2026-10-15 to publish `uams-web/statamic-form-settings` on Packagist, the same way as `UAMS-Web/statamic-alpine-csp-forms`, so that `UAMS-Web/uams-statamic` can require it by name. The add-on is MIT licensed (`LICENSE`, `"license": "MIT"`), matching `UAMS-Web/statamic-multisite-forms`, ahead of `UAMS-Web/uams-statamic#261`. The Marketplace is not part of this decision.
 
 **Why.** A public Packagist package needs a declared license, and `uams-statamic` requires the add-on by Composer name rather than by path. Matching the sibling add-on keeps one license across the add-ons that site requires, and the file can change if UAMS legal decides otherwise.
 
 **Rejected.** Waiting for UAMS legal before declaring a license: the package cannot be listed without one, and the site cannot require it by name until it is listed. Requiring the add-on from a path repository: it ties the site to one machine's checkout.
 
-**Companion.** `UAMS-Web/uams-statamic#3072`, `UAMS-Web/uams-statamic#3039`.
+**Companion.** `UAMS-Web/uams-statamic#263`, `UAMS-Web/uams-statamic#261`.
 
 ## 2026-10-23: Host-specific Control Panel assumptions become configuration (#15)
 
@@ -64,7 +64,7 @@ Oldest first, one entry per closed decision, so **a new entry is appended to the
 
 **Rejected.** Detecting a scorer by class or container binding: the scorer lives in the host site today, so there is nothing stable to detect. Keeping the UAMS defaults on: the add-on would show every other site controls that do nothing.
 
-**Companion.** `UAMS-Web/uams-statamic#3072` sets `FORM_SETTINGS_QUIZ_SCORING=true` and `article_bard_extra_buttons` to keep its current screen.
+**Companion.** `UAMS-Web/uams-statamic#263` sets `FORM_SETTINGS_QUIZ_SCORING=true` and `article_bard_extra_buttons` to keep its current screen.
 
 ## 2026-10-23: An unreadable schedule date closes the form (#14)
 

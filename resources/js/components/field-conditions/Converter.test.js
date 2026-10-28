@@ -43,7 +43,7 @@ describe('field-conditions Converter (synced with statamic/cms 6.35.0)', () => {
 });
 
 // ---
-// Method-level coverage (UAMS-Web/uams-statamic#3089). Every method is exercised on its own, so emptying
+// Method-level coverage (UAMS-Web/uams-statamic-archive#3089). Every method is exercised on its own, so emptying
 // any one of them fails at least one case below before the builder moves to the
 // form settings add-on.
 // ---

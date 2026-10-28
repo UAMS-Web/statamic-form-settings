@@ -10,7 +10,7 @@ covers(EmailGridBlueprintCustomizer::class);
 
 /**
  * Behavior of {@see EmailGridBlueprintCustomizer} on email grids other than core's
- * own (UAMS-Web/uams-statamic#3089): a grid missing fields core normally has, a grid repeating a handle, and
+ * own (UAMS-Web/uams-statamic-archive#3089): a grid missing fields core normally has, a grid repeating a handle, and
  * an email entry it cannot augment. Core's full grid is pinned by
  * FormSettingsCustomizedContentsTest.
  *
@@ -127,7 +127,7 @@ it('reports no email grid when the contents carry none', function (): void {
 
 /**
  * Contents with a base email grid and a Sites section whose override grid carries the given
- * columns, as the multisite forms add-on appends it (UAMS-Web/uams-statamic#3164).
+ * columns, as the multisite forms add-on appends it (UAMS-Web/uams-statamic-archive#3164).
  *
  * @param  list<array<string, mixed>>  $overrideColumns  The `site_overrides` grid's columns.
  * @return array<string, mixed>

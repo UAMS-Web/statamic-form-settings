@@ -12,7 +12,7 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Email;
 
 /**
- * Proves a public-form Replicator survives into the notification email (UAMS-Web/uams-statamic#2051).
+ * Proves a public-form Replicator survives into the notification email (UAMS-Web/uams-statamic-archive#2051).
  *
  * `ReplicatorFormRoundTripTest` already covers render, validation and the
  * submission-data round-trip. It stops at the stored submission. This file covers

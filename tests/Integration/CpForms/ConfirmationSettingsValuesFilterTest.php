@@ -8,7 +8,7 @@ covers(ConfirmationSettingsValuesFilter::class);
 
 /**
  * Behavior of {@see ConfirmationSettingsValuesFilter}: which confirmation settings are
- * stored for each confirmation type when the CP form settings are saved (UAMS-Web/uams-statamic#3089).
+ * stored for each confirmation type when the CP form settings are saved (UAMS-Web/uams-statamic-archive#3089).
  *
  * @command  vendor/bin/pest tests/Integration/CpForms/ConfirmationSettingsValuesFilterTest.php
  */

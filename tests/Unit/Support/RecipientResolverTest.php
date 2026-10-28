@@ -7,9 +7,9 @@ use UAMSWeb\FormSettings\Support\RecipientResolver;
 /**
  * Behavior of {@see RecipientResolver}, which resolves a form notification's
  * TO/CC/BCC/Reply-To from its configured source (literal `email`, a submitted `field`,
- * or conditional `routing`), filtering submission-derived addresses to valid emails (UAMS-Web/uams-statamic#201).
+ * or conditional `routing`), filtering submission-derived addresses to valid emails (UAMS-Web/uams-statamic-archive#201).
  *
- * Mutation (UAMS-Web/uams-statamic#3089, macOS, measured on main 287d8ef41, with FormEmailRecipientSourcesTest):
+ * Mutation (UAMS-Web/uams-statamic-archive#3089, macOS, measured on main 287d8ef41, with FormEmailRecipientSourcesTest):
  * 57 mutants, all killed. Two equivalents are annotated `@pest-mutate-ignore` with their reasons
  * in the class: the `(string)` on the `data_get()` key, and the `array_values()` renumbering of
  * a list only ever imploded. An `=== ''` check that `FILTER_VALIDATE_EMAIL` already covered was

@@ -38,13 +38,13 @@ use UAMSWeb\FormSettings\Support\RecipientResolver;
  * does.
  *
  * Finally, it gates and addresses each notification independently: an inactive notification
- * (the `enabled` "Active" toggle set false, UAMS-Web/uams-statamic#204) is skipped first, then {@see ConditionalLogicEvaluator}
- * evaluates the config's `conditional_logic` against the submitted values (UAMS-Web/uams-statamic#202) and the job returns
+ * (the `enabled` "Active" toggle set false, UAMS-Web/uams-statamic-archive#204) is skipped first, then {@see ConditionalLogicEvaluator}
+ * evaluates the config's `conditional_logic` against the submitted values (UAMS-Web/uams-statamic-archive#202) and the job returns
  * without sending when they fail. For the survivors, {@see RecipientResolver} resolves TO/CC/BCC/Reply-To
- * from each kind's configured source (literal address, submitted field, or conditional routing, UAMS-Web/uams-statamic#201),
+ * from each kind's configured source (literal address, submitted field, or conditional routing, UAMS-Web/uams-statamic-archive#201),
  * skipping a notification that resolves no TO recipient. So a form's notifications send independently.
  *
- * Wired in via the `statamic.forms.send_email_job` config key. Settles issues UAMS-Web/uams-statamic#213, UAMS-Web/uams-statamic#830, UAMS-Web/uams-statamic#202, UAMS-Web/uams-statamic#204, UAMS-Web/uams-statamic#201.
+ * Wired in via the `statamic.forms.send_email_job` config key. Settles issues UAMS-Web/uams-statamic-archive#213, UAMS-Web/uams-statamic-archive#830, UAMS-Web/uams-statamic-archive#202, UAMS-Web/uams-statamic-archive#204, UAMS-Web/uams-statamic-archive#201.
  * With the `notifications` feature switched off ({@see Features}) it defers to the base job
  * entirely, so the config key can keep naming this class.
  */
@@ -102,7 +102,7 @@ final class SendFormNotification extends SendEmail
         /** @var Site $site */
         $site = $this->site;
 
-        // UAMS-Web/uams-statamic#204: honor the per-notification "Active" toggle. An inactive notification is
+        // UAMS-Web/uams-statamic-archive#204: honor the per-notification "Active" toggle. An inactive notification is
         // skipped before any conditional-logic expressions run (so it does no needless
         // work), with a short debug note naming the form and notification.
         if (! $this->notificationIsActive($config)) {
@@ -119,14 +119,14 @@ final class SendFormNotification extends SendEmail
         /** @var array<string, mixed> $values */
         $values = $submission->data()->all();
 
-        // UAMS-Web/uams-statamic#202: gate this notification on its conditional logic. When the notification's
+        // UAMS-Web/uams-statamic-archive#202: gate this notification on its conditional logic. When the notification's
         // conditions don't pass against the submitted values, skip its send entirely:
         // each notification is gated independently (the chain's other jobs still run).
         if (! (new ConditionalLogicEvaluator)->passes($config['conditional_logic'] ?? null, $values)) {
             return;
         }
 
-        // UAMS-Web/uams-statamic#201: resolve TO/CC/BCC/Reply-To from each kind's configured source (a literal
+        // UAMS-Web/uams-statamic-archive#201: resolve TO/CC/BCC/Reply-To from each kind's configured source (a literal
         // address, a submitted field, or conditional routing) into concrete addresses.
         // TO is required: with nothing resolved, skip rather than send a recipient-less email.
         // CC/BCC/Reply-To are optional and dropped when empty so no blank header is built.

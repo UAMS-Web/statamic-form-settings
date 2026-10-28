@@ -14,7 +14,7 @@ use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mime\Email;
 
 /**
- * Proves the per-notification "Active" toggle (`enabled`) is honored at send time (UAMS-Web/uams-statamic#204):
+ * Proves the per-notification "Active" toggle (`enabled`) is honored at send time (UAMS-Web/uams-statamic-archive#204):
  * an inactive notification is skipped (with a debug log line) before its conditional logic
  * is evaluated, while active/default notifications still fire.
  *

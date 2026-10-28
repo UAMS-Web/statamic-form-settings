@@ -9,9 +9,9 @@ use UAMSWeb\FormSettings\CpForms\EmailGridBlueprintCustomizer;
 
 /**
  * Pins the recipient guidance the Control Panel shows on a form's Email tab
- * (UAMS-Web/uams-statamic#2818). Form configurations live in the private `resources/forms`
+ * (UAMS-Web/uams-statamic-archive#2818). Form configurations live in the private `resources/forms`
  * submodule, so the tab tells an editor to enter a real address, and no longer
- * tells them not to, which was UAMS-Web/uams-statamic#2745's rule.
+ * tells them not to, which was UAMS-Web/uams-statamic-archive#2745's rule.
  *
  * @command  vendor/bin/pest tests/Integration/Forms/EmailTabRecipientInstructionsTest.php
  */
