@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 return [
 
-    // SubfieldsAny: a group field where every subfield is empty
     // LikertRatingOnScale and the LikertScale fieldtype: a rating off the scale, a row the question
     // does not list, or a row label left empty in the Control Panel
     'likert_scale' => [
@@ -29,6 +28,7 @@ return [
         ],
     ],
 
+    // SubfieldsAny: a group field where every subfield is empty
     'subfields_any' => 'At least one subfield of :attribute must have a value.',
 
 ];

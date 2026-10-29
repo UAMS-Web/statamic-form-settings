@@ -18,11 +18,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 class QuizAnswerValidation implements DataAwareRule, ValidationRule
 {
     /**
-     * Fire on empty values so a grid with no rows still fails the "at least one
-     * correct answer" check.
+     * Fire on a missing or empty-string grid, so it still fails the rule's
+     * checks rather than passing unvalidated.
      *
-     * Without this, Laravel's `InvokableValidationRule::make()` skips the rule
-     * when the attribute is missing or empty, defeating the rule's purpose.
+     * Without this, Laravel skips a non-implicit rule when the attribute is
+     * missing or an empty string; a present empty array is validated either way.
      */
     public bool $implicit = true;
 

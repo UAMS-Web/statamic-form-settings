@@ -24,24 +24,28 @@ use UAMSWeb\FormSettings\ServiceProvider;
  */
 covers(ServiceProvider::class);
 
-$userContentFormsDir = '';
-
-beforeEach(function () use (&$userContentFormsDir): void {
-    $userContentFormsDir = storage_path('framework/testing/forms-'.uniqid('', true));
-    File::ensureDirectoryExists($userContentFormsDir);
-    Config::set('statamic.forms.forms', $userContentFormsDir);
-});
-
-afterEach(function () use (&$userContentFormsDir): void {
-    if ($userContentFormsDir !== '' && File::isDirectory($userContentFormsDir)) {
-        File::deleteDirectory($userContentFormsDir);
-    }
-});
-
 /**
  * Render `{{ quiz:score }}` as user content against a submission that answers its one question right.
  */
 function quizTagsInUserContentScore(): string
+{
+    // A test reboots before calling this, which discards any config a beforeEach set, so the form
+    // store points at a directory of its own here, removed again once the render is done
+    $formsDir = storage_path('framework/testing/forms-'.uniqid('', true));
+    File::ensureDirectoryExists($formsDir);
+    Config::set('statamic.forms.forms', $formsDir);
+
+    try {
+        return quizTagsInUserContentRender();
+    } finally {
+        File::deleteDirectory($formsDir);
+    }
+}
+
+/**
+ * Save the form and render its score, for {@see quizTagsInUserContentScore()}.
+ */
+function quizTagsInUserContentRender(): string
 {
     $handle = 'user_content_'.str_replace('.', '', uniqid('', true));
 
@@ -78,6 +82,12 @@ it("keeps the host's own entries, in their order, ahead of the tags", function (
     $this->rebootWithConfig(['statamic.antlers.allowedContentTags' => ['@default', 'partial:*', 'survey']]);
 
     expect(config('statamic.antlers.allowedContentTags'))->toBe(['@default', 'partial:*', 'survey', 'quiz', 'quiz:*', 'survey:*']);
+});
+
+it('reads a single pattern the host gives as a string as a one-item list', function (): void {
+    $this->rebootWithConfig(['statamic.antlers.allowedContentTags' => 'partial:*']);
+
+    expect(config('statamic.antlers.allowedContentTags'))->toBe(['partial:*', 'quiz', 'quiz:*', 'survey', 'survey:*']);
 });
 
 it("writes the host's entries back as a list, whatever keys the host gave them", function (): void {

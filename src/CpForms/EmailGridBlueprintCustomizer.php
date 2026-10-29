@@ -655,7 +655,7 @@ final class EmailGridBlueprintCustomizer
      * The merge-tag help for quiz and survey scoring.
      *
      * @return string Markdown lines starting with a newline, or an empty
-     *                string when the host does not score quizzes.
+     *                string when quiz scoring is switched off.
      */
     private function quizMergeTagHelp(): string
     {

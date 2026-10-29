@@ -128,14 +128,15 @@ class ServiceProvider extends AddonServiceProvider
      * Add the quiz and survey tags to the patterns Antlers allows in user content.
      *
      * Statamic builds the allowlist from `statamic.antlers.allowedContentTags` each time it makes a
-     * parser, so a change made while the add-on boots reaches every parse after it. A host list that
-     * leaves out `@default` replaces Statamic's defaults, so when the host sets no list at all the
-     * defaults are kept by naming `@default` first. The host's own entries stay, in their order.
+     * parser, so a change made while the add-on boots reaches every parse after it. Statamic reads
+     * the key as a list, and only `null` means its defaults; a host list that leaves out `@default`
+     * replaces them. So with no list at all the defaults are kept by naming `@default` first, and any
+     * other value is read as a list, as Statamic reads it. The host's own entries stay, in their order.
      */
     private function allowScoringTagsInUserContent(): void
     {
         $allowed = config('statamic.antlers.allowedContentTags');
-        $patterns = \is_array($allowed) ? array_values($allowed) : ['@default'];
+        $patterns = $allowed === null ? ['@default'] : array_values((array) $allowed);
 
         foreach (['quiz', 'quiz:*', 'survey', 'survey:*'] as $pattern) {
             // Allowlist entries are strings, which compare the same loosely or strictly.

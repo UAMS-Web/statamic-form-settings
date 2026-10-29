@@ -473,7 +473,7 @@ final readonly class FormConfigurationTabsInjector
         ];
 
         // Inject the quiz settings section at the end (after restrictions), only
-        // when the host scores quizzes.
+        // while quiz scoring is switched on.
         if (Features::quizScoring()) {
             $this->injectSection(
                 $contents,
