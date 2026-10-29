@@ -229,7 +229,7 @@ function articleBardButtons(): array
     return is_array($buttons) ? $buttons : [];
 }
 
-it('leaves out the Quiz Settings section when the quiz scoring setting is missing', function (): void {
+it('adds the Quiz Settings section when the quiz scoring setting is missing, as a copy of the config from before the switch had it', function (): void {
     $all = config('statamic-form-settings');
     $remaining = is_array($all) ? array_diff_key($all, ['quiz_scoring' => true]) : [];
     config(['statamic-form-settings' => $remaining]);
@@ -240,7 +240,7 @@ it('leaves out the Quiz Settings section when the quiz scoring setting is missin
     );
 
     expect(config('statamic-form-settings.quiz_scoring'))->toBeNull()
-        ->and(json_encode($out))->not->toContain('quiz_grading')->not->toContain('quiz_pass_percent');
+        ->and(json_encode($out))->toContain('quiz_grading')->toContain('quiz_pass_percent');
 });
 
 it('keeps only the string buttons of a configured list, as a list', function (): void {

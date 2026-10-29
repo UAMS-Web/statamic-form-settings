@@ -86,13 +86,21 @@ return [
     | Quiz scoring
     |--------------------------------------------------------------------------
     |
-    | Turn this on when the host application scores quizzes and supplies the
-    | `quiz` and `survey` merge tags. On, the form settings screen shows the
-    | Quiz Settings section and the notification email help lists those tags.
-    | Off by default, because nothing in this add-on scores a quiz.
+    | Quiz and survey scoring: the `quiz` and `survey` tags that show a
+    | submission's results, the Quiz Settings section on the form settings
+    | screen, and the notification email help that lists those tags. On by
+    | default. Off, the tags render nothing and the section and help are
+    | absent; the `quiz` and `likert_scale` fieldtypes still render on public
+    | forms either way, so a stored form that uses them keeps working.
+    |
+    | A confirmation message or notification email is user content, so a
+    | host that uses the tags there also lists `quiz`, `quiz:*`, `survey` and
+    | `survey:*` in `statamic.antlers.allowedContentTags`.
+    |
+    | Takes true or false, and reads the environment variable named beside it.
     |
     */
 
-    'quiz_scoring' => (bool) env('FORM_SETTINGS_QUIZ_SCORING', false),
+    'quiz_scoring' => (bool) env('FORM_SETTINGS_QUIZ_SCORING', true),
 
 ];

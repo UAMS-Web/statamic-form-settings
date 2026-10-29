@@ -32,7 +32,8 @@
         },
         "files": [
             "tests/Support/TypeNarrowing.php",
-            "tests/Support/Throwables.php"
+            "tests/Support/Throwables.php",
+            "tests/Support/StringPositions.php"
         ]
     },
     "extra": {

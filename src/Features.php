@@ -43,4 +43,18 @@ final class Features
     {
         return (bool) config("statamic-form-settings.features.{$feature}", true);
     }
+
+    /**
+     * Whether quiz and survey scoring is switched on.
+     *
+     * Read from the `quiz_scoring` key rather than `features`, which it predates. Like the
+     * feature switches, a missing key counts as on, so a host on a copy of the config from
+     * before the switch existed keeps the grading section it always had.
+     *
+     * @return bool True unless the config switches scoring off.
+     */
+    public static function quizScoring(): bool
+    {
+        return (bool) config('statamic-form-settings.quiz_scoring', true);
+    }
 }

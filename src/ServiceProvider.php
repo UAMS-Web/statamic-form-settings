@@ -92,6 +92,10 @@ class ServiceProvider extends AddonServiceProvider
     #[\Override]
     public function bootAddon(): void
     {
+        // Render the quiz and Likert scale fields on a public form. Like the fieldtypes they draw, these
+        // register whatever the switches say, so a stored form that names one keeps rendering
+        $this->addStatamicViewsAfterHostOverrides(__DIR__.'/../resources/field-views');
+
         // Replace Statamic's form settings controller with the one that adds the sections
         if (Features::enabled(Features::CONTROL_PANEL)) {
             $this->app->bind(BaseFormsController::class, FormsController::class);
