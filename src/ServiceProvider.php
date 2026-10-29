@@ -92,6 +92,17 @@ class ServiceProvider extends AddonServiceProvider
     #[\Override]
     public function bootAddon(): void
     {
+        // Render the quiz and Likert scale fields on a public form. Like the fieldtypes they draw, these
+        // register whatever the switches say, so a stored form that names one keeps rendering
+        $this->addStatamicViewsAfterHostOverrides(__DIR__.'/../resources/field-views');
+
+        // Let the quiz and survey tags resolve in confirmation messages and emails, unless the host opts out.
+        // The add-on's config always supplies the key, so its fallback is never read.
+        // @pest-mutate-ignore: TrueToFalse
+        if (Features::quizScoring() && config('statamic-form-settings.quiz_tags_in_user_content', true)) {
+            $this->allowScoringTagsInUserContent();
+        }
+
         // Replace Statamic's form settings controller with the one that adds the sections
         if (Features::enabled(Features::CONTROL_PANEL)) {
             $this->app->bind(BaseFormsController::class, FormsController::class);
@@ -111,6 +122,31 @@ class ServiceProvider extends AddonServiceProvider
         if (Features::enabled(Features::CONFIRMATIONS)) {
             $this->app->make(Router::class)->pushMiddlewareToGroup('web', ApplyFormConfirmation::class);
         }
+    }
+
+    /**
+     * Add the quiz and survey tags to the patterns Antlers allows in user content.
+     *
+     * Statamic builds the allowlist from `statamic.antlers.allowedContentTags` each time it makes a
+     * parser, so a change made while the add-on boots reaches every parse after it. Statamic reads
+     * the key as a list, and only `null` means its defaults; a host list that leaves out `@default`
+     * replaces them. So with no list at all the defaults are kept by naming `@default` first, and any
+     * other value is read as a list, as Statamic reads it. The host's own entries stay, in their order.
+     */
+    private function allowScoringTagsInUserContent(): void
+    {
+        $allowed = config('statamic.antlers.allowedContentTags');
+        $patterns = $allowed === null ? ['@default'] : array_values((array) $allowed);
+
+        foreach (['quiz', 'quiz:*', 'survey', 'survey:*'] as $pattern) {
+            // Allowlist entries are strings, which compare the same loosely or strictly.
+            // @pest-mutate-ignore: TrueToFalse
+            if (! \in_array($pattern, $patterns, true)) {
+                $patterns[] = $pattern;
+            }
+        }
+
+        config(['statamic.antlers.allowedContentTags' => $patterns]);
     }
 
     /**

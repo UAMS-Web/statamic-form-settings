@@ -1,0 +1,14 @@
+{{# Quiz question (UAMSWeb\FormSettings\Fieldtypes\Quiz). Renders the configured answers as the
+	control chosen in `question_fieldtype`, `radio` (default), `checkboxes`, or
+	`select`, by delegating to the view Statamic renders that fieldtype with, which
+	the fieldtype passes as `question_view`: a host's published copy where there is
+	one, Statamic's own view otherwise. So the standard wrapper conventions (label,
+	instructions, error, aria-*, conditional visibility) and submit shape are reused
+	rather than duplicated.
+
+	Only answer labels reach the page: UAMSWeb\FormSettings\Fieldtypes\Quiz::extraRenderableFieldData()
+	replaces the raw `options` grid with a sanitized `value => label` map, so the
+	per-answer `is_correct` / `weighted_score` / `answer_explanation` config never
+	appears in the public HTML (UAMS-Web/uams-statamic-archive#816). Answer order already honors `randomize_order`
+	via the fieldtype's RandomizesOptions trait. #}}
+{{ partial :src="question_view" }}

@@ -1,6 +1,6 @@
 # Form Settings
 
-A Statamic add-on that extends the Control Panel's form settings screen and what a form does after a submission: notification emails with recipient routing and conditions, a confirmation message or redirect, and restrictions on who can submit and when.
+A Statamic add-on that extends the Control Panel's form settings screen and what a form does after a submission: notification emails with recipient routing and conditions, a confirmation message or redirect, restrictions on who can submit and when, and quiz and survey scoring.
 
 ## Requirements
 
@@ -31,7 +31,11 @@ Each feature has its own switch in `config/statamic-form-settings.php`, and all 
 
 With `notifications` on, the add-on points `statamic.forms.send_email_job` at its own job. A host that has set that option to a job of its own keeps it.
 
-Three more keys adapt the form settings screen to a host: `confirmation_page_collections` (default `['pages']`), `article_bard_extra_buttons` (default none) and `quiz_scoring` (`FORM_SETTINGS_QUIZ_SCORING`, default off, which hides the Quiz Settings section and the quiz merge-tag help). See the wiki's Configuration page.
+Two more keys adapt the form settings screen to a host: `confirmation_page_collections` (default `['pages']`) and `article_bard_extra_buttons` (default none). See the wiki's Configuration page.
+
+`quiz_scoring` (`FORM_SETTINGS_QUIZ_SCORING`, default on) switches quiz and survey scoring: the `quiz` and `survey` tags, the Quiz Settings section and the quiz merge-tag help in the notification email instructions. Off, the tags render nothing and the section and help are absent. The `quiz` and `likert_scale` fieldtypes and their public form views stay registered either way, so a stored form that uses them keeps rendering.
+
+While scoring is on, the add-on adds `quiz`, `quiz:*`, `survey` and `survey:*` to `statamic.antlers.allowedContentTags`, after the host's own entries, so the tags resolve in a confirmation message or a notification email, which Antlers parses as user content. A host that wants to manage that list itself sets `quiz_tags_in_user_content` (`FORM_SETTINGS_QUIZ_TAGS_IN_USER_CONTENT`, default on) to false.
 
 ## Templates
 
@@ -48,6 +52,8 @@ The `form_restriction` tag reports a form's restriction state, so a page can sho
 ```
 
 It exposes `open`, `state` (`open`, `login_required`, `pending`, `expired`, `schedule_unreadable` or `limit_reached`) and `message`.
+
+The `quiz` and `survey` tags show a scored submission in a confirmation message or a notification email. `{{ quiz }}` lists each question with its answers, the correct answer and the explanation; `{{ quiz:score }}`, `{{ quiz:percent }}`, `{{ quiz:grade }}` and `{{ quiz:passfail }}` give the result, by the grading set in the form's Quiz Settings. `{{ survey }}` lists each Likert question with the answer given, and `{{ survey:score }}` the total. `{{ quiz }}`, `{{ quiz:score }}`, `{{ survey }}` and `{{ survey:score }}` take `handle="..."` for a single question.
 
 ## Extending
 

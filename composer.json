@@ -1,6 +1,6 @@
 {
     "name": "uams-web/statamic-form-settings",
-    "description": "Control Panel form settings for Statamic: notification routing and conditions, confirmations, and submission restrictions, each behind its own switch.",
+    "description": "Control Panel form settings for Statamic: notification routing and conditions, confirmations, submission restrictions, and quiz and survey scoring, each behind its own switch.",
     "license": "MIT",
     "keywords": [
         "statamic",
@@ -32,13 +32,14 @@
         },
         "files": [
             "tests/Support/TypeNarrowing.php",
-            "tests/Support/Throwables.php"
+            "tests/Support/Throwables.php",
+            "tests/Support/StringPositions.php"
         ]
     },
     "extra": {
         "statamic": {
             "name": "Form Settings",
-            "description": "Notification routing and conditions, confirmations, and submission restrictions for Statamic forms."
+            "description": "Notification routing and conditions, confirmations, submission restrictions, and quiz and survey scoring for Statamic forms."
         },
         "laravel": {
             "providers": [

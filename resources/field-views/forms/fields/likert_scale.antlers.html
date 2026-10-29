@@ -1,0 +1,122 @@
+{{#
+	LikertScale fieldtype (UAMSWeb\FormSettings\Fieldtypes\LikertScale, handle `likert_scale`),
+	an accessible radio scale for public forms (UAMS-Web/uams-statamic-archive#194). Two modes, driven by
+	`enable_multiple_rows`:
+
+	  single → one radio group; the submitted value is a single scale point
+	           (or `not_applicable`) under `name="{handle}"`.
+	  matrix → one radio group per configured row label; the submitted value is
+	           a `rowLabel => point` map under `name="{handle}[rowLabel]"`.
+
+	The ordered `options` (a list of `{value, label}` with `display_order` +
+	`reverse_scale` applied and the zero-point option carrying its configured
+	label) and the matrix `multiple_rows` come from
+	LikertScale::extraRenderableFieldData() (which returns preload()), because a
+	Likert field has no `options` config key of its own, the default fallback
+	would otherwise render a plain text input.
+
+	UAMSWeb\FormSettings\Scoring\SurveyScorer (UAMS-Web/uams-statamic-archive#210) defines and consumes these submit
+	shapes; keep the `name` attributes below in sync with it.
+
+	`options` is a LIST of maps, so each item is looped as `{{ value }}` /
+	`{{ label }}`, which shadows the field's submitted value inside the loop.
+	The submitted answer is therefore aliased (single: `field_value`; matrix:
+	the per-row `row_answer`) before the loop so the `checked` comparison can
+	still reach it. Row labels are author-controlled text, so they are
+	`sanitize`d wherever they land in markup.
+#}}
+{{ if enable_multiple_rows }}
+	{{# Matrix: one accessible radio group (fieldset + legend) per row label. #}}
+	{{ answers = value }}
+	{{ multiple_rows }}
+		{{# Inside this scalar-list loop `value` is the row-label string. #}}
+		{{ row_label = value }}
+		{{ row_answer = answers[row_label] }}
+		<fieldset class="likert-scale-row form-group border-0 p-0 m-0">
+			<legend class="col-form-label pt-0 h6">{{ row_label | sanitize }}</legend>
+			<div role="radiogroup" aria-label="{{ row_label | sanitize }}">
+				{{ options }}
+					{{# Inside this loop `value` is the option's scale point. #}}
+					<div
+						class="{{
+							[
+								'form-check' => true,
+								'form-check-inline' => inline
+							] | classes | collapse_whitespace
+						}}"
+					>
+						<input
+							class="{{
+								[
+									'form-check-input' => true,
+									'is-invalid' => error
+								] | classes | collapse_whitespace
+							}}"
+							id="{{ id }}-{{ row_label | slugify }}-{{ value | slugify }}-option"
+							type="radio"
+							name="{{ handle }}[{{ row_label | sanitize }}]"
+							value="{{ value }}"
+							{{# js_attributes omitted for the matrix, the Alpine driver binds
+								`form.{handle}` (the whole row map), so per-input x-model would
+								clobber it (see address.antlers.html / README known limits). #}}
+							{{ ( row_answer == value ) | attribute:checked }}
+							{{ ( validate | contains:required ) | attribute:required }}
+							{{# `visibility: read_only`, see README.md in this directory. #}}
+							{{ ( visibility == 'read_only' ) | attribute:disabled }}
+							{{ if error }}
+								aria-invalid="true" aria-describedby="{{ id }}-error"
+							{{ elseif instructions }}
+								aria-describedby="{{ id }}-instructions"
+							{{ /if }}
+						>
+						<label class="form-check-label" for="{{ id }}-{{ row_label | slugify }}-{{ value | slugify }}-option">
+							{{ label | sanitize }}
+						</label>
+					</div>
+				{{ /options }}
+			</div>
+		</fieldset>
+	{{ /multiple_rows }}
+{{ else }}
+	{{# Single row: one accessible radio group. #}}
+	{{ field_value = value }}
+	<div role="radiogroup" aria-label="{{ display | sanitize }}">
+		{{ options }}
+			{{# Inside this loop `value` is the option's scale point. #}}
+			<div
+				class="{{
+					[
+						'form-check' => true,
+						'form-check-inline' => inline
+					] | classes | collapse_whitespace
+				}}"
+			>
+				<input
+					class="{{
+						[
+							'form-check-input' => true,
+							'is-invalid' => error
+						] | classes | collapse_whitespace
+					}}"
+					id="{{ id }}-{{ value | slugify }}-option"
+					type="radio"
+					name="{{ handle }}"
+					value="{{ value }}"
+					{{ if js_driver }}{{ js_attributes }}{{ /if }}
+					{{ ( field_value == value ) | attribute:checked }}
+					{{ ( validate | contains:required ) | attribute:required }}
+					{{# `visibility: read_only`, see README.md in this directory. #}}
+					{{ ( visibility == 'read_only' ) | attribute:disabled }}
+					{{ if error }}
+						aria-invalid="true" aria-describedby="{{ id }}-error"
+					{{ elseif instructions }}
+						aria-describedby="{{ id }}-instructions"
+					{{ /if }}
+				>
+				<label class="form-check-label" for="{{ id }}-{{ value | slugify }}-option">
+					{{ label | sanitize }}
+				</label>
+			</div>
+		{{ /options }}
+	</div>
+{{ /if }}

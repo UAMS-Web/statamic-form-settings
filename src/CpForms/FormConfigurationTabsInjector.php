@@ -6,6 +6,7 @@ namespace UAMSWeb\FormSettings\CpForms;
 
 use Statamic\Forms\Form;
 use UAMSWeb\FormSettings\Contracts\FormSettingsSection;
+use UAMSWeb\FormSettings\Features;
 use UAMSWeb\FormSettings\Rules\SubfieldsAny;
 
 /**
@@ -472,8 +473,8 @@ final readonly class FormConfigurationTabsInjector
         ];
 
         // Inject the quiz settings section at the end (after restrictions), only
-        // when the host scores quizzes.
-        if (config('statamic-form-settings.quiz_scoring', false)) {
+        // while quiz scoring is switched on.
+        if (Features::quizScoring()) {
             $this->injectSection(
                 $contents,
                 $nameLocation,

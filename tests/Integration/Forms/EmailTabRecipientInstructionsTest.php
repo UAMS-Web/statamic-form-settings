@@ -87,13 +87,13 @@ it('lists the quiz and survey merge tags only when quiz scoring is on', function
         : expect($instructions)->not->toContain('quiz')->not->toContain('survey');
 })->with([true, false]);
 
-it('treats a missing quiz scoring setting as off', function (): void {
+it('treats a missing quiz scoring setting as on', function (): void {
     $all = config('statamic-form-settings');
     $remaining = is_array($all) ? array_diff_key($all, ['quiz_scoring' => true]) : [];
     config(['statamic-form-settings' => $remaining]);
 
     expect(config('statamic-form-settings.quiz_scoring'))->toBeNull()
-        ->and(emailTabRecipientInstructions())->toContain('{{ today format=')->not->toContain('quiz')->not->toContain('survey');
+        ->and(emailTabRecipientInstructions())->toContain('{{ today format=')->toContain('quiz:grade')->toContain('survey:score');
 });
 
 it('adds nothing but the quiz and survey lines when quiz scoring is on', function (): void {

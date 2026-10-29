@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace UAMSWeb\FormSettings\CpForms;
 
 use Statamic\Forms\Form;
+use UAMSWeb\FormSettings\Features;
 
 /**
  * Augments the Statamic CP email-grid blueprint for the add-on's form configuration.
@@ -654,11 +655,11 @@ final class EmailGridBlueprintCustomizer
      * The merge-tag help for quiz and survey scoring.
      *
      * @return string Markdown lines starting with a newline, or an empty
-     *                string when the host does not score quizzes.
+     *                string when quiz scoring is switched off.
      */
     private function quizMergeTagHelp(): string
     {
-        if (! config('statamic-form-settings.quiz_scoring', false)) {
+        if (! Features::quizScoring()) {
             return '';
         }
 
