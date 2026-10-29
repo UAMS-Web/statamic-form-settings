@@ -111,7 +111,7 @@ it('exposes the inline flag', function (): void {
 it('exposes a full non-empty scale for every scale type at every selectable point count', function (string $scaleType, int $points): void {
     // Every (scale_type, number_of_points) pair the blueprint config offers must
     // yield a usable scale. A gap (e.g. experience/likelihood once lacked a 5-point
-    // set — the default) renders an empty, unanswerable radiogroup on public forms.
+    // set, the default) renders an empty, unanswerable radiogroup on public forms.
     $options = likertPreload(['scale_type' => $scaleType, 'number_of_points' => $points])['options'];
 
     expect($options)->toHaveCount($points);

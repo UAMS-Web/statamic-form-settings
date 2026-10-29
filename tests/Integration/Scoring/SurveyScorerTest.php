@@ -12,7 +12,7 @@ use UAMSWeb\FormSettings\Scoring\SurveyScorer;
 
 /**
  * Proves the survey scoring engine (UAMS-Web/uams-statamic-archive#210) sums the numeric Likert points a
- * respondent selected — a single-row Likert contributes its one point, a
+ * respondent selected, a single-row Likert contributes its one point, a
  * multi-row Likert matrix sums its per-row points, and `not_applicable` scores
  * zero (but counts as answered).
  *

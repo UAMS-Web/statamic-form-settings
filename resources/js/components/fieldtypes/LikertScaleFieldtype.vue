@@ -1,7 +1,7 @@
 <!--
  * LikertScale fieldtype (UAMS-Web/uams-statamic-archive#194). Renders a single-row Likert scale, or a matrix
  * (one rateable row per configured row label) when `enable_multiple_rows` is set.
- * Not a fork of a core component — Statamic ships no Likert fieldtype; it borrowed
+ * Not a fork of a core component: Statamic ships no Likert fieldtype; it borrowed
  * the `radio` component before, which cannot represent a matrix. Uses RadioGroup /
  * Radio from @statamic/cms/ui, like the app's RadioFieldtype fork.
  *

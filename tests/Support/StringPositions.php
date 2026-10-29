@@ -9,12 +9,12 @@ if (! function_exists('positionOf')) {
      * Ordering assertions ("the first award renders before the second") are
      * written as two `strpos()` calls compared with `toBeLessThan()`, but
      * `strpos()` returns `int|false`, so both operands need narrowing. The suites
-     * did that with `assert($pos !== false)` — an instrument that `zend.assertions=-1`
+     * did that with `assert($pos !== false)`, an instrument that `zend.assertions=-1`
      * compiles out and that reports nothing useful when it trips (UAMS-Web/uams-statamic-archive#1733, copied from UAMS-Web/uams-statamic with the tests that use it).
      *
      * Returning a plain `int` narrows both sides at once by control flow, and an
      * absent needle now fails with the string it could not find rather than with a
-     * bare assertion — or, worse, with `toBeLessThan(false)` quietly comparing
+     * bare assertion, or, worse, with `toBeLessThan(false)` quietly comparing
      * against `0`.
      *
      * ```php

@@ -16,7 +16,7 @@ use UAMSWeb\FormSettings\Fieldtypes\Quiz;
  * `UAMSWeb\FormSettings\Fieldtypes\Quiz` with a full scoring grid (`is_correct` / `weighted_score`
  * / `answer_explanation`) and feeds `extraRenderableFieldData()` into the
  * template exactly as `RendersForms::getRenderableField()` merges it (last, over
- * `$field->toArray()`). So these tests exercise the sanitizer end-to-end — if the
+ * `$field->toArray()`). So these tests exercise the sanitizer end-to-end: if the
  * `value => label` sanitization regresses, the rendered answer options stop
  * carrying the answer labels and the dispatch tests go red. The exclusion of the
  * scoring metadata itself is asserted directly on the sanitized map by

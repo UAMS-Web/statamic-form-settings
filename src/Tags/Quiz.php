@@ -17,18 +17,18 @@ use UAMSWeb\FormSettings\Scoring\QuizScorer;
  *
  * Renders a scored quiz submission inside form confirmations and email
  * notifications, both of which Antlers-render their message against the
- * submission's augmented array — which exposes the submitted answers (keyed by
+ * submission's augmented array, which exposes the submitted answers (keyed by
  * field handle) and the `form` itself. The tag reads that context, scores the
  * submission via {@see QuizScorer}, and outputs the requested figure.
  *
  * Usage:
- *   - {{ quiz }}                     — every quiz question with the answers, correct answer(s), and explanation
- *   - {{ quiz handle="q1" }}         — a single quiz question's breakdown
- *   - {{ quiz:score }}               — the total score (weighted-aware)
- *   - {{ quiz:score handle="q1" }}   — a single question's score
- *   - {{ quiz:percent }}             — the percentage score (a bare number, e.g. `85`)
- *   - {{ quiz:grade }}               — the letter grade (empty until grading config exists)
- *   - {{ quiz:passfail }}            — `Passed` / `Failed` (empty until a pass threshold exists)
+ *   - {{ quiz }}                       every quiz question with the answers, correct answer(s), and explanation
+ *   - {{ quiz handle="q1" }}           a single quiz question's breakdown
+ *   - {{ quiz:score }}                 the total score (weighted-aware)
+ *   - {{ quiz:score handle="q1" }}     a single question's score
+ *   - {{ quiz:percent }}               the percentage score (a bare number, e.g. `85`)
+ *   - {{ quiz:grade }}                 the letter grade (empty until grading config exists)
+ *   - {{ quiz:passfail }}              `Passed` / `Failed` (empty until a pass threshold exists)
  *
  * When the form has no quiz fields (or the tag runs outside a submission), every
  * method returns an empty string, so non-quiz forms are unaffected.
@@ -43,7 +43,7 @@ class Quiz extends Tags
     use ResolvesScoredSubmission;
 
     /**
-     * {{ quiz }} — render the quiz question(s) with answers, correct answer(s), and explanation.
+     * {{ quiz }}: render the quiz question(s) with answers, correct answer(s), and explanation.
      */
     public function index(): string
     {
@@ -67,7 +67,7 @@ class Quiz extends Tags
     }
 
     /**
-     * {{ quiz:grade }} — the letter grade, or empty when no grading config exists.
+     * {{ quiz:grade }}: the letter grade, or empty when no grading config exists.
      */
     public function grade(): string
     {
@@ -77,7 +77,7 @@ class Quiz extends Tags
     }
 
     /**
-     * {{ quiz:passfail }} — `Passed` / `Failed`, or empty when no pass threshold is configured.
+     * {{ quiz:passfail }}: `Passed` / `Failed`, or empty when no pass threshold is configured.
      */
     public function passfail(): string
     {
@@ -91,7 +91,7 @@ class Quiz extends Tags
     }
 
     /**
-     * {{ quiz:percent }} — the percentage score as a bare number (the message adds any `%`).
+     * {{ quiz:percent }}: the percentage score as a bare number (the message adds any `%`).
      */
     public function percent(): string
     {
@@ -101,7 +101,7 @@ class Quiz extends Tags
     }
 
     /**
-     * {{ quiz:score }} — the total score, or a single question's score when `handle` is given.
+     * {{ quiz:score }}: the total score, or a single question's score when `handle` is given.
      */
     public function score(): string
     {

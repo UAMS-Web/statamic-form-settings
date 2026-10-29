@@ -136,7 +136,7 @@ final class QuizScorer
 
             // GF's per-choice "wrong" test: an incorrect answer that was selected, a
             // correct answer that was missed (checkbox only), or a correct answer left
-            // unanswered — any of these means the question is not completely correct.
+            // unanswered; any of these means the question is not completely correct.
             $isWrong = ((! $isCorrect) && $matched)
                 || ($isCheckbox && $isCorrect && ! $matched)
                 || ($isCorrect && ! $answered);
@@ -251,7 +251,7 @@ final class QuizScorer
                 'is_correct' => $this->isTruthy($row['is_correct'] ?? false),
                 // An absent/non-numeric weight scores 0 (not GF's `?: 1` for a missing key): the CP
                 // makes `weighted_score` required when weighted scoring is on, and GF's own
-                // get_max_score treats the same missing key as 0 — so 0 keeps score and max consistent.
+                // get_max_score treats the same missing key as 0, so 0 keeps score and max consistent.
                 'weighted_score' => is_numeric($row['weighted_score'] ?? null) ? (float) $row['weighted_score'] : 0.0,
             ];
         }
@@ -264,7 +264,7 @@ final class QuizScorer
      *
      * Form-level grading is optional config (`quiz_grades`: a list of
      * `{text, value}` where `value` is the minimum percentage). The highest grade
-     * whose threshold the percentage meets wins — GF's `get_grade()`.
+     * whose threshold the percentage meets wins (GF's `get_grade()`).
      */
     private function grade(Form $form, float $percent): string
     {

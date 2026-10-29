@@ -22,10 +22,10 @@ use UAMSWeb\FormSettings\Scoring\SurveyScorer;
  * outputs the requested value.
  *
  * Usage:
- *   - {{ survey }}                    — every survey question with the respondent's answer(s)
- *   - {{ survey handle="q1" }}        — a single survey question's answer(s)
- *   - {{ survey:score }}              — the total survey score
- *   - {{ survey:score handle="q1" }}  — a single question's score
+ *   - {{ survey }}                      every survey question with the respondent's answer(s)
+ *   - {{ survey handle="q1" }}          a single survey question's answer(s)
+ *   - {{ survey:score }}                the total survey score
+ *   - {{ survey:score handle="q1" }}    a single question's score
  *
  * When the form has no survey (Likert) fields (or the tag runs outside a
  * submission), every method returns an empty string.
@@ -40,7 +40,7 @@ class Survey extends Tags
     use ResolvesScoredSubmission;
 
     /**
-     * {{ survey }} — render the survey question(s) with the respondent's answer(s).
+     * {{ survey }}: render the survey question(s) with the respondent's answer(s).
      */
     public function index(): string
     {
@@ -64,7 +64,7 @@ class Survey extends Tags
     }
 
     /**
-     * {{ survey:score }} — the total score, or a single question's score when `handle` is given.
+     * {{ survey:score }}: the total score, or a single question's score when `handle` is given.
      */
     public function score(): string
     {

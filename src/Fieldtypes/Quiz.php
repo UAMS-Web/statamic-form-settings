@@ -128,7 +128,7 @@ class Quiz extends Fieldtype
      * `Statamic\Tags\Concerns\RendersForms::getRenderableField()` merges this
      * array last, overriding the raw `options` grid from the field config, so the
      * public template (`resources/field-views/forms/fields/quiz.antlers.html`)
-     * sees only a `value => label` answer map — the per-answer `is_correct`,
+     * sees only a `value => label` answer map: the per-answer `is_correct`,
      * `weighted_score`, and `answer_explanation` config never reaches the page
      * source (UAMS-Web/uams-statamic-archive#816). `question_fieldtype` selects which control the template
      * renders (`radio` | `checkboxes` | `select`), and `question_view` names the view that

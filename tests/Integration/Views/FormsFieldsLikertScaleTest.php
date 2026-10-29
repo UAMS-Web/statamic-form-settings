@@ -13,8 +13,8 @@ use UAMSWeb\FormSettings\Fieldtypes\LikertScale;
  * Likert field has no `options` config key, so without this template (and the
  * fieldtype's extraRenderableFieldData) a Likert field falls back to a plain
  * text input. These tests build the render scope from the REAL fieldtype output
- * — LikertScale::extraRenderableFieldData() merged with the wrapper-provided
- * keys, mirroring RendersForms::getRenderableField() — and assert the template
+ * (LikertScale::extraRenderableFieldData() merged with the wrapper-provided
+ * keys, mirroring RendersForms::getRenderableField()) and assert the template
  * renders accessible radio groups, honors the config, reflects the submitted
  * value as `checked`, uses the submit-shape UAMSWeb\FormSettings\Scoring\SurveyScorer
  * consumes, and escapes author-controlled labels. Rendering a template against a
@@ -203,7 +203,7 @@ it('escapes an author-controlled zero-point label', function (): void {
 
 it('emits a parse-safe bracket-free name for a bracketed row label', function (): void {
     // A `]` in the name would truncate PHP's array-key parse, so the submitted key
-    // no longer matches what SurveyScorer looks up — the row silently scores 0.
+    // no longer matches what SurveyScorer looks up, the row silently scores 0.
     $out = renderLikert([
         'scale_type' => 'agreement', 'number_of_points' => 5,
         'enable_multiple_rows' => true, 'multiple_rows' => ['Wait [min]'],

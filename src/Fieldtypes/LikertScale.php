@@ -901,7 +901,7 @@ class LikertScale extends Fieldtype
      * under a key that no longer matches this list), trimmed, dropped when
      * blank, and de-duplicated (two identical labels would collide onto one
      * submit key and double-count). {@see SurveyScorer}
-     * scores against this same list, so the two MUST agree — both call this
+     * scores against this same list, so the two MUST agree: both call this
      * method, which is the single source of truth for the row-key contract.
      *
      * @param  mixed  $rows  The raw `multiple_rows` config value.

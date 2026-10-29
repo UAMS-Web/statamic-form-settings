@@ -1,5 +1,5 @@
 {{#
-	LikertScale fieldtype (UAMSWeb\FormSettings\Fieldtypes\LikertScale, handle `likert_scale`) —
+	LikertScale fieldtype (UAMSWeb\FormSettings\Fieldtypes\LikertScale, handle `likert_scale`),
 	an accessible radio scale for public forms (UAMS-Web/uams-statamic-archive#194). Two modes, driven by
 	`enable_multiple_rows`:
 
@@ -12,14 +12,14 @@
 	`reverse_scale` applied and the zero-point option carrying its configured
 	label) and the matrix `multiple_rows` come from
 	LikertScale::extraRenderableFieldData() (which returns preload()), because a
-	Likert field has no `options` config key of its own — the default fallback
+	Likert field has no `options` config key of its own, the default fallback
 	would otherwise render a plain text input.
 
 	UAMSWeb\FormSettings\Scoring\SurveyScorer (UAMS-Web/uams-statamic-archive#210) defines and consumes these submit
 	shapes; keep the `name` attributes below in sync with it.
 
 	`options` is a LIST of maps, so each item is looped as `{{ value }}` /
-	`{{ label }}` — which shadows the field's submitted value inside the loop.
+	`{{ label }}`, which shadows the field's submitted value inside the loop.
 	The submitted answer is therefore aliased (single: `field_value`; matrix:
 	the per-row `row_answer`) before the loop so the `checked` comparison can
 	still reach it. Row labels are author-controlled text, so they are
@@ -56,12 +56,12 @@
 							type="radio"
 							name="{{ handle }}[{{ row_label | sanitize }}]"
 							value="{{ value }}"
-							{{# js_attributes omitted for the matrix — the Alpine driver binds
+							{{# js_attributes omitted for the matrix, the Alpine driver binds
 								`form.{handle}` (the whole row map), so per-input x-model would
 								clobber it (see address.antlers.html / README known limits). #}}
 							{{ ( row_answer == value ) | attribute:checked }}
 							{{ ( validate | contains:required ) | attribute:required }}
-							{{# `visibility: read_only` — see README.md in this directory. #}}
+							{{# `visibility: read_only`, see README.md in this directory. #}}
 							{{ ( visibility == 'read_only' ) | attribute:disabled }}
 							{{ if error }}
 								aria-invalid="true" aria-describedby="{{ id }}-error"
@@ -105,7 +105,7 @@
 					{{ if js_driver }}{{ js_attributes }}{{ /if }}
 					{{ ( field_value == value ) | attribute:checked }}
 					{{ ( validate | contains:required ) | attribute:required }}
-					{{# `visibility: read_only` — see README.md in this directory. #}}
+					{{# `visibility: read_only`, see README.md in this directory. #}}
 					{{ ( visibility == 'read_only' ) | attribute:disabled }}
 					{{ if error }}
 						aria-invalid="true" aria-describedby="{{ id }}-error"

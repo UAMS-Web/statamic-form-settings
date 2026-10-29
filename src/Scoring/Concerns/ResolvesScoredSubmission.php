@@ -18,7 +18,7 @@ use UAMSWeb\FormSettings\Tags\Survey;
  * scoring tags.
  *
  * Both tags run inside a form confirmation or email notification, whose message
- * Antlers-renders against the submission's augmented array — the submitted
+ * Antlers-renders against the submission's augmented array, the submitted
  * answers keyed by handle, plus the `form`. This trait resolves the form and the
  * answers from that context, reads the `handle` parameter, and formats a score.
  */

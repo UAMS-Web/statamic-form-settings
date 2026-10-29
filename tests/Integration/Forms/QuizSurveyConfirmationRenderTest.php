@@ -12,8 +12,8 @@ use Statamic\Forms\Form;
  * End-to-end proof that {{ quiz }} / {{ survey }} score merge tags (UAMS-Web/uams-statamic-archive#209, UAMS-Web/uams-statamic-archive#210)
  * render through the real confirmation pipeline: a submission POSTed to the
  * form-submit route flows through ApplyFormConfirmation, which Antlers-renders
- * the configured confirmation message against the submission's augmented array —
- * the same context an email notification uses — so the tags reach the answers +
+ * the configured confirmation message against the submission's augmented array,
+ * the same context an email notification uses, so the tags reach the answers +
  * form config exactly as they will in production.
  *
  * @covers \UAMSWeb\FormSettings\Tags\Quiz

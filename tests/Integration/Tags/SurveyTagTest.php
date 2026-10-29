@@ -16,7 +16,7 @@ use UAMSWeb\FormSettings\Tags\Survey;
  * Proves the {{ survey }} tag (UAMS-Web/uams-statamic-archive#210) renders a scored submission the way a form
  * confirmation / email notification would: it reads the submission's augmented
  * context (the `form` plus the answers keyed by handle), scores it, and outputs
- * the total score and the per-question answer breakdown — while a non-survey
+ * the total score and the per-question answer breakdown, while a non-survey
  * form yields nothing.
  *
  * @covers \UAMSWeb\FormSettings\Tags\Survey

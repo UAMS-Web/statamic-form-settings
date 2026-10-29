@@ -14,7 +14,7 @@ use UAMSWeb\FormSettings\Tags\Quiz;
  * Proves the {{ quiz }} tag (UAMS-Web/uams-statamic-archive#209) renders a scored submission the way a form
  * confirmation / email notification would: it reads the submission's augmented
  * context (the `form` plus the answers keyed by handle), scores it, and outputs
- * the score / percentage / grade / pass-fail and the per-question breakdown —
+ * the score / percentage / grade / pass-fail and the per-question breakdown,
  * while a non-quiz form yields nothing.
  *
  * @covers \UAMSWeb\FormSettings\Tags\Quiz

@@ -221,8 +221,8 @@ final class SurveyScorer
     /**
      * The configured row labels for a multi-row Likert field, in order.
      *
-     * Delegates to {@see LikertScale::normalizeRowLabels()} — the single source
-     * of truth for the row-key contract — so the keys this scorer looks up are
+     * Delegates to {@see LikertScale::normalizeRowLabels()}, the single source
+     * of truth for the row-key contract, so the keys this scorer looks up are
      * exactly the ones the front-end template writes as `name="{handle}[label]"`
      * (brackets stripped, trimmed, blanks dropped, de-duplicated). If the two
      * derived the labels independently they could disagree and silently misscore.
