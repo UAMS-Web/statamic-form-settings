@@ -80,6 +80,12 @@ it("keeps the host's own entries, in their order, ahead of the tags", function (
     expect(config('statamic.antlers.allowedContentTags'))->toBe(['@default', 'partial:*', 'survey', 'quiz', 'quiz:*', 'survey:*']);
 });
 
+it("writes the host's entries back as a list, whatever keys the host gave them", function (): void {
+    $this->rebootWithConfig(['statamic.antlers.allowedContentTags' => [3 => '@default', 'tags' => 'partial:*']]);
+
+    expect(config('statamic.antlers.allowedContentTags'))->toBe(['@default', 'partial:*', 'quiz', 'quiz:*', 'survey', 'survey:*']);
+});
+
 it("leaves the host's allowlist as it is when the host opts out, or scoring is off", function (string $switch): void {
     $this->rebootWithConfig(['statamic.antlers.allowedContentTags' => ['@default', 'partial:*'], $switch => false]);
 

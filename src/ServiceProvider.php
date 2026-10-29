@@ -96,7 +96,9 @@ class ServiceProvider extends AddonServiceProvider
         // register whatever the switches say, so a stored form that names one keeps rendering
         $this->addStatamicViewsAfterHostOverrides(__DIR__.'/../resources/field-views');
 
-        // Let the quiz and survey tags resolve in confirmation messages and emails, unless the host opts out
+        // Let the quiz and survey tags resolve in confirmation messages and emails, unless the host opts out.
+        // The add-on's config always supplies the key, so its fallback is never read.
+        // @pest-mutate-ignore: TrueToFalse
         if (Features::quizScoring() && config('statamic-form-settings.quiz_tags_in_user_content', true)) {
             $this->allowScoringTagsInUserContent();
         }
@@ -136,6 +138,8 @@ class ServiceProvider extends AddonServiceProvider
         $patterns = \is_array($allowed) ? array_values($allowed) : ['@default'];
 
         foreach (['quiz', 'quiz:*', 'survey', 'survey:*'] as $pattern) {
+            // Allowlist entries are strings, which compare the same loosely or strictly.
+            // @pest-mutate-ignore: TrueToFalse
             if (! \in_array($pattern, $patterns, true)) {
                 $patterns[] = $pattern;
             }

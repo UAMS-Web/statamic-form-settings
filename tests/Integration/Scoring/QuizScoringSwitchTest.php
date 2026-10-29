@@ -121,6 +121,10 @@ it('reads a missing quiz scoring setting as on, and a set one as given', functio
 
     config(['statamic-form-settings.quiz_scoring' => true]);
     expect(Features::quizScoring())->toBeTrue();
+
+    // A value that is not a bool, as an environment variable read without the config's cast gives
+    config(['statamic-form-settings.quiz_scoring' => 1]);
+    expect(Features::quizScoring())->toBeTrue();
 });
 
 it('keeps the quiz and likert scale form views with scoring and every feature switched off', function (): void {
