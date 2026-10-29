@@ -24,10 +24,6 @@ use Statamic\Forms\Form;
 $renderFormsDir = '';
 
 beforeEach(function () use (&$renderFormsDir): void {
-    // A confirmation message is user content, which Antlers parses in its sandbox: a host has to allow
-    // the quiz and survey tags there, since Statamic's defaults cover only its own tags and the host's
-    $this->rebootWithConfig(['statamic.antlers.allowedContentTags' => ['@default', 'quiz', 'quiz:*', 'survey', 'survey:*']]);
-
     // A unique IP per test keeps each submission in its own form-submit rate-limit bucket.
     $this->withServerVariables(['REMOTE_ADDR' => '203.0.'.random_int(0, 255).'.'.random_int(1, 254)]);
 

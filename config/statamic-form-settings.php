@@ -93,14 +93,30 @@ return [
     | absent; the `quiz` and `likert_scale` fieldtypes still render on public
     | forms either way, so a stored form that uses them keeps working.
     |
-    | A confirmation message or notification email is user content, so a
-    | host that uses the tags there also lists `quiz`, `quiz:*`, `survey` and
-    | `survey:*` in `statamic.antlers.allowedContentTags`.
-    |
     | Takes true or false, and reads the environment variable named beside it.
     |
     */
 
     'quiz_scoring' => (bool) env('FORM_SETTINGS_QUIZ_SCORING', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Quiz and survey tags in user content
+    |--------------------------------------------------------------------------
+    |
+    | A confirmation message or notification email is user content, which
+    | Antlers parses in its sandbox, and Statamic's default allowlist names
+    | only its own tags and the host's. While quiz scoring is on, the add-on
+    | adds `quiz`, `quiz:*`, `survey` and `survey:*` to
+    | `statamic.antlers.allowedContentTags`, keeping the host's own entries
+    | (and Statamic's defaults when the host lists none), so `{{ quiz:score }}`
+    | and the rest resolve there. Turn this off to keep the host's allowlist
+    | exactly as it is; the tags then resolve only where the host allows them.
+    |
+    | Takes true or false, and reads the environment variable named beside it.
+    |
+    */
+
+    'quiz_tags_in_user_content' => (bool) env('FORM_SETTINGS_QUIZ_TAGS_IN_USER_CONTENT', true),
 
 ];

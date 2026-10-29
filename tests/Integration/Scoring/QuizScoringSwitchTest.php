@@ -138,7 +138,7 @@ it('keeps the quiz and likert scale form views with scoring and every feature sw
         ->and(realpath(view()->getFinder()->find('statamic::forms.fields.likert_scale')))->toBe($fieldViews.'/likert_scale.antlers.html');
 });
 
-it("names the view Statamic renders the question's control with", function (?string $questionFieldtype, string $control): void {
+it("names the view Statamic renders the question's control with", function (mixed $questionFieldtype, string $control): void {
     // A host with no published form views, as in this suite, gets Statamic's own
     $quiz = new Quiz;
     $quiz->setField(new Field('q', [
@@ -155,4 +155,6 @@ it("names the view Statamic renders the question's control with", function (?str
     'select' => ['select', 'select'],
     'unset falls back to radio' => [null, 'radio'],
     'any other type falls back to radio' => ['text', 'radio'],
+    // Matched strictly: a loose match would take `true` for either of the two other controls
+    'a non-string value falls back to radio' => [true, 'radio'],
 ]);

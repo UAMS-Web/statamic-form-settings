@@ -145,13 +145,18 @@ class Quiz extends Fieldtype
         $control = \in_array($questionFieldtype, ['checkboxes', 'select'], true) ? $questionFieldtype : 'radio';
         $controlFieldtype = app(FieldtypeRepository::class)->find($control);
 
+        // The repository returns a fieldtype for each of the three core handles; the check
+        // narrows the type.
+        // @pest-mutate-ignore: InstanceOfToTrue
+        $questionView = $controlFieldtype instanceof Fieldtype ? $controlFieldtype->view() : null;
+
         // Reduce the (possibly randomized) answer options to a value => label map
         return [
             'options' => collect($this->getOptions())
                 ->mapWithKeys(fn (array $option): array => [$option['value'] => $option['label']])
                 ->all(),
             'question_fieldtype' => $questionFieldtype,
-            'question_view' => $controlFieldtype instanceof Fieldtype ? $controlFieldtype->view() : null,
+            'question_view' => $questionView,
         ];
     }
 

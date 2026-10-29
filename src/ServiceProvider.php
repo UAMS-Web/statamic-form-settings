@@ -96,6 +96,11 @@ class ServiceProvider extends AddonServiceProvider
         // register whatever the switches say, so a stored form that names one keeps rendering
         $this->addStatamicViewsAfterHostOverrides(__DIR__.'/../resources/field-views');
 
+        // Let the quiz and survey tags resolve in confirmation messages and emails, unless the host opts out
+        if (Features::quizScoring() && config('statamic-form-settings.quiz_tags_in_user_content', true)) {
+            $this->allowScoringTagsInUserContent();
+        }
+
         // Replace Statamic's form settings controller with the one that adds the sections
         if (Features::enabled(Features::CONTROL_PANEL)) {
             $this->app->bind(BaseFormsController::class, FormsController::class);
@@ -115,6 +120,28 @@ class ServiceProvider extends AddonServiceProvider
         if (Features::enabled(Features::CONFIRMATIONS)) {
             $this->app->make(Router::class)->pushMiddlewareToGroup('web', ApplyFormConfirmation::class);
         }
+    }
+
+    /**
+     * Add the quiz and survey tags to the patterns Antlers allows in user content.
+     *
+     * Statamic builds the allowlist from `statamic.antlers.allowedContentTags` each time it makes a
+     * parser, so a change made while the add-on boots reaches every parse after it. A host list that
+     * leaves out `@default` replaces Statamic's defaults, so when the host sets no list at all the
+     * defaults are kept by naming `@default` first. The host's own entries stay, in their order.
+     */
+    private function allowScoringTagsInUserContent(): void
+    {
+        $allowed = config('statamic.antlers.allowedContentTags');
+        $patterns = \is_array($allowed) ? array_values($allowed) : ['@default'];
+
+        foreach (['quiz', 'quiz:*', 'survey', 'survey:*'] as $pattern) {
+            if (! \in_array($pattern, $patterns, true)) {
+                $patterns[] = $pattern;
+            }
+        }
+
+        config(['statamic.antlers.allowedContentTags' => $patterns]);
     }
 
     /**

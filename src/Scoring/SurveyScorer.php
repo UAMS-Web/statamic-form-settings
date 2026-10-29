@@ -173,8 +173,9 @@ final class SurveyScorer
     {
         $fieldtype = $field->fieldtype();
 
-        // A likert_scale field always resolves to its fieldtype; the check narrows the type.
-        // @pest-mutate-ignore: InstanceOfToTrue
+        // A likert_scale field always resolves to its fieldtype; the check narrows the type,
+        // so the early return inside it is never reached.
+        // @pest-mutate-ignore: InstanceOfToTrue, RemoveEarlyReturn
         if (! $fieldtype instanceof Fieldtype) {
             return [];
         }
@@ -182,6 +183,9 @@ final class SurveyScorer
         $preload = $fieldtype->preload();
         $options = \is_array($preload) ? ($preload['options'] ?? []) : [];
 
+        // LikertScale::preload() always gives a list of options; the check narrows the type,
+        // so the early return inside it is never reached.
+        // @pest-mutate-ignore: RemoveEarlyReturn
         if (! \is_array($options)) {
             return [];
         }
@@ -189,6 +193,8 @@ final class SurveyScorer
         $labels = [];
 
         foreach ($options as $option) {
+            // Each preloaded option is an array, so the skip is never taken.
+            // @pest-mutate-ignore: ContinueToBreak
             if (! \is_array($option)) {
                 continue;
             }
